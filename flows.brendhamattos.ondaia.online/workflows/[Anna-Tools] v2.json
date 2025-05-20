@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-15T10:58:30.010Z",
-  "updatedAt": "2025-05-20T16:25:07.328Z",
+  "updatedAt": "2025-05-20T16:39:23.311Z",
   "id": "KdpNdc5sSivgs3Io",
   "name": "[Anna-Tools] v2",
   "active": true,
@@ -178,7 +178,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3080,
+        3220,
         900
       ],
       "id": "e1fe4596-0f98-4ae3-8073-07d928c6b1f2",
@@ -227,7 +227,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        2980,
+        3140,
         800
       ],
       "id": "a5f6589a-9161-4e7b-87b6-9b4dc53d9e1d",
@@ -275,8 +275,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        3000,
-        780
+        3140,
+        800
       ],
       "id": "467968c4-1702-42ac-ab02-9c3d84412746",
       "name": "Sticky Note12"
@@ -1022,7 +1022,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3280,
+        3460,
         900
       ],
       "id": "c186e79c-5dda-4cd6-941f-08a6e3e8bf06",
@@ -1615,26 +1615,8 @@
     }
   },
   "meta": null,
-  "pinData": {
-    "1H Schedule Trigger": [
-      {
-        "json": {
-          "timestamp": "2025-05-20T13:00:55.020-03:00",
-          "Readable date": "May 20th 2025, 1:00:55 pm",
-          "Readable time": "1:00:55 pm",
-          "Day of week": "Tuesday",
-          "Year": "2025",
-          "Month": "May",
-          "Day of month": "20",
-          "Hour": "13",
-          "Minute": "00",
-          "Second": "55",
-          "Timezone": "America/Sao_Paulo (UTC-03:00)"
-        }
-      }
-    ]
-  },
-  "versionId": "c7d47e25-ae49-46c9-8e10-83bde0a93dd5",
+  "pinData": {},
+  "versionId": "93565406-21b0-4447-bb22-9c35c023ad87",
   "triggerCount": 5,
   "tags": []
 }
