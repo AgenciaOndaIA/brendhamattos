@@ -1,0 +1,331 @@
+{
+  "createdAt": "2025-04-24T22:27:16.794Z",
+  "updatedAt": "2025-05-15T16:38:36.561Z",
+  "id": "SDjjNPNJD1PGhn97",
+  "name": "Brendha Mattos",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Core Input').item.json.body.mapping.parseJson().system.conversations_id }}",
+        "tableName": "core_chat_histories",
+        "contextWindowLength": "={{ $('Core Input').item.json.body.mapping.parseJson().system.context_window }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        140,
+        400
+      ],
+      "id": "11bac590-ba4b-4f84-bfc0-f87be09a73bf",
+      "name": "Memory",
+      "credentials": {
+        "postgres": {
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "",
+        "width": 780,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -40,
+        360
+      ],
+      "typeVersion": 1,
+      "id": "6facad23-e78f-493c-b9c2-021ea46da836",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.content || ' ' }}",
+        "options": {
+          "systemMessage": "=You are a helpful assistant\n\nNunca use hiperlinks\n\n<system_information>\n1. Data e hora atuais: {{ $now.format(\"EEE, MMM dd, yyyy, HH:mm\") }}\n</system_information>\n\n<retrieval_augmented_generation_result>\n{{ $json.body.rag_return }}\n</retrieval_augmented_generation_result>\n\n<promp>\n  {{ $json.body.mapping.parseJson().system.system_message }}\n</promp>",
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        260,
+        140
+      ],
+      "id": "cf18abbe-1990-4f67-8811-937eb908b72b",
+      "name": "Main Agent"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        620,
+        140
+      ],
+      "id": "bbedb1e4-8710-459e-8e52-48249d69042c",
+      "name": "No Operation 2"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "main",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        60,
+        140
+      ],
+      "id": "63265238-1444-4137-a602-33657105b518",
+      "name": "Core Input",
+      "webhookId": "d503e6f9-0989-42d5-a598-e268b20c3182"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-4.1-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        20,
+        400
+      ],
+      "id": "3f17cf9e-ffc9-4fc9-bf2d-9a466ae6db4e",
+      "name": "OpenRouter",
+      "credentials": {
+        "openRouterApi": {
+          "id": "L4mPQPRccrWHieLF",
+          "name": "OndaIA_Brendha"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 300,
+        "width": 860,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        40
+      ],
+      "id": "8703aead-e37f-4de3-bc3d-d458731b599c",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 520,
+        "width": 900,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -60,
+        20
+      ],
+      "typeVersion": 1,
+      "id": "0afda5d7-dcf4-4ddb-a9fd-5d61557700fd",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "Fluxo Core, responsável pelo processamento da AI",
+        "height": 80,
+        "width": 260,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a74537ec-eef0-4108-bba7-9c7aaacfd4da",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "name": "restart_history",
+        "description": "=Invoque essa tool para iniciar uma nova conversa para o user, assim ignorando o histórico passado. Apenas quando o user solicitar.",
+        "jsCode": "const axios = require('axios');\n\n// Converte o mapeamento recebido em JSON\nconst mapping = JSON.parse($('Core Input').item.json.body.mapping);\n\n// Verifica se o usuário é admin; caso contrário, retorna erro\nif (mapping.system.user_type !== 'admin') {\n  return JSON.stringify({ success: false, error: \"Acesso negado: usuário não autorizado.\" });\n}\n\n/**\n * Função que espera pelo tempo especificado.\n * @param {number} ms - Milissegundos a aguardar.\n * @returns {Promise<void>}\n */\nconst delay = ms => new Promise(resolve => setTimeout(resolve, ms));\n\n/**\n * Função para enviar a requisição para criar uma conversa no Directus.\n * Tenta até 3 vezes em caso de falha, com delay de 1 segundo entre as tentativas.\n * @returns {Promise<object>} - Objeto com sucesso ou erro.\n */\nasync function sendRequest() {\n  const url = `http://${mapping.system.directus_service}:8055/items/conversations`;\n  const data = {\n    user_id: mapping.chatwoot.contact_id,\n    date_created: new Date().toISOString()\n  };\n  const headers = {\n    Authorization: `Bearer ${mapping.system.directus_token}`,\n    'Content-Type': 'application/json'\n  };\n\n  let attempt = 0;\n  let lastError = null;\n\n  while (attempt < 3) {\n    try {\n      const response = await axios.post(url, data, { headers });\n      console.log(`Requisição realizada com sucesso na tentativa ${attempt + 1}.`);\n      return { success: true, data: response.data };\n    } catch (error) {\n      attempt++;\n      lastError = error;\n      console.error(`Tentativa ${attempt} falhou:`, error.response ? error.response.data : error.message);\n      if (attempt < 3) {\n        console.log(\"Aguardando 1 segundo antes da nova tentativa...\");\n        await delay(1000);\n      }\n    }\n  }\n  \n  return { success: false, error: lastError.response ? lastError.response.data : lastError.message };\n}\n\nreturn sendRequest().then(result => JSON.stringify(result));"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        260,
+        400
+      ],
+      "id": "1722e283-a123-4808-891f-d9765e5a53a1",
+      "name": "Restart History"
+    },
+    {
+      "parameters": {
+        "name": "set_timer",
+        "description": "Invoque essa tool para configurar um timer que iniciará uma ação após o tempo especificado. Apenas usuários admin podem usar essa tool. O tempo deve ser informado com valor e unidade (s, m, h). Apenas quando o user solicitar.",
+        "jsCode": "const axios = require('axios');\nconst dayjs = require('dayjs');\nconst duration = require('dayjs/plugin/duration');\ndayjs.extend(duration);\n\n/**\n * Esta tool configura um timer via webhook.\n * Ela envia, para o endpoint, todo o objeto mapping (obtido em Core Input)\n * e o tempo em segundos calculado a partir dos parâmetros \"timer_value\" e \"timer_unit\".\n * Apenas usuários admin podem utilizar esta tool.\n */\n\n// Converte o mapping recebido em JSON\nconst mapping = JSON.parse($('Core Input').item.json.body.mapping);\n\n// Verifica se o usuário é admin\nif (mapping.system.user_type !== 'admin') {\n  return JSON.stringify({ success: false, error: \"Acesso negado: usuário não autorizado.\" });\n}\n\n// Obtém os parâmetros do timer a partir do input (query)\nconst timerValue = query.timer_value;  // Número (ex: 30)\nconst timerUnit = query.timer_unit;      // \"s\", \"m\" ou \"h\"\n\n// Calcula o tempo em segundos usando dayjs.duration\nconst timerSeconds = dayjs.duration(timerValue, timerUnit).asSeconds();\n\n// Prepara o payload para o webhook\nconst payload = {\n  mapping: mapping,\n  timer_seconds: timerSeconds\n};\n\n// URL do webhook substituindo 'n8n_webhook' pelo valor da variável no mapping\nconst url = `http://${mapping.system.n8n_webhook_service}:5678/webhook/timer`;\n\n/**\n * Função para enviar a requisição ao webhook.\n * Tenta enviar uma única vez e retorna o resultado.\n */\nasync function sendTimerRequest() {\n  try {\n    console.log(`Enviando requisição para configurar o timer para ${timerSeconds} segundos...`);\n    const response = await axios.post(url, payload, {\n      headers: { 'Content-Type': 'application/json' }\n    });\n    console.log(\"Timer configurado com sucesso.\");\n    return { success: true, message: `Timer configurado com sucesso. Ele será acionado em ${timerSeconds} segundos.` };\n  } catch (error) {\n    console.error(\"Erro ao configurar o timer:\", error.response ? error.response.data : error.message);\n    return { success: false, error: error.response ? error.response.data : error.message };\n  }\n}\n\nreturn sendTimerRequest().then(result => JSON.stringify(result));",
+        "specifyInputSchema": true,
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"timer_value\": {\n      \"type\": \"number\",\n      \"description\": \"Valor do timer. Exemplo: 30\"\n    },\n    \"timer_unit\": {\n      \"type\": \"string\",\n      \"description\": \"Unidade de tempo para o timer: 's' para segundos, 'm' para minutos, 'h' para horas.\",\n      \"enum\": [\"s\", \"m\", \"h\"]\n    }\n  },\n  \"required\": [\"timer_value\", \"timer_unit\"]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        380,
+        400
+      ],
+      "id": "d45684db-8222-4d35-9bf0-22832aa90e0b",
+      "name": "Set Timer"
+    },
+    {
+      "parameters": {
+        "name": "scheduling",
+        "description": "Ferramenta para gerenciar agendamentos e compromissos através do n8n. Processa solicitações relacionadas a criação, atualização, consulta e cancelamento de eventos agendados.\n",
+        "jsCode": "// SchedulingAssistant tool for n8n\nconst axios = require('axios');\n\n// Parse the incoming query and mapping data\ntry {\n  // Access the operation from the input query\n  const params = query;\n  \n  // Get the mapping data\n  const mapping = JSON.parse($('Core Input').item.json.body.mapping);\n  \n  // Define the webhook URL using the mapping\n  const url = `http://${mapping.system.n8n_webhook_service}:5678/webhook/scheduling`;\n  \n  // Prepare payload with operation details\n  const payload = {\n    params: { \n      ...params \n    },\n    mapping: mapping\n  };\n  \n  // Send request to webhook endpoint\n  const response = await axios.post(url, payload);\n  \n  // Return webhook response as string\n  return JSON.stringify(response.data);\n  \n} catch (error) {\n  // Handle errors\n  return `Error processing request: ${error.message}`;\n}",
+        "specifyInputSchema": true,
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"operation\": {\n      \"type\": \"string\",\n      \"description\": \"The scheduling operation\",\n      \"enum\": [\"create\", \"update\", \"query\", \"delete\", \"query-slots\"]\n    },\n    \"dateTime\": {\n      \"type\": \"string\",\n      \"format\": \"date-time\",\n      \"description\": \"Data e hora do agendamento (horário de Brasília)\"\n    },\n    \"newDateTime\": {\n      \"type\": \"string\",\n      \"format\": \"date-time\",\n      \"description\": \"Nova data e hora para o agendamento quando estiver atualizando (horário de Brasília)\"\n    },\n    \"title\": {\n      \"type\": \"string\",\n      \"description\": \"Título do agendamento\",\n      \"default\": \"compromisso\"\n    },\n    \"description\": {\n      \"type\": \"string\",\n      \"description\": \"Descrição do agendamento\",\n      \"default\": \"nenhuma\"\n    },\n    \"calendarId\": {\n      \"type\": \"string\",\n      \"description\": \"Identificador do calendário\",\n      \"default\": \"primary\"\n    }\n  },\n  \"required\": [\"operation\", \"dateTime\"],\n  \"dependencies\": {\n    \"operation\": {\n      \"oneOf\": [\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"update\"]\n            }\n          },\n          \"required\": [\"newDateTime\"]\n        },\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"create\", \"query\", \"query-slots\"]\n            }\n          }\n        }\n      ]\n    }\n  },\n  \"additionalProperties\": false\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        500,
+        400
+      ],
+      "id": "eff5bae7-737c-4e95-8bc2-dd1017e7e526",
+      "name": "Scheduling"
+    },
+    {
+      "parameters": {
+        "name": "clickup",
+        "description": "Ferramenta para gerenciar tarefas no ClickUp. Permite criar, listar, atualizar ou remover tarefas. Para criar, forneça pelo menos o título. Para atualizar ou remover, você precisa fornecer o ID da tarefa. Para listar, você pode aplicar filtros opcionais.",
+        "jsCode": "const workspaceId = '9011917991';\nconst listId = '901109860036';\nconst apiKey = 'pk_44163283_ZIFREHZQNJWKZ5YSD0XVV45B272AOARG';\nconst https = require('https');\n\nconst logs = [];\n\nfunction log(message) {\n  logs.push({ time: new Date().toISOString(), message });\n}\n\nfunction request(path, method, body = null) {\n  log(`Requisição: ${method} ${path}`);\n  \n  return new Promise((resolve, reject) => {\n    const options = {\n      hostname: 'api.clickup.com',\n      path,\n      method,\n      headers: {\n        'Content-Type': 'application/json',\n        'Authorization': apiKey\n      }\n    };\n    \n    const req = https.request(options, (res) => {\n      let data = '';\n      res.on('data', chunk => data += chunk);\n      res.on('end', () => {\n        try {\n          log(`Resposta: status ${res.statusCode}`);\n          \n          // Tratamento de respostas vazias (comum em DELETEs)\n          if (!data || data.trim() === '') {\n            return res.statusCode < 300 \n              ? resolve({ success: true }) \n              : reject({ \n                  success: false, \n                  message: `Erro: ${res.statusMessage}`, \n                  statusCode: res.statusCode \n                });\n          }\n          \n          const responseData = JSON.parse(data);\n          \n          if (res.statusCode < 300) {\n            resolve(responseData);\n          } else {\n            reject({\n              success: false,\n              message: `Erro: ${responseData.err || res.statusMessage}`,\n              statusCode: res.statusCode\n            });\n          }\n        } catch (error) {\n          log(`Erro ao processar resposta: ${error.message}`);\n          reject({\n            success: false,\n            message: `Erro ao processar resposta: ${error.message}`,\n            data\n          });\n        }\n      });\n    });\n\n    req.on('error', (error) => {\n      log(`Erro na requisição: ${error.message}`);\n      reject({ success: false, message: `Erro na requisição: ${error.message}` });\n    });\n\n    if (body) {\n      const data = typeof body === 'string' ? body : JSON.stringify(body);\n      log(`Enviando dados: ${data.substring(0, 100)}${data.length > 100 ? '...' : ''}`);\n      req.write(data);\n    }\n    \n    req.end();\n  });\n}\n\nconst operations = {\n  async list(query) {\n    log('Operação: listar tarefas');\n    \n    try {\n      // Construir parâmetros de consulta\n      const params = [];\n      \n      if (query.status) params.push(`statuses[]=${encodeURIComponent(query.status)}`);\n      if (query.assignee) params.push(`assignees[]=${encodeURIComponent(query.assignee)}`);\n      if (query.due_date_gt) params.push(`due_date_gt=${encodeURIComponent(query.due_date_gt)}`);\n      if (query.due_date_lt) params.push(`due_date_lt=${encodeURIComponent(query.due_date_lt)}`);\n      \n      // Paginação\n      params.push(`page=${query.page || 0}`);\n      const limit = Math.min(query.limit || 20, 100);\n      params.push(`limit=${limit}`);\n      \n      log(`Parâmetros: ${params.join('&')}`);\n      \n      // Fazer requisição\n      const data = await request(\n        `/api/v2/list/${listId}/task?${params.join('&')}`, \n        'GET'\n      );\n      \n      log(`Tarefas encontradas: ${data.tasks.length}`);\n      \n      return {\n        success: true,\n        tasks: data.tasks,\n        total_count: data.tasks.length,\n        has_more: data.tasks.length === limit\n      };\n    } catch (error) {\n      log(`Erro: ${error.message || JSON.stringify(error)}`);\n      return error;\n    }\n  },\n\n  async create(query) {\n    log('Operação: criar tarefa');\n    \n    if (!query.title) {\n      log('Erro: Título da tarefa não fornecido');\n      return { success: false, message: \"Título da tarefa é obrigatório para criação\" };\n    }\n    \n    const body = {\n      name: query.title,\n      description: query.description || '',\n      due_date: query.due_date || null,\n      priority: query.priority || 3,\n      assignees: query.assignees || []\n    };\n    \n    try {\n      log(`Criando tarefa: \"${query.title}\"`);\n      const data = await request(`/api/v2/list/${listId}/task`, 'POST', body);\n      log(`Tarefa criada com sucesso, ID: ${data.id}`);\n      \n      return {\n        success: true,\n        message: \"Tarefa criada com sucesso\",\n        taskId: data.id,\n        taskUrl: data.url\n      };\n    } catch (error) {\n      log(`Erro: ${error.message || JSON.stringify(error)}`);\n      return error;\n    }\n  },\n  \n  async delete(query) {\n    log('Operação: remover tarefa');\n    \n    if (!query.task_id) {\n      log('Erro: ID da tarefa não fornecido');\n      return { success: false, message: \"ID da tarefa é obrigatório para remoção\" };\n    }\n    \n    try {\n      log(`Removendo tarefa: ${query.task_id}`);\n      await request(`/api/v2/task/${query.task_id}`, 'DELETE');\n      log('Tarefa removida com sucesso');\n      \n      return {\n        success: true,\n        message: \"Tarefa removida com sucesso\",\n        taskId: query.task_id\n      };\n    } catch (error) {\n      log(`Erro: ${error.message || JSON.stringify(error)}`);\n      return error;\n    }\n  },\n  \n  async update(query) {\n    log('Operação: atualizar tarefa');\n    \n    if (!query.task_id) {\n      log('Erro: ID da tarefa não fornecido');\n      return { success: false, message: \"ID da tarefa é obrigatório para atualização\" };\n    }\n    \n    // Mapear campos\n    const fields = {\n      title: 'name',\n      description: 'description',\n      due_date: 'due_date',\n      priority: 'priority',\n      status: 'status',\n      assignees: 'assignees'\n    };\n    \n    const body = {};\n    \n    // Filtrar campos fornecidos\n    Object.entries(fields).forEach(([src, dest]) => {\n      if (query[src] !== undefined) body[dest] = query[src];\n    });\n    \n    if (Object.keys(body).length === 0) {\n      log('Erro: Nenhum campo fornecido para atualização');\n      return { success: false, message: \"Nenhum campo fornecido para atualização\" };\n    }\n    \n    try {\n      log(`Atualizando tarefa: ${query.task_id}`);\n      await request(`/api/v2/task/${query.task_id}`, 'PUT', body);\n      log('Tarefa atualizada com sucesso');\n      \n      return {\n        success: true,\n        message: \"Tarefa atualizada com sucesso\",\n        taskId: query.task_id\n      };\n    } catch (error) {\n      log(`Erro: ${error.message || JSON.stringify(error)}`);\n      return error;\n    }\n  }\n};\n\ntry {\n  log(`Iniciando processamento: ${JSON.stringify(query)}`);\n  \n  const operation = query.operation || 'create';\n  \n  const result = await operations[operation](query);\n  \n  return JSON.stringify({\n    success: true,\n    ...result,\n    logs: logs\n  });\n} catch (error) {\n  log(`Erro não tratado: ${error.message || JSON.stringify(error)}`);\n  return JSON.stringify({ \n    success: false, \n    message: `Erro não tratado: ${error.message || 'Erro desconhecido'}`,\n    logs \n  });\n}",
+        "specifyInputSchema": true,
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"operation\": {\n      \"type\": \"string\",\n      \"description\": \"Operação a ser realizada: criar, listar, atualizar ou remover tarefas\",\n      \"enum\": [\"create\", \"list\", \"update\", \"delete\"],\n      \"default\": \"create\"\n    },\n    \"task_id\": {\n      \"type\": \"string\",\n      \"description\": \"ID da tarefa (obrigatório para atualizar ou remover)\"\n    },\n    \"title\": {\n      \"type\": \"string\",\n      \"description\": \"Título da tarefa (obrigatório para criar, opcional para atualizar)\"\n    },\n    \"description\": {\n      \"type\": \"string\",\n      \"description\": \"Descrição detalhada da tarefa (opcional)\"\n    },\n    \"due_date\": {\n      \"type\": \"string\",\n      \"description\": \"Data de vencimento no formato timestamp ou ISO 8601 (opcional)\"\n    },\n    \"priority\": {\n      \"type\": \"integer\",\n      \"description\": \"Prioridade da tarefa (1: Urgente, 2: Alta, 3: Normal, 4: Baixa) (opcional)\",\n      \"enum\": [1, 2, 3, 4]\n    },\n    \"status\": {\n      \"type\": \"string\",\n      \"description\": \"Status da tarefa (para atualizar ou filtrar na listagem)\"\n    },\n    \"assignees\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"integer\"\n      },\n      \"description\": \"Lista de IDs dos usuários atribuídos à tarefa (opcional)\"\n    },\n    \"assignee\": {\n      \"type\": \"integer\",\n      \"description\": \"Filtrar por ID do usuário atribuído (para listar)\"\n    },\n    \"due_date_gt\": {\n      \"type\": \"string\",\n      \"description\": \"Filtrar tarefas com data de vencimento posterior (para listar)\"\n    },\n    \"due_date_lt\": {\n      \"type\": \"string\",\n      \"description\": \"Filtrar tarefas com data de vencimento anterior (para listar)\"\n    },\n    \"page\": {\n      \"type\": \"integer\",\n      \"description\": \"Número da página para paginação (para listar)\",\n      \"default\": 0\n    },\n    \"limit\": {\n      \"type\": \"integer\",\n      \"description\": \"Número de tarefas por página (máximo 100, para listar)\",\n      \"default\": 20\n    }\n  },\n  \"required\": [\"operation\"],\n  \"dependencies\": {\n    \"operation\": {\n      \"oneOf\": [\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"create\"]\n            }\n          },\n          \"required\": [\"title\"]\n        },\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"list\"]\n            }\n          }\n        },\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"update\"]\n            }\n          },\n          \"required\": [\"task_id\"]\n        },\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"delete\"]\n            }\n          },\n          \"required\": [\"task_id\"]\n        }\n      ]\n    }\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        620,
+        400
+      ],
+      "id": "f2b42ee5-7fc3-448b-9bed-214d6bf9b16c",
+      "name": "Clickup"
+    }
+  ],
+  "connections": {
+    "Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Main Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Main Agent": {
+      "main": [
+        [
+          {
+            "node": "No Operation 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Core Input": {
+      "main": [
+        [
+          {
+            "node": "Main Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Main Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restart History": {
+      "ai_tool": [
+        [
+          {
+            "node": "Main Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Timer": {
+      "ai_tool": [
+        [
+          {
+            "node": "Main Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scheduling": {
+      "ai_tool": [
+        [
+          {
+            "node": "Main Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clickup": {
+      "ai_tool": [
+        [
+          {
+            "node": "Main Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "abe9979c-e35a-45cc-96b2-05db5f82def7",
+  "triggerCount": 1,
+  "tags": []
+}
