@@ -1,0 +1,32 @@
+services: 
+  duplicati: 
+    image: duplicati/duplicati:latest
+    environment: 
+      - PUID=0
+      - PGID=0
+      - TZ=Etc/UTC
+      - SETTINGS_ENCRYPTION_KEY=590580413052EA0AE33D9D7E106A29A9
+      # - CLI_ARGS= # Avançado, leia a documentação do Duplicati
+    deploy: 
+      replicas: 1
+      labels:
+        traefik.enable: "true"
+        traefik.http.routers.duplicati.rule: "Host(`backups.brendhamattos.ondaia.online`)"
+        traefik.http.routers.duplicati.service: "duplicati"
+        traefik.http.routers.duplicati.entrypoints: "websecure"
+        traefik.http.services.duplicati.loadbalancer.server.port: "8200"
+        traefik.http.routers.duplicati.tls.certresolver: "le"
+    volumes:
+      # Nesse exemplo estamos jogando a pasta de volumes do docker para dentro do container essa pasta estara disponivel para o container efetuar backups
+      - /var/lib/docker/volumes:/backups/docker
+    #ports: 
+    #  - 8200:8200
+    networks: 
+      - externa
+      - interna
+
+networks: 
+  externa: 
+    external: true
+  interna:
+    external: true
