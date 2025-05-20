@@ -1,0 +1,84 @@
+services:
+  directus:
+    image: directus/directus:11.3.4
+    environment:
+      ## Secret Keys & Env
+      - KEY=     # https://acte.ltd/utils/randomkeygen
+      - SECRET=  # https://acte.ltd/utils/randomkeygen
+      - APP_ENV=production
+      - ADMIN_EMAIL=robson@agenciaondaia.com
+      - ADMIN_PASSWORD=@BrendhaMattos2025
+      - PUBLIC_URL=https://directus.brendhamattos.ondaia.online
+      
+      ## 17/03/2025 Correcao para nao sair do directus e dar erro de Cookies
+      - AUTH_TOKEN_EXPIRY=7d
+      - REFRESH_TOKEN_EXPIRY=7d
+      - REFRESH_TOKEN_COOKIE_SECURE=false
+      - REFRESH_TOKEN_COOKIE_SAME_SITE=lax
+      - ACCESS_TOKEN_TTL=1440m
+
+      ## Dados SMTP
+      # - EMAIL_SMTP_USER=contato@mail.com
+      # - EMAIL_SMTP_PASSWORD=xxxx
+      # - EMAIL_SMTP_HOST=smtp.hostinger.com
+      # - EMAIL_SMTP_PORT=587
+      # - EMAIL_SMTP_IGNORE_TLS=true
+      # - EMAIL_FROM=contato@mail.com
+      # - EMAIL_TEMPLATES_PATH=/directus/templates
+
+      ## Dados MinIO
+      - STORAGE_LOCATIONS=s3
+      - STORAGE_S3_DRIVER=s3 
+      - STORAGE_S3_KEY=Mj1fTUYaMJyiRShLJMXA
+      - STORAGE_S3_SECRET=tX0oogpYQUjcQYeTsTn0xPhZNerXRjIT49Baz85f
+      - STORAGE_S3_BUCKET=directus
+      - STORAGE_S3_REGION=us-east-1
+      - STORAGE_S3_ENDPOINT=s3.brendhamattos.ondaia.online
+      - STORAGE_S3_FORCE_PATH_STYLE=true
+
+      ## Redis
+      - CACHE_ENABLED=true
+      - CACHE_STORE=redis
+      - CACHE_AUTO_PURGE=true
+      - REDIS=redis://redis:6379/8
+
+      ## Dados Postgres
+      - DB_CLIENT=pg
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=directus
+      - DB_USER=postgres
+      - DB_PASSWORD=BA5DAFABEEE94D67D825B331D8158
+      ## Cors
+      - CORS_ENABLED=true
+      - CORS_ORIGIN=true
+      - CORS_METHODS=GET,POST,PATCH,DELETE
+    volumes:
+      - extensions:/directus/extensions
+      - templates:/directus/templates
+ 
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        traefik.enable: "true"
+        traefik.http.routers.directus.service: "directus"
+        traefik.http.routers.directus.rule: "Host(`directus.brendhamattos.ondaia.online`)"
+        traefik.http.services.directus.loadbalancer.server.port: "8055"
+        traefik.http.routers.directus.entrypoints: "websecure"
+        traefik.http.routers.directus.tls.certresolver: "le"
+    networks:
+      - externa
+      - interna
+volumes:
+  extensions:
+  templates:
+  
+networks:
+  interna:
+    external: true
+  externa:
+    external: true
