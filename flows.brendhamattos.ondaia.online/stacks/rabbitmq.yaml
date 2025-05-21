@@ -9,11 +9,6 @@ services:
     hostname: rabbitmq
     environment:
       <<: *variaveis
-    #ports:
-    #  - 25672:25672
-    #  - 15672:15672
-    #  - 5672:5672
-    #  - 4369:4369
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq/
       # - rabbitmq_config:/etc/rabbitmq
