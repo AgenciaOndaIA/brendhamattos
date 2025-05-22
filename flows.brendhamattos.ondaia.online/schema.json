@@ -1570,16 +1570,8 @@
               "value": "microsoft/phi-4-reasoning:free"
             },
             {
-              "text": "Qwen: Qwen3 0.6B (free)",
-              "value": "qwen/qwen3-0.6b-04-28:free"
-            },
-            {
               "text": "Inception: Mercury Coder Small Beta",
               "value": "inception/mercury-coder-small-beta"
-            },
-            {
-              "text": "Qwen: Qwen3 1.7B (free)",
-              "value": "qwen/qwen3-1.7b:free"
             },
             {
               "text": "Qwen: Qwen3 4B (free)",
@@ -3004,12 +2996,12 @@
               "value": "eleven_english_sts_v2"
             },
             {
-              "text": "Eleven Multilingual v2",
-              "value": "eleven_multilingual_sts_v2"
-            },
-            {
               "text": "Eleven Multilingual v1",
               "value": "eleven_multilingual_v1"
+            },
+            {
+              "text": "Eleven Multilingual v2",
+              "value": "eleven_multilingual_sts_v2"
             },
             {
               "text": "Eleven English v1",
