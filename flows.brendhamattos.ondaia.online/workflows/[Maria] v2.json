@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-22T11:45:51.108Z",
-  "updatedAt": "2025-05-22T14:42:15.669Z",
+  "updatedAt": "2025-05-22T14:44:30.366Z",
   "id": "cs4hKX3RbHKMGxjU",
   "name": "[Maria] v2",
   "active": false,
@@ -2010,7 +2010,13 @@
     },
     "Consumer": {
       "main": [
-        []
+        [
+          {
+            "node": "Execution Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Switch 3": {
@@ -2637,7 +2643,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "5f42cc17-d8b1-408b-b32f-020d6eb1bb0d",
+  "versionId": "c50648e6-4c33-404a-acea-d88b1db7c1dc",
   "triggerCount": 0,
   "tags": []
 }
