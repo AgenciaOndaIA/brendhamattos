@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-22T11:45:51.108Z",
-  "updatedAt": "2025-05-22T14:44:30.366Z",
+  "updatedAt": "2025-05-22T14:47:56.269Z",
   "id": "cs4hKX3RbHKMGxjU",
   "name": "[Maria] v2",
   "active": false,
@@ -345,8 +345,8 @@
       "type": "n8n-nodes-base.rabbitmqTrigger",
       "typeVersion": 1,
       "position": [
-        -1820,
-        640
+        -1600,
+        620
       ],
       "id": "bf8a1e4f-8f98-41dc-8d9a-d286086c9630",
       "name": "Consumer",
@@ -2643,7 +2643,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "c50648e6-4c33-404a-acea-d88b1db7c1dc",
+  "versionId": "4939d59d-1e87-479c-bb23-24f841f29171",
   "triggerCount": 0,
   "tags": []
 }
