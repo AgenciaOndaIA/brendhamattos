@@ -1,10 +1,10 @@
 {
   "createdAt": "2025-05-22T11:45:51.108Z",
-  "updatedAt": "2025-05-22T14:47:56.269Z",
+  "updatedAt": "2025-05-22T14:55:29.914Z",
   "id": "cs4hKX3RbHKMGxjU",
   "name": "[Maria] v2",
   "active": false,
-  "isArchived": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -2643,7 +2643,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "4939d59d-1e87-479c-bb23-24f841f29171",
+  "versionId": "1a403f1a-0bee-4dbb-80be-a25ed9174751",
   "triggerCount": 0,
   "tags": []
 }
