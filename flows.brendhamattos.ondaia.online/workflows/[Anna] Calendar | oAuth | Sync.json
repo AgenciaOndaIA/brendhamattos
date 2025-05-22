@@ -1,10 +1,10 @@
 {
-  "createdAt": "2025-05-22T17:33:04.738Z",
-  "updatedAt": "2025-05-22T17:33:56.772Z",
-  "id": "8aHR4dporADwJ74h",
+  "createdAt": "2025-05-22T11:45:49.019Z",
+  "updatedAt": "2025-05-22T14:55:29.914Z",
+  "id": "iTNAV2l2aMgOgWn4",
   "name": "[Anna] Calendar | oAuth | Sync",
   "active": false,
-  "isArchived": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -415,8 +415,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        0,
-        0
+        -200,
+        40
       ],
       "typeVersion": 1,
       "id": "91893d1c-9b54-4146-b33d-44c28e7723b4",
@@ -1468,8 +1468,8 @@
   "settings": {},
   "staticData": null,
   "meta": null,
-  "pinData": null,
-  "versionId": "5a429739-732a-41d0-a295-e4fb9e72ed88",
+  "pinData": {},
+  "versionId": "21c47f38-f9ab-4737-a792-38a86d52864a",
   "triggerCount": 0,
   "tags": []
 }
