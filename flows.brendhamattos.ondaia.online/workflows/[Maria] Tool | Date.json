@@ -1,0 +1,144 @@
+{
+  "createdAt": "2025-05-22T11:45:50.057Z",
+  "updatedAt": "2025-05-22T12:35:56.311Z",
+  "id": "DBDm6FEIACGdqQhs",
+  "name": "[Maria] Tool | Date",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "url": "=https://brasilapi.com.br/api/feriados/v1/{{ $now.year }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        200,
+        0
+      ],
+      "id": "51b0d8bc-8454-4801-a10f-9bb1fbe20c46",
+      "name": "Feriados"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f1335cda-484c-4af4-b048-4add3a837f70",
+              "name": "configuracao_data",
+              "value": "=<data_hora_atual>\n  - Para se localizar no horário e dia atual\n\n    data: {{ $now.format('yyyy-MM-dd') }}\n    hora: {{ $now.setLocale(pt-BR).format('HH:mm') }}\n    dia_da_semana: {{ $now.weekdayLong }}\n    mês: {{ $now.monthLong }}\n    final_de_semana:? {{ $now.isWeekend }}\n    dias_final_de_semana: sábado e domingo\n    timezone: America/São Paulo\n\n{{(() => {\n  const n = $now.setLocale('pt-BR').setZone('America/Sao_Paulo');\n  const feriados = $json.data;\n\n  return [...Array(7)].map((_, i) => {\n    const d = n.plus({ days: i });\n    const iso = d.toISODate();\n    const label = ['- Hoje é', '- Amanhã será', '- Depois de amanhã será'][i] || `- ${d.weekdayLong} será`;\n    const data = d.toFormat('dd/MM/yyyy');\n    const hora = i === 0 ? ` - ${d.toFormat('HH:mm')}` : '';\n\n    const feriadoEncontrado = feriados.find(f => f.date === iso);\n    const feriado = feriadoEncontrado ? ` (FERIADO: ${feriadoEncontrado.name})` : '';\n\n    return `\\t${label} ${d.weekdayLong}, ${data}${feriado}${hora}`;\n  }).join('\\n');\n})()}}\n<data_hora_atual>\n\n<feriados_{{ $now.year }}>\n{{ $json.data.map(item => {\n  const [year, month, day] = item.date.split('-');\n  return `\\t- ${day}/${month}/${year} -> ${item.name}`;\n}).join('\\n') }}\n</feriados_{{ $now.year }}>",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        620,
+        0
+      ],
+      "id": "a35a83da-6a51-43bd-a2ad-0e0b87042f21",
+      "name": "Edita saida"
+    },
+    {
+      "parameters": {
+        "path": "/tools/dates",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4f62853e-0f8d-4a3d-a1a9-99b3d807284d",
+      "name": "Webhook",
+      "webhookId": "3d110061-0647-4a2e-95ac-dd21e616b0b8"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        840,
+        0
+      ],
+      "id": "f10709d3-1d87-453a-846f-5cedaf14ebb9",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        400,
+        0
+      ],
+      "id": "07f07b2e-8a9c-47a5-b031-8ffc518e1910",
+      "name": "Aggregate"
+    }
+  ],
+  "connections": {
+    "Feriados": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edita saida": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Feriados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Edita saida",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "8d12a9b7-3cf9-4f95-937b-8067e88ac792",
+  "triggerCount": 0,
+  "tags": []
+}
