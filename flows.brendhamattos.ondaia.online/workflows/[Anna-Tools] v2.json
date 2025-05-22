@@ -1,9 +1,9 @@
 {
-  "createdAt": "2025-05-22T11:45:44.347Z",
-  "updatedAt": "2025-05-22T12:33:35.472Z",
-  "id": "5THOUYV7IK9HSCcD",
+  "createdAt": "2025-04-15T10:58:30.010Z",
+  "updatedAt": "2025-05-22T12:49:03.949Z",
+  "id": "KdpNdc5sSivgs3Io",
   "name": "[Anna-Tools] v2",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -15,7 +15,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        2220,
+        2560,
         160
       ],
       "id": "e0f222ee-97bc-4f58-aab7-7a375bf93b3f",
@@ -63,8 +63,8 @@
       "name": "Sender",
       "credentials": {
         "rabbitmq": {
-          "id": "Lf2ugbeg6I4tN0pk",
-          "name": "RabbitMQ 2.0"
+          "id": "aTP4hRFNjGCY9aQX",
+          "name": "brendha"
         }
       }
     },
@@ -87,8 +87,8 @@
       "name": "DLX Consumer",
       "credentials": {
         "rabbitmq": {
-          "id": "Lf2ugbeg6I4tN0pk",
-          "name": "RabbitMQ 2.0"
+          "id": "aTP4hRFNjGCY9aQX",
+          "name": "brendha"
         }
       }
     },
@@ -108,8 +108,8 @@
       "notesInFlow": false,
       "credentials": {
         "redis": {
-          "id": "TbdCTNDGffvuZRjL",
-          "name": "Redis account"
+          "id": "1VL8GiWa4ifxJ1E5",
+          "name": "Brendha"
         }
       }
     },
@@ -178,7 +178,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3080,
+        3220,
         900
       ],
       "id": "e1fe4596-0f98-4ae3-8073-07d928c6b1f2",
@@ -212,8 +212,8 @@
       "name": "Get Global Vars",
       "credentials": {
         "postgres": {
-          "id": "QaUDiDcemy6udc5h",
-          "name": "Postgres account"
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
         }
       }
     },
@@ -227,7 +227,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        2980,
+        3140,
         800
       ],
       "id": "a5f6589a-9161-4e7b-87b6-9b4dc53d9e1d",
@@ -275,8 +275,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        3000,
-        780
+        3140,
+        800
       ],
       "id": "467968c4-1702-42ac-ab02-9c3d84412746",
       "name": "Sticky Note12"
@@ -307,8 +307,8 @@
       "name": "Listen Insert Users",
       "credentials": {
         "postgres": {
-          "id": "QaUDiDcemy6udc5h",
-          "name": "Postgres account"
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
         }
       }
     },
@@ -353,8 +353,8 @@
       "name": "Get Global Vars 2",
       "credentials": {
         "postgres": {
-          "id": "QaUDiDcemy6udc5h",
-          "name": "Postgres account"
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
         }
       }
     },
@@ -446,8 +446,8 @@
       "name": "Add Picture",
       "credentials": {
         "postgres": {
-          "id": "QaUDiDcemy6udc5h",
-          "name": "Postgres account"
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
         }
       }
     },
@@ -652,8 +652,8 @@
       "name": "Set n8n Backups",
       "credentials": {
         "redis": {
-          "id": "TbdCTNDGffvuZRjL",
-          "name": "Redis account"
+          "id": "1VL8GiWa4ifxJ1E5",
+          "name": "Brendha"
         }
       },
       "onError": "continueErrorOutput"
@@ -676,8 +676,8 @@
       "name": "Get n8n Backups",
       "credentials": {
         "redis": {
-          "id": "TbdCTNDGffvuZRjL",
-          "name": "Redis account"
+          "id": "1VL8GiWa4ifxJ1E5",
+          "name": "Brendha"
         }
       }
     },
@@ -711,8 +711,8 @@
       "name": "Set Schema Backup",
       "credentials": {
         "redis": {
-          "id": "TbdCTNDGffvuZRjL",
-          "name": "Redis account"
+          "id": "1VL8GiWa4ifxJ1E5",
+          "name": "Brendha"
         }
       },
       "onError": "continueErrorOutput"
@@ -735,8 +735,8 @@
       "name": "Get Schema Backup",
       "credentials": {
         "redis": {
-          "id": "TbdCTNDGffvuZRjL",
-          "name": "Redis account"
+          "id": "1VL8GiWa4ifxJ1E5",
+          "name": "Brendha"
         }
       }
     },
@@ -758,8 +758,8 @@
       "name": "Get Stacks Backups",
       "credentials": {
         "redis": {
-          "id": "TbdCTNDGffvuZRjL",
-          "name": "Redis account"
+          "id": "1VL8GiWa4ifxJ1E5",
+          "name": "Brendha"
         }
       }
     },
@@ -780,8 +780,8 @@
       "name": "Set Stacks Backups",
       "credentials": {
         "redis": {
-          "id": "TbdCTNDGffvuZRjL",
-          "name": "Redis account"
+          "id": "1VL8GiWa4ifxJ1E5",
+          "name": "Brendha"
         }
       },
       "onError": "continueErrorOutput"
@@ -854,7 +854,8 @@
         -160
       ],
       "id": "31584e64-f856-43cf-bd6d-4d21b4dc2376",
-      "name": "Sticky Note18"
+      "name": "Sticky Note18",
+      "disabled": true
     },
     {
       "parameters": {
@@ -870,7 +871,8 @@
         180
       ],
       "id": "be6fa0ef-1c80-4a1c-baf0-e3c2ce6bae59",
-      "name": "Sticky Note19"
+      "name": "Sticky Note19",
+      "disabled": true
     },
     {
       "parameters": {
@@ -886,7 +888,8 @@
         -180
       ],
       "id": "7a8f901b-bd05-412e-807e-278c4f379468",
-      "name": "Sticky Note20"
+      "name": "Sticky Note20",
+      "disabled": true
     },
     {
       "parameters": {
@@ -918,7 +921,8 @@
         160
       ],
       "id": "3a1712be-4227-46e0-af0b-7f6e4ebc7671",
-      "name": "Sticky Note23"
+      "name": "Sticky Note23",
+      "disabled": true
     },
     {
       "parameters": {
@@ -937,8 +941,7 @@
         580
       ],
       "id": "d4e407d0-1fce-456a-a21f-1a95f1ff5df4",
-      "name": "1H Schedule Trigger",
-      "disabled": true
+      "name": "1H Schedule Trigger"
     },
     {
       "parameters": {
@@ -1019,7 +1022,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3280,
+        3460,
         900
       ],
       "id": "c186e79c-5dda-4cd6-941f-08a6e3e8bf06",
@@ -1167,8 +1170,8 @@
       "name": "Get History",
       "credentials": {
         "postgres": {
-          "id": "QaUDiDcemy6udc5h",
-          "name": "Postgres account"
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
         }
       }
     },
@@ -1194,8 +1197,8 @@
       "executeOnce": true,
       "credentials": {
         "openRouterApi": {
-          "id": "8uwlDlzwaHYlgJ3O",
-          "name": "OpenRouter sayonara"
+          "id": "L4mPQPRccrWHieLF",
+          "name": "OndaIA_Brendha"
         },
         "openAiApi": {
           "id": "MDEnRr5fnEmSW1ZW",
@@ -1251,50 +1254,6 @@
       ],
       "id": "bc15cc35-f869-420e-bd9d-d8f36854c310",
       "name": "Sticky Note24"
-    },
-    {
-      "parameters": {
-        "dataToSave": {
-          "values": [
-            {
-              "key": "conta",
-              "value": "={{ $json.body.account.name }}"
-            },
-            {
-              "key": "canal",
-              "value": "={{ $json.body.conversation.channel }}"
-            },
-            {
-              "key": "usuario",
-              "value": "={{ $json.body.conversation.messages[0].sender.additional_attributes.username }}"
-            },
-            {
-              "key": "evento",
-              "value": "={{ $json.body.event }}"
-            },
-            {
-              "key": "caixa",
-              "value": "={{ $json.body.inbox.name }}"
-            },
-            {
-              "key": "id_inbox",
-              "value": "={{ $json.body.inbox.id }}"
-            },
-            {
-              "key": "id_contato",
-              "value": "={{ $json.body.conversation.contact_inbox.contact_id }}"
-            }
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.executionData",
-      "typeVersion": 1,
-      "position": [
-        2440,
-        160
-      ],
-      "id": "531dc2a1-db24-4a91-8161-e7814ce0ac83",
-      "name": "Execution Data"
     }
   ],
   "connections": {
@@ -1302,7 +1261,7 @@
       "main": [
         [
           {
-            "node": "Execution Data",
+            "node": "Switch ",
             "type": "main",
             "index": 0
           }
@@ -1647,24 +1606,17 @@
           }
         ]
       ]
-    },
-    "Execution Data": {
-      "main": [
-        [
-          {
-            "node": "Switch ",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
     }
   },
   "settings": {},
-  "staticData": null,
+  "staticData": {
+    "node:1H Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
   "meta": null,
-  "pinData": null,
-  "versionId": "3e0c4a40-1f2d-441c-9803-218e707701ea",
-  "triggerCount": 0,
+  "pinData": {},
+  "versionId": "93565406-21b0-4447-bb22-9c35c023ad87",
+  "triggerCount": 5,
   "tags": []
 }
