@@ -1,11 +1,67 @@
 {
-  "createdAt": "2025-04-15T10:58:32.085Z",
-  "updatedAt": "2025-05-22T12:52:21.268Z",
-  "id": "5QZzgI7AhS8F1fj6",
+  "createdAt": "2025-05-22T17:33:06.831Z",
+  "updatedAt": "2025-05-23T00:00:35.592Z",
+  "id": "KmQFVLzk9PoaqCUa",
   "name": "[Anna] v2",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Main Agent1').item.json.body.mapping.parseJson().system.conversations_id }}",
+        "tableName": "core_chat_histories",
+        "contextWindowLength": "={{ $('Main Agent1').item.json.body.mapping.parseJson().system.context_window }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        1600,
+        2160
+      ],
+      "id": "eba64d47-8f88-48d6-8b6a-bca4629deb8b",
+      "name": "Memory",
+      "credentials": {
+        "postgres": {
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 180,
+        "width": 740,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1580,
+        2120
+      ],
+      "typeVersion": 1,
+      "id": "d2a433ce-9c89-4fe2-9fbf-662169e66a0d",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.content || ' ' }}",
+        "options": {
+          "systemMessage": "=You are a helpful assistant\n\nNunca use hiperlinks\n\n<system_information>\n1. Data e hora atuais: {{ $now.format(\"EEE, MMM dd, yyyy, HH:mm\") }}\n</system_information>\n\n<retrieval_augmented_generation_result>\n{{ $json.body.rag_return }}\n</retrieval_augmented_generation_result>\n\n<promp>\n  {{ $json.body.mapping.parseJson().system.system_message }}\n</promp>",
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1800,
+        1900
+      ],
+      "id": "caa20e44-11ed-4bd9-84d0-6babe8bf6317",
+      "name": "Main Agent"
+    },
     {
       "parameters": {
         "operation": "push",
@@ -16,8 +72,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -300,
-        680
+        -100,
+        660
       ],
       "id": "f38efd9f-18ce-4c0c-98b4-7983a19e7de0",
       "name": "Add to List",
@@ -38,8 +94,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -100,
-        680
+        100,
+        660
       ],
       "id": "2b512577-c712-425a-b6bd-1b0d6841e09f",
       "name": "Get List",
@@ -55,8 +111,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        300,
-        480
+        500,
+        460
       ],
       "id": "31dc41d2-ba03-4e7a-b3d8-0251d3df8e8a",
       "name": "No Operation"
@@ -70,8 +126,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        700,
-        780
+        900,
+        760
       ],
       "id": "56c62db7-ba58-43d5-a741-90a3f788e2fb",
       "name": "Parse JSON"
@@ -138,7 +194,7 @@
       "parameters": {
         "content": "",
         "height": 600,
-        "width": 2300,
+        "width": 3140,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -154,7 +210,7 @@
       "parameters": {
         "content": "",
         "height": 1360,
-        "width": 2340,
+        "width": 4220,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -165,6 +221,17 @@
       "typeVersion": 1,
       "id": "235863e6-541c-44bf-a7a1-6487b692c76e",
       "name": "Sticky Note2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2160,
+        1900
+      ],
+      "id": "e58ddba9-7d2d-426a-a322-9e4d7de3c2df",
+      "name": "No Operation 2"
     },
     {
       "parameters": {
@@ -219,8 +286,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        500,
-        580
+        700,
+        560
       ],
       "id": "68f9ccba-54cc-45d3-b489-e83cdde81ec8",
       "name": "Get Final List 1",
@@ -234,15 +301,15 @@
     {
       "parameters": {
         "operation": "delete",
-        "key": "=41"
+        "key": "=3"
       },
       "id": "90e3fce7-6625-46c9-9b27-4cf2ced01be5",
       "name": "Reset List 2",
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        700,
-        580
+        1240,
+        480
       ],
       "notesInFlow": false,
       "credentials": {
@@ -259,8 +326,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        300,
-        680
+        500,
+        660
       ],
       "id": "4b699b17-228b-4dd1-ad1f-f1ce74a09ea4",
       "name": "Cooldown",
@@ -279,7 +346,7 @@
       "typeVersion": 1,
       "position": [
         -1300,
-        580
+        560
       ],
       "id": "bf8a1e4f-8f98-41dc-8d9a-d286086c9630",
       "name": "Consumer",
@@ -307,9 +374,61 @@
     },
     {
       "parameters": {
+        "model": "={{ $json.body.mapping.parseJson().system.model }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        780,
+        2700
+      ],
+      "id": "25612fc6-0adb-47ea-8f4f-5c8e1f106a9d",
+      "name": "OpenRouter",
+      "credentials": {
+        "openRouterApi": {
+          "id": "L4mPQPRccrWHieLF",
+          "name": "OndaIA_Brendha"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 300,
+        "width": 1240,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        1800
+      ],
+      "id": "79cb0a5a-0fda-4787-bd59-a7a8817af68c",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 540,
+        "width": 1500,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1280,
+        1780
+      ],
+      "typeVersion": 1,
+      "id": "325c8cd9-46f0-4a59-9542-0a71c02c3ced",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
         "content": "",
         "height": 700,
-        "width": 2300,
+        "width": 4180,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -330,8 +449,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        -1100,
-        580
+        -900,
+        560
       ],
       "id": "5dc52430-9223-4274-8491-de1754c40d62",
       "name": "Get Vars",
@@ -448,8 +567,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1380,
-        400
+        -1300,
+        340
       ],
       "id": "a6d3c581-b365-4c04-bbba-74261115544a",
       "name": "Sticky Note13"
@@ -466,6 +585,22 @@
       ],
       "id": "c554b7b7-9e86-4318-8c13-b220a7bb8b46",
       "name": "Execute Core"
+    },
+    {
+      "parameters": {
+        "content": "Fluxo Core, responsável pelo processamento da AI",
+        "height": 80,
+        "width": 260,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1380,
+        1760
+      ],
+      "id": "ca510ab9-7adf-4bb7-ba22-1710dc1295f9",
+      "name": "Sticky Note14"
     },
     {
       "parameters": {
@@ -491,6 +626,21 @@
     },
     {
       "parameters": {
+        "name": "restart_history",
+        "description": "=Invoque essa tool para iniciar uma nova conversa para o user, assim ignorando o histórico passado. Apenas quando o user solicitar.",
+        "jsCode": "const axios = require('axios');\n\n// Converte o mapeamento recebido em JSON\nconst mapping = JSON.parse($('Core Input').item.json.body.mapping);\n\n// Verifica se o usuário é admin; caso contrário, retorna erro\nif (mapping.system.user_type !== 'admin') {\n  return JSON.stringify({ success: false, error: \"Acesso negado: usuário não autorizado.\" });\n}\n\n/**\n * Função que espera pelo tempo especificado.\n * @param {number} ms - Milissegundos a aguardar.\n * @returns {Promise<void>}\n */\nconst delay = ms => new Promise(resolve => setTimeout(resolve, ms));\n\n/**\n * Função para enviar a requisição para criar uma conversa no Directus.\n * Tenta até 3 vezes em caso de falha, com delay de 1 segundo entre as tentativas.\n * @returns {Promise<object>} - Objeto com sucesso ou erro.\n */\nasync function sendRequest() {\n  const url = `http://${mapping.system.directus_service}:8055/items/conversations`;\n  const data = {\n    user_id: mapping.chatwoot.contact_id,\n    date_created: new Date().toISOString()\n  };\n  const headers = {\n    Authorization: `Bearer ${mapping.system.directus_token}`,\n    'Content-Type': 'application/json'\n  };\n\n  let attempt = 0;\n  let lastError = null;\n\n  while (attempt < 3) {\n    try {\n      const response = await axios.post(url, data, { headers });\n      console.log(`Requisição realizada com sucesso na tentativa ${attempt + 1}.`);\n      return { success: true, data: response.data };\n    } catch (error) {\n      attempt++;\n      lastError = error;\n      console.error(`Tentativa ${attempt} falhou:`, error.response ? error.response.data : error.message);\n      if (attempt < 3) {\n        console.log(\"Aguardando 1 segundo antes da nova tentativa...\");\n        await delay(1000);\n      }\n    }\n  }\n  \n  return { success: false, error: lastError.response ? lastError.response.data : lastError.message };\n}\n\nreturn sendRequest().then(result => JSON.stringify(result));"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        1720,
+        2160
+      ],
+      "id": "2c8d4091-4798-44a3-89e5-d44ee314d784",
+      "name": "Restart History"
+    },
+    {
+      "parameters": {
         "mode": "expression",
         "numberOutputs": 3,
         "output": "={{\n  $json.content.data_url?.match(/\\.(oga|png|jpg|jpeg|txt|pdf)$/i) !== null \n  && !!$json.content.data_url \n    ? 0 \n    : !!$json.content.content \n      ? 1\n      : 2\n}}"
@@ -513,8 +663,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        100,
-        580
+        300,
+        560
       ],
       "id": "be373b6a-08f3-45d3-b4b5-4bcaacf1f5fe",
       "name": "Switch 1"
@@ -528,8 +678,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -500,
-        580
+        -300,
+        560
       ],
       "id": "fa7fce13-38d7-435a-bc81-1e7aa9471bf9",
       "name": "Switch 0"
@@ -635,8 +785,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        -300,
-        480
+        -100,
+        460
       ],
       "id": "995200dd-f24d-4c62-86cf-459a81b1805b",
       "name": "Update History",
@@ -654,45 +804,29 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -100,
-        480
+        100,
+        460
       ],
       "id": "75d385e0-847d-406c-b433-32be456f9bbd",
       "name": "Open Conversation"
     },
     {
       "parameters": {
-        "jsCode": "const axios = require('axios');\nconst FormData = require('form-data');\n\n// Array para armazenar logs detalhados\nconst detailedLogs = [];\n\n// Funções de log aprimoradas\nfunction logMessage(msg) {\n  console.log(msg);\n  detailedLogs.push({ type: 'info', message: msg, timestamp: new Date().toISOString() });\n}\n\nfunction logError(msg) {\n  console.error(msg);\n  detailedLogs.push({ type: 'error', message: msg, timestamp: new Date().toISOString() });\n}\n\nfunction logRequest(method, url, headers, payload) {\n  detailedLogs.push({\n    type: 'request',\n    method,\n    url,\n    headers,\n    payload,\n    timestamp: new Date().toISOString()\n  });\n}\n\nfunction logResponse(status, data) {\n  detailedLogs.push({\n    type: 'response',\n    status,\n    data,\n    timestamp: new Date().toISOString()\n  });\n}\n\n// ------------------------------\n// Configurações Gerais\n// ------------------------------\nconst MIN_TOTAL_LENGTH = 50;               // Texto menor que 50 caracteres: enviar inteiro.\nconst MIN_SEGMENT_LENGTH = 20;             // Segmentos menores que 20 caracteres serão mesclados.\nconst DESIRED_TEXT_SEGMENT_SIZE = 200;       // Tamanho ideal para segmentos no modo \"text\".\nconst DESIRED_AUDIO_SEGMENT_SIZE = 450;      // Tamanho ideal para segmentos no modo \"audio\" (~30s).\nconst DELAY_FACTOR = 2000;                  // Delay: 200ms por 100 caracteres.\n\nconst delay = ms => new Promise(resolve => setTimeout(resolve, ms));\n\n// ------------------------------\n// Parâmetros obtidos dos nós\n// ------------------------------\nconst mapping = $('Mapping').first().json;\nconst chatwootData = mapping.chatwoot;\nconst accountId = chatwootData.account_id;\nconst conversationId = chatwootData.conversation_id;\nconst botToken = chatwootData.bot_token;\n\nconst system = mapping.system;\nconst outputFormat = system.output_format.toLowerCase(); // \"text\", \"audio\" ou \"smart\"\nconst elevenlabsKey = system.elevenlabs_key;\nconst elevenlabsVoice = system.elevenlabs_voice || \"JBFqnCBsd6RMkjVDRZzb\";\nconst elevenlabsModel = system.elevenlabs_model || \"eleven_multilingual_v2\";\nconst chatwootService = system.chatwoot_service; // Valor para a URL do Chatwoot\n\n// Texto original (ajustado para acessar o payload final corretamente)\nconst originalText = $('Execute Core').first().json.final.output;\nlogMessage(`[Main] Texto original possui ${originalText.length} caracteres.`);\nlogMessage(`[Main] Modo de saída: ${outputFormat}`);\n\n// Endpoint do Chatwoot (ajustado para usar chatwootService)\nconst chatwootUrl = `http://${chatwootService}:3000/api/v1/accounts/${encodeURIComponent(accountId)}/conversations/${encodeURIComponent(conversationId)}/messages`;\nlogMessage(`[Main] Chatwoot URL: ${chatwootUrl}`);\n\n// Log dos parâmetros de entrada\nlogMessage(`[Main] Parâmetros: accountId=${accountId}, conversationId=${conversationId}`);\nlogMessage(`[Main] Chatwoot Service: ${chatwootService}`);\nlogMessage(`[Main] Token (primeiros 5 caracteres): ${botToken.substring(0, 5)}...`);\n\n// ------------------------------\n// Função para enviar mensagem de texto\n// ------------------------------\nasync function sendTextMessage(content) {\n  const payload = { content, message_type: \"outgoing\" };\n  const headers = {\n    \"api_access_token\": botToken,\n    \"Content-Type\": \"application/json\"\n  };\n  \n  logMessage(`[sendTextMessage] Enviando mensagem de texto.`);\n  logMessage(`[sendTextMessage] URL: ${chatwootUrl}`);\n  logMessage(`[sendTextMessage] Payload: ${JSON.stringify(payload)}`);\n  logMessage(`[sendTextMessage] Headers: ${JSON.stringify(headers)}`);\n  \n  logRequest('POST', chatwootUrl, headers, payload);\n  \n  try {\n    const response = await axios.post(chatwootUrl, payload, { headers });\n    logMessage(`[sendTextMessage] Resposta do Chatwoot: status ${response.status}`);\n    logResponse(response.status, response.data);\n    return response.data;\n  } catch (error) {\n    logError(`[sendTextMessage] Erro ao enviar mensagem de texto: ${error.toString()}`);\n    \n    if (error.response) {\n      logError(`[sendTextMessage] Status: ${error.response.status}`);\n      logError(`[sendTextMessage] Headers: ${JSON.stringify(error.response.headers)}`);\n      logError(`[sendTextMessage] Erro Response: ${JSON.stringify(error.response.data)}`);\n      logResponse(error.response.status, error.response.data);\n    } else if (error.request) {\n      logError(`[sendTextMessage] Erro Request: ${error.request}`);\n    }\n    \n    throw error;\n  }\n}\n\n// ------------------------------\n// Função para enviar mensagem de áudio\n// ------------------------------\nasync function sendAudioMessage(audioBuffer) {\n  const form = new FormData();\n  form.append(\"attachments[]\", audioBuffer, { filename: \"audio.mp3\", contentType: \"audio/mpeg\" });\n  form.append(\"message_type\", \"outgoing\");\n  \n  const headers = {\n    \"api_access_token\": botToken,\n    ...form.getHeaders()\n  };\n  \n  logMessage(`[sendAudioMessage] Enviando mensagem de áudio.`);\n  logMessage(`[sendAudioMessage] URL: ${chatwootUrl}`);\n  logMessage(`[sendAudioMessage] Headers: ${JSON.stringify(headers)}`);\n  logMessage(`[sendAudioMessage] Tamanho do áudio: ${audioBuffer.length} bytes`);\n  \n  logRequest('POST', chatwootUrl, headers, \"Form Data com áudio\");\n  \n  try {\n    const response = await axios.post(chatwootUrl, form, { headers });\n    logMessage(`[sendAudioMessage] Resposta do Chatwoot: status ${response.status}`);\n    logResponse(response.status, response.data);\n    return response.data;\n  } catch (error) {\n    logError(`[sendAudioMessage] Erro ao enviar mensagem de áudio: ${error.toString()}`);\n    \n    if (error.response) {\n      logError(`[sendAudioMessage] Status: ${error.response.status}`);\n      logError(`[sendAudioMessage] Headers: ${JSON.stringify(error.response.headers)}`);\n      logError(`[sendAudioMessage] Erro Response: ${JSON.stringify(error.response.data)}`);\n      logResponse(error.response.status, error.response.data);\n    } else if (error.request) {\n      logError(`[sendAudioMessage] Erro Request: ${error.request}`);\n    }\n    \n    throw error;\n  }\n}\n\n// ------------------------------\n// Função para converter texto em áudio via Elevenlabs\n// ------------------------------\nasync function convertTextToSpeech(text) {\n  const url = `https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(elevenlabsVoice)}?output_format=mp3_44100_128`;\n  const headers = {\n    \"xi-api-key\": elevenlabsKey,\n    \"Content-Type\": \"application/json\"\n  };\n  const payload = {\n    text: text,\n    model_id: elevenlabsModel\n  };\n  \n  logMessage(`[convertTextToSpeech] Convertendo texto para áudio (primeiros 50 caracteres): \"${text.substring(0,50)}...\"`);\n  logMessage(`[convertTextToSpeech] URL da API Elevenlabs: ${url}`);\n  logMessage(`[convertTextToSpeech] Modelo utilizado: ${elevenlabsModel}`);\n  \n  logRequest('POST', url, headers, payload);\n  \n  try {\n    const response = await axios.post(url, payload, { headers, responseType: 'arraybuffer' });\n    logMessage(`[convertTextToSpeech] Conversão realizada com sucesso. Status: ${response.status}`);\n    logResponse(response.status, \"Binary Audio Data\");\n    return response.data;\n  } catch (error) {\n    logError(`[convertTextToSpeech] Erro ao converter texto para áudio: ${error.toString()}`);\n    \n    if (error.response) {\n      logError(`[convertTextToSpeech] Status: ${error.response.status}`);\n      logError(`[convertTextToSpeech] Headers: ${JSON.stringify(error.response.headers)}`);\n      // Para arraybuffer, precisamos converter para texto para ver o erro\n      if (error.response.data) {\n        try {\n          const errorText = Buffer.from(error.response.data).toString('utf8');\n          logError(`[convertTextToSpeech] Erro Response: ${errorText}`);\n          logResponse(error.response.status, errorText);\n        } catch (e) {\n          logError(`[convertTextToSpeech] Não foi possível converter resposta de erro: ${e.toString()}`);\n        }\n      }\n    } else if (error.request) {\n      logError(`[convertTextToSpeech] Erro Request: ${error.request}`);\n    }\n    \n    throw error;\n  }\n}\n\n// ------------------------------\n// Função para mesclar segmentos curtos (para modos text e audio)\n// ------------------------------\nfunction mergeShortSegments(segments, minLength) {\n  const merged = [];\n  let buffer = \"\";\n  for (const seg of segments) {\n    if ((buffer + \" \" + seg).trim().length < minLength) {\n      buffer = (buffer + \" \" + seg).trim();\n    } else {\n      if (buffer) {\n        merged.push(buffer);\n        buffer = \"\";\n      }\n      merged.push(seg);\n    }\n  }\n  if (buffer) {\n    if (merged.length > 0) {\n      merged[merged.length - 1] += \" \" + buffer;\n    } else {\n      merged.push(buffer);\n    }\n  }\n  return merged;\n}\n\n// ------------------------------\n// Função de segmentação genérica (evita quebrar palavras)\n// ------------------------------\nfunction segmentTextGeneric(text, desiredMaxLength) {\n  if (text.length <= desiredMaxLength) return [text];\n  \n  let segments = [];\n  // Tenta dividir por quebra de linha dupla\n  if (text.includes(\"\\n\\n\")) {\n    segments = text.split(/\\n\\s*\\n/).map(seg => seg.trim()) // .filter(seg => seg.length > 0);\n  }\n  // Se não houver, ou se não gerar resultados, dividir por delimitadores naturais (ponto, ?, !, vírgula, ;, :)\n  if (segments.length === 0) {\n    segments = text.split(/(?<=[.?!,;:])\\s+/).map(seg => seg.trim()) // .filter(seg => seg.length > 0);\n  }\n  \n  // Mescla segmentos curtos\n  segments = mergeShortSegments(segments, MIN_SEGMENT_LENGTH);\n  \n  // Se algum segmento for muito longo, subdivide-o por espaços, sem quebrar palavras\n  const finalSegments = [];\n  segments.forEach(seg => {\n    if (seg.length > desiredMaxLength * 1.5) {\n      const words = seg.split(\" \");\n      let current = \"\";\n      for (const word of words) {\n        if ((current + \" \" + word).trim().length > desiredMaxLength) {\n          finalSegments.push(current.trim());\n          current = word;\n        } else {\n          current += \" \" + word;\n        }\n      }\n      if (current.trim()) finalSegments.push(current.trim());\n    } else {\n      finalSegments.push(seg);\n    }\n  });\n  \n  return finalSegments;\n}\n\nfunction textSegmentation(text, limit = 200, minSize = 30) {\n  // Divide o texto em parágrafos\n  const parts = text.split(\"\\n\\n\");\n\n  const segments = parts.reduce((acc, part) => {\n    part = part.trim();\n\n    // Se o parágrafo é menor que o limite, mantemos ele inteiro\n    if (part.length <= limit) {\n      acc.push(part);\n    } else {\n      // Para parágrafos maiores que o limite, dividimos em segmentos\n      let currentIndex = 0;\n      let tempSegments = [];\n      \n      while (currentIndex < part.length) {\n        // Obtém um segmento do tamanho do limite\n        let segment = part.substring(currentIndex, currentIndex + limit).trim();\n        \n        // Verifica se estamos no meio de uma palavra e ajusta\n        if (currentIndex + limit < part.length && \n            !part[currentIndex + limit].match(/\\s/) && \n            !segment.endsWith(\" \")) {\n          \n          // Encontra o último espaço para cortar no final de uma palavra\n          const lastSpaceIndex = segment.lastIndexOf(\" \");\n          if (lastSpaceIndex !== -1) {\n            segment = segment.substring(0, lastSpaceIndex);\n            currentIndex += lastSpaceIndex + 1;\n          } else {\n            // Se não houver espaço, avançamos o tamanho completo\n            currentIndex += limit;\n          }\n        } else {\n          currentIndex += limit;\n        }\n        \n        // Remove pontuação inicial do segmento\n        const punctuationRegex = /^[.~!?\\s]+/;\n        segment = segment.replace(punctuationRegex, \"\");\n        \n        // Adiciona o segmento se não estiver vazio\n        if (segment.length > 0) {\n          tempSegments.push(segment);\n        }\n      }\n      \n      // Combina segmentos pequenos\n      for (let i = 0; i < tempSegments.length; i++) {\n        if (tempSegments[i].length < minSize && i < tempSegments.length - 1) {\n          // Combina com o próximo segmento\n          tempSegments[i + 1] = tempSegments[i] + \" \" + tempSegments[i + 1];\n          // Marca o segmento atual como vazio\n          tempSegments[i] = \"\";\n        }\n      }\n      \n      // Adiciona apenas segmentos não vazios\n      tempSegments.forEach(segment => {\n        if (segment.length > 0) {\n          acc.push(segment);\n        }\n      });\n    }\n\n    return acc;\n  }, []);\n  \n  return segments;\n}\n\n// ------------------------------\n// Funções de segmentação para cada modo\n// ------------------------------\nfunction segmentForText(text) {\n  return textSegmentation(text, DESIRED_TEXT_SEGMENT_SIZE);\n}\n\nfunction segmentForAudio(text) {\n  return textSegmentation(text, DESIRED_AUDIO_SEGMENT_SIZE);\n}\n\n/**\n * Função \"smartSegment\":\n * - Divide o texto em sentenças usando delimitadores finais.\n * - Para cada sentença, se ela contiver dígitos ou tiver menos de 80 ou mais de 600 caracteres,\n *   ela será marcada para envio como texto.\n * - Caso contrário, a sentença é considerada \"audio\".\n * - As sentenças marcadas para áudio são agrupadas até atingirem aproximadamente DESIRED_AUDIO_SEGMENT_SIZE.\n * - Após a segmentação, os segmentos do tipo \"text\" com menos que MIN_SEGMENT_LENGTH são mesclados.\n * \n * Retorna um array de objetos: { type: \"text\" | \"audio\", content: string }.\n */\nfunction smartSegment(text) {\n  const sentences = text.split(/(?<=[.?!])\\s+/).map(s => s.trim()).filter(s => s);\n  const segments = [];\n  let audioBuffer = \"\";\n  \n  for (const sentence of sentences) {\n    if (/\\d/.test(sentence) || sentence.length < 80 || sentence.length > 600) {\n      if (audioBuffer) {\n        segments.push({ type: \"audio\", content: audioBuffer.trim() });\n        audioBuffer = \"\";\n      }\n      segments.push({ type: \"text\", content: sentence });\n    } else {\n      if ((audioBuffer + \" \" + sentence).trim().length > DESIRED_AUDIO_SEGMENT_SIZE) {\n        segments.push({ type: \"audio\", content: audioBuffer.trim() });\n        audioBuffer = sentence;\n      } else {\n        audioBuffer = (audioBuffer + \" \" + sentence).trim();\n      }\n    }\n  }\n  if (audioBuffer) {\n    segments.push({ type: \"audio\", content: audioBuffer.trim() });\n  }\n  \n  const mergedSegments = [];\n  for (let i = 0; i < segments.length; i++) {\n    const seg = segments[i];\n    if (seg.type === \"text\" && seg.content.length < MIN_SEGMENT_LENGTH) {\n      if (mergedSegments.length > 0 && mergedSegments[mergedSegments.length - 1].type === \"text\") {\n        mergedSegments[mergedSegments.length - 1].content += \" \" + seg.content;\n      } else if (i < segments.length - 1 && segments[i+1].type === \"text\") {\n        segments[i+1].content = seg.content + \" \" + segments[i+1].content;\n      } else {\n        mergedSegments.push(seg);\n      }\n    } else {\n      mergedSegments.push(seg);\n    }\n  }\n  \n  return mergedSegments;\n}\n\n// ------------------------------\n// Função principal para segmentar e enviar a mensagem\n// ------------------------------\nasync function main() {\n  try {\n    logMessage(`[Main] Modo de saída selecionado: ${outputFormat}`);\n    \n    // Verificação inicial de parâmetros essenciais\n    if (!originalText || originalText.trim().length === 0) {\n      throw new Error(\"Texto original está vazio ou não foi encontrado\");\n    }\n    \n    if (!chatwootService) {\n      throw new Error(\"chatwoot_service não definido\");\n    }\n    \n    if (!accountId) {\n      throw new Error(\"account_id não definido\");\n    }\n    \n    if (!conversationId) {\n      throw new Error(\"conversation_id não definido\");\n    }\n    \n    if (!botToken) {\n      throw new Error(\"bot_token não definido\");\n    }\n    \n    // Adicionando um delay inicial para garantir que o Chatwoot esteja pronto\n    await delay(1000);\n  \n    if (outputFormat === \"audio\") {\n      if (!elevenlabsKey) {\n        throw new Error(\"ElevenLabs API key não definida para modo audio\");\n      }\n      \n      const segments = segmentForAudio(originalText);\n      logMessage(`[Main] Texto segmentado em ${segments.length} segmento(s) para áudio.`);\n      \n      for (const segment of segments) {\n        logMessage(`[Main] Processando segmento de áudio: \"${segment.substring(0,50)}...\"`);\n        const audioBuffer = await convertTextToSpeech(segment);\n        await sendAudioMessage(audioBuffer);\n        logMessage(`[Main] Segmento de áudio enviado: \"${segment.substring(0,50)}...\"`);\n        const delayTime = Math.ceil(segment.length / 100) * DELAY_FACTOR;\n        logMessage(`[Main] Aguardando ${delayTime}ms antes do próximo segmento de áudio.`);\n        await delay(delayTime);\n      }\n      \n      return { message: \"Mensagem de áudio enviada com sucesso.\", logs: detailedLogs };\n    } else if (outputFormat === \"smart\") {\n      if (!elevenlabsKey) {\n        throw new Error(\"ElevenLabs API key não definida para modo smart\");\n      }\n      \n      const segments = smartSegment(originalText);\n      logMessage(`[Main] Texto segmentado em ${segments.length} parte(s) (smart mode).`);\n      \n      for (const seg of segments) {\n        if (seg.type === \"audio\") {\n          logMessage(`[Main] Processando segmento de áudio smart: \"${seg.content.substring(0,50)}...\"`);\n          const audioBuffer = await convertTextToSpeech(seg.content);\n          await sendAudioMessage(audioBuffer);\n          logMessage(`[Main] Segmento de áudio enviado: \"${seg.content.substring(0,50)}...\"`);\n        } else {\n          logMessage(`[Main] Processando segmento de texto smart: \"${seg.content.substring(0,50)}...\"`);\n          await sendTextMessage(seg.content);\n          logMessage(`[Main] Segmento de texto enviado: \"${seg.content.substring(0,50)}...\"`);\n        }\n        \n        const delayTime = Math.ceil(seg.content.length / 100) * DELAY_FACTOR;\n        logMessage(`[Main] Aguardando ${delayTime}ms antes do próximo segmento.`);\n        await delay(delayTime);\n      }\n      \n      return { message: \"Mensagem smart enviada com sucesso.\", logs: detailedLogs };\n    } else {\n      // Modo padrão: text\n      const segments = segmentForText(originalText);\n      logMessage(`[Main] Texto segmentado em ${segments.length} segmento(s) para texto.`);\n      \n      for (const segment of segments) {\n        logMessage(`[Main] Processando segmento de texto: \"${segment.substring(0,50)}...\"`);\n        await sendTextMessage(segment);\n        logMessage(`[Main] Segmento de texto enviado: \"${segment.substring(0,50)}...\"`);\n        \n        const delayTime = Math.ceil(segment.length / 100) * DELAY_FACTOR;\n        logMessage(`[Main] Aguardando ${delayTime}ms antes do próximo segmento de texto.`);\n        await delay(delayTime);\n      }\n      \n      return { message: \"Mensagens de texto enviadas com sucesso.\", logs: detailedLogs };\n    }\n  } catch (error) {\n    logError(`[Main] Erro: ${error.toString()}`);\n    return { error: error.toString(), logs: detailedLogs };\n  }\n}\n\nreturn main().then(result => [{ json: result }]);"
+        "name": "set_timer",
+        "description": "Invoque essa tool para configurar um timer que iniciará uma ação após o tempo especificado. Apenas usuários admin podem usar essa tool. O tempo deve ser informado com valor e unidade (s, m, h). Apenas quando o user solicitar.",
+        "jsCode": "const axios = require('axios');\nconst dayjs = require('dayjs');\nconst duration = require('dayjs/plugin/duration');\ndayjs.extend(duration);\n\n/**\n * Esta tool configura um timer via webhook.\n * Ela envia, para o endpoint, todo o objeto mapping (obtido em Core Input)\n * e o tempo em segundos calculado a partir dos parâmetros \"timer_value\" e \"timer_unit\".\n * Apenas usuários admin podem utilizar esta tool.\n */\n\n// Converte o mapping recebido em JSON\nconst mapping = JSON.parse($('Core Input').item.json.body.mapping);\n\n// Verifica se o usuário é admin\nif (mapping.system.user_type !== 'admin') {\n  return JSON.stringify({ success: false, error: \"Acesso negado: usuário não autorizado.\" });\n}\n\n// Obtém os parâmetros do timer a partir do input (query)\nconst timerValue = query.timer_value;  // Número (ex: 30)\nconst timerUnit = query.timer_unit;      // \"s\", \"m\" ou \"h\"\n\n// Calcula o tempo em segundos usando dayjs.duration\nconst timerSeconds = dayjs.duration(timerValue, timerUnit).asSeconds();\n\n// Prepara o payload para o webhook\nconst payload = {\n  mapping: mapping,\n  timer_seconds: timerSeconds\n};\n\n// URL do webhook substituindo 'n8n_webhook' pelo valor da variável no mapping\nconst url = `http://${mapping.system.n8n_webhook_service}:5678/webhook/timer`;\n\n/**\n * Função para enviar a requisição ao webhook.\n * Tenta enviar uma única vez e retorna o resultado.\n */\nasync function sendTimerRequest() {\n  try {\n    console.log(`Enviando requisição para configurar o timer para ${timerSeconds} segundos...`);\n    const response = await axios.post(url, payload, {\n      headers: { 'Content-Type': 'application/json' }\n    });\n    console.log(\"Timer configurado com sucesso.\");\n    return { success: true, message: `Timer configurado com sucesso. Ele será acionado em ${timerSeconds} segundos.` };\n  } catch (error) {\n    console.error(\"Erro ao configurar o timer:\", error.response ? error.response.data : error.message);\n    return { success: false, error: error.response ? error.response.data : error.message };\n  }\n}\n\nreturn sendTimerRequest().then(result => JSON.stringify(result));",
+        "specifyInputSchema": true,
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"timer_value\": {\n      \"type\": \"number\",\n      \"description\": \"Valor do timer. Exemplo: 30\"\n    },\n    \"timer_unit\": {\n      \"type\": \"string\",\n      \"description\": \"Unidade de tempo para o timer: 's' para segundos, 'm' para minutos, 'h' para horas.\",\n      \"enum\": [\"s\", \"m\", \"h\"]\n    }\n  },\n  \"required\": [\"timer_value\", \"timer_unit\"]\n}"
       },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
       "position": [
-        500,
-        1300
+        1840,
+        2160
       ],
-      "id": "3aa4b08c-0994-4cb9-9118-8b32ff38d404",
-      "name": "Chatwoot Output"
-    },
-    {
-      "parameters": {
-        "operation": "executeQuery",
-        "query": "WITH last_conversation AS (\n  -- Encontra a última conversa do usuário\n  SELECT id\n  FROM conversations\n  WHERE user_id = {{ $('Mapping').first().json.chatwoot.contact_id }}\n  ORDER BY date_created DESC\n  LIMIT 1\n),\nlast_two_chat_histories AS (\n  -- Obtém os dois últimos históricos da conversa e define uma ordem para identificar o penúltimo\n  SELECT \n    id,\n    ROW_NUMBER() OVER (ORDER BY id DESC) AS rn\n  FROM core_chat_histories\n  WHERE session_id = (SELECT id FROM last_conversation)\n  ORDER BY id DESC\n  LIMIT 2\n),\nupdate_chat_histories AS (\n  UPDATE core_chat_histories c\n  SET \n    date_created = NOW(),\n    message = (\n      CASE \n        WHEN l.rn = 2 \n          THEN jsonb_set(c.message::jsonb, '{user_name}', to_jsonb('{{ $('Mapping').first().json.chatwoot.user_name }}'::text), true)\n        ELSE c.message::jsonb\n      END\n    )::json\n  FROM last_two_chat_histories l\n  WHERE c.id = l.id\n  RETURNING 1\n)\nUPDATE users u\nSET date_updated = NOW()\nWHERE u.id = {{ $('Mapping').first().json.chatwoot.contact_id }};",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.postgres",
-      "typeVersion": 2.5,
-      "position": [
-        700,
-        1300
-      ],
-      "id": "26d99333-8bcc-482d-b8c4-4e641412db17",
-      "name": "Add Register",
-      "credentials": {
-        "postgres": {
-          "id": "ppYhvJxK7mITa7Mb",
-          "name": "Postgres BrendhaMattos"
-        }
-      }
+      "id": "3680376d-7af6-4818-b051-0aedb4da4bfa",
+      "name": "Set Timer"
     },
     {
       "parameters": {
@@ -850,7 +984,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "WITH new_vector AS (\n  INSERT INTO vectors \n    (id, date_created, question, answer, context, similar_questions, knowledge_id)\n  VALUES \n    (\n      uuid_generate_v4(), \n      NOW(), \n      $$ {{ $('Parse JSON 2').item.json.results[$itemIndex].q }} $$, \n      $$ {{ $('Parse JSON 2').item.json.results[$itemIndex].a }} $$, \n      $$ {{ $('Parse JSON 2').item.json.results[$itemIndex].t }} $$, \n      $$ {{ $('Parse JSON 2').item.json.results[$itemIndex].sq.join(',') }} $$, \n      {{ $('Vector Trigger').item.json.body.knowledge_trigger_id }}\n    )\n  RETURNING id AS vector_id\n),\nnew_dimension AS (\n  INSERT INTO dimensions (values, date_created, vector_id)\n  SELECT $$ {{ $('Embeddings').item.json.data[0].embedding.join(',') }} $$, NOW(), vector_id\n  FROM new_vector\n  RETURNING vector_id\n)\nINSERT INTO vectors_status (vector_id, value)\nSELECT vector_id, '#2ECDA7'\nFROM new_vector\nRETURNING vector_id;",
+        "query": "WITH new_vector AS (\n  INSERT INTO vectors \n    (id, date_created, question, answer, context, similar_questions, knowledge_id)\n  VALUES \n    (\n      uuid_generate_v4(), \n      NOW(), \n      $ {{ $('Parse JSON 2').item.json.results[$itemIndex].q }} $, \n      $ {{ $('Parse JSON 2').item.json.results[$itemIndex].a }} $, \n      $ {{ $('Parse JSON 2').item.json.results[$itemIndex].t }} $, \n      $ {{ $('Parse JSON 2').item.json.results[$itemIndex].sq.join(',') }} $, \n      {{ $('Vector Trigger').item.json.body.knowledge_trigger_id }}\n    )\n  RETURNING id AS vector_id\n),\nnew_dimension AS (\n  INSERT INTO dimensions (values, date_created, vector_id)\n  SELECT $ {{ $('Embeddings').item.json.data[0].embedding.join(',') }} $, NOW(), vector_id\n  FROM new_vector\n  RETURNING vector_id\n)\nINSERT INTO vectors_status (vector_id, value)\nSELECT vector_id, '#2ECDA7'\nFROM new_vector\nRETURNING vector_id;",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
@@ -919,7 +1053,7 @@
       "type": "@n8n/n8n-nodes-langchain.toolCode",
       "typeVersion": 1.1,
       "position": [
-        -600,
+        -760,
         2460
       ]
     },
@@ -958,37 +1092,17 @@
     {
       "parameters": {
         "content": "",
-        "width": 300,
+        "width": 210,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -780,
+        -820,
         2420
       ],
       "typeVersion": 1,
       "id": "bb80c8c5-a160-46fa-a53f-c0fbe1e83fe7",
       "name": "Sticky Note3"
-    },
-    {
-      "parameters": {
-        "model": "={{ $('RAG Input').item.json.body.mapping.parseJson().system.model }}",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
-      "typeVersion": 1,
-      "position": [
-        -720,
-        2460
-      ],
-      "id": "d2ffb844-73bd-434b-82f3-a24f1961c2b0",
-      "name": "OpenRouter ",
-      "credentials": {
-        "openRouterApi": {
-          "id": "L4mPQPRccrWHieLF",
-          "name": "OndaIA_Brendha"
-        }
-      }
     },
     {
       "parameters": {
@@ -1025,14 +1139,14 @@
     {
       "parameters": {
         "mode": "raw",
-        "jsonOutput": "={\n  \"chatwoot\": {\n    \"account_id\": {{ $('Consumer').first().json.body.account.id }},\n    \"contact_id\": {{ $('Consumer').first().json.body.conversation.contact_inbox.contact_id }},\n\n    \"conversation_id\": {{ $('Consumer').first().json.body.conversation.messages[0].conversation_id }},\n    \"sender_type\": {{ JSON.stringify($('Consumer').first().json.body.conversation.messages[0].sender_type) }},\n    \"bot_token\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.bot_token) }},\n    \"conversation_status\": {{ JSON.stringify($json.current_status) }},\n    \"assignee\": {{ JSON.stringify($('Consumer').first().json.body.conversation?.meta?.assignee?.name || null ) }},\n    \n    \"content\": {{ JSON.stringify(\n      ($('Consumer').first().json.body?.content || '')\n        .replace(\n          /^\\*\\*(.*?)\\*\\*\\n\\n/,\n          $('Consumer').first().json.body.sender.identifier?.match(/@g\\.us$/) ? '' : '$&'\n        )\n        .replace(\n          new RegExp('@' + ($('Get Vars').first().json.ai_agents.phone_number || '').replace(/\\D/g, ''), 'g'),\n          '@YOU'\n        )\n        .trim()\n    ) }},\n    \n    \"data_url\": {{ JSON.stringify(\n        $('Consumer').first().json.body.conversation.messages?.[0]?.attachments?.[0]?.data_url || null\n      )\n    }},\n    \n    \"message_id\": {{ $('Consumer').first().json.body.id }},\n    \n    \"channel\": {{\n      JSON.stringify(\n        $('Consumer').first().json.body.conversation.channel === 'Channel::Api' \n        ? (\n            /@s\\.whatsapp\\.net$/.test($('Consumer').first().json.body.sender.identifier) \n            ? 'WhatsApp Web' \n            : /@g\\.us$/.test($('Consumer').first().json.body.sender.identifier) \n            ? 'WhatsApp Web Group' \n            : $('Consumer').first().json.body.conversation.channel.replace('Channel::', '')\n          ) \n        : $('Consumer').first().json.body.conversation.channel.replace('Channel::', '')\n      )\n    }},\n    \n    \"user_name\": {{ JSON.stringify(\n      $('Consumer').first().json.body.sender.identifier?.match(/@g\\.us$/)\n        ? (\n            $('Consumer').first().json.body?.content?.match(/^\\*\\*(.*?)\\*\\*/)?.[1] || ''\n          )\n        : $('Consumer').first().json.body.sender?.name || ''\n    ) }},\n\n    \"phone_number\": {{ JSON.stringify($('Consumer').first().json.body.sender.phone_number) || null }},\n\n    \"events\": {{ JSON.stringify($('Get Vars').first().json.events) }}\n  },\n  \n  \"system\": {\n    \"cooldown\": {{ $('Get Vars').first().json.ai_agents.cooldown }},\n    \"workflow_path\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.workflow_path) }},\n    \"model\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.model) }},\n    \"openai_key\": {{ JSON.stringify($('Get Vars').first().json.global_vars.openai_key) }},\n    \"directus_token\": {{ JSON.stringify($('Get Vars').first().json.global_vars.directus_token) }},\n    \"stirling_pdf_key\": {{ JSON.stringify($('Get Vars').first().json.global_vars.stirling_pdf_key) }},\n    \"elevenlabs_key\": \"{{ $('Get Vars').first().json.global_vars.elevenlabs_key }}\",\n    \"conversations_id\": {{ JSON.stringify($('Get Vars').first().json.conversations.id) }},\n    \"context_window\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.context_window) }},\n    \"enabled_condition\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.enabled_condition) }},\n    \"allow_whatsapp_groups\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.allow_whatsapp_groups) }},\n    \"allow_human_interruption\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.allow_human_interruption) }},\n    \"agent_phone_number\": {{ JSON.stringify(($('Get Vars').first().json.ai_agents.phone_number || '').replace(/\\D/g, '')) }},\n    \"agent_mentioned\": {{ JSON.stringify(($('Consumer').first().json.body?.content || '' ).includes('@' + ($('Get Vars').first().json.ai_agents.phone_number || '').replace(/\\D/g, ''))) }},\n    \"agent_name\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.name) }},\n    \"system_message\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.system_message) }},\n    \"user_type\": {{ JSON.stringify($('Get Vars').first().json.users.type) }},\n    \"output_format\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.output_format) }},\n    \"elevenlabs_model\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.elevenlabs_model) }},\n    \"elevenlabs_voice\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.elevenlabs_voice) }},\n    \"chatwoot_service\": {{ JSON.stringify($('Get Vars').first().json.global_vars.chatwoot_service) }},\n    \"n8n_webhook_service\": {{ JSON.stringify($('Get Vars').first().json.global_vars.n8n_webhook_service) }},\n    \"stirling_pdf_service\": {{ JSON.stringify($('Get Vars').first().json.global_vars.stirling_pdf_service) }},\n    \"directus_service\": {{ JSON.stringify($('Get Vars').first().json.global_vars.directus_service) }},\n    \"enabled_rag\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.enabled_rag) }},\n    \"ai_agent_id\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.id) }},\n    \"pinecone_key\": {{ JSON.stringify($('Get Vars').first().json.global_vars.pinecone_key) }},\n    \"downtime\": {{ new Date(\"1970-01-01T\" + $('Get Vars').first().json.ai_agents.downtime + \"Z\").getTime() / 1000 }},\n    \"clientId\": {{ JSON.stringify($('Get Vars').first().json.global_vars.clientId) }},\n    \"clientSecret\": {{ JSON.stringify($('Get Vars').first().json.global_vars.clientSecret) }},\n    \"refreshToken\": {{ JSON.stringify($('Get Vars').first().json.global_vars.refreshToken) }},\n    \"accessToken\": {{ JSON.stringify($('Get Vars').first().json.global_vars.accessToken) }},\n    \"core_chat_histories\": {{ JSON.stringify($('Get Vars').item.json.core_chat_histories, null, 2) }}\n  }\n}",
+        "jsonOutput": "={\n  \"chatwoot\": {\n    \"account_id\": {{ $('Consumer').first().json.body.account.id }},\n    \"contact_id\": {{ $('Consumer').first().json.body.conversation.contact_inbox.contact_id }},\n    \"conversation_id\": {{ $('Consumer').first().json.body.conversation.messages[0].conversation_id }},\n    \"sender_type\": {{ JSON.stringify($('Consumer').first().json.body.conversation.messages[0].sender_type) }},\n    \"bot_token\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.bot_token) }},\n    \"conversation_status\": {{ JSON.stringify($json.current_status) }},\n    \"assignee\": {{ JSON.stringify($('Consumer').first().json.body.conversation?.meta?.assignee?.name || null ) }},   \n    \"content\": {{ ($('Consumer').first().json.body?.content || \"\").toJsonString() }},    \n    \"data_url\": {{ JSON.stringify(\n        $('Consumer').first().json.body.conversation.messages?.[0]?.attachments?.[0]?.data_url || null\n      )\n    }},  \n    \"message_id\": {{ $('Consumer').first().json.body.id }},  \n    \"channel\": {{\n      JSON.stringify(\n        $('Consumer').first().json.body.conversation.channel === 'Channel::Api' \n        ? (\n            /@s\\.whatsapp\\.net$/.test($('Consumer').first().json.body.sender.identifier) \n            ? 'WhatsApp Web' \n            : /@g\\.us$/.test($('Consumer').first().json.body.sender.identifier) \n            ? 'WhatsApp Web Group' \n            : $('Consumer').first().json.body.conversation.channel.replace('Channel::', '')\n          ) \n        : $('Consumer').first().json.body.conversation.channel.replace('Channel::', '')\n      )\n    }},  \n    \"user_name\": {{ JSON.stringify(\n      $('Consumer').first().json.body.sender.identifier?.match(/@g\\.us$/)\n        ? (\n            $('Consumer').first().json.body?.content?.match(/^\\*\\*(.*?)\\*\\*/)?.[1] || ''\n          )\n        : $('Consumer').first().json.body.sender?.name || ''\n    ) }},\n    \"phone_number\": {{ JSON.stringify($('Consumer').first().json.body.sender.phone_number) || null }},\n    \"events\": {{ JSON.stringify($('Get Vars').first().json.events) }}\n  },\n  \n  \"system\": {\n    \"cooldown\": {{ $('Get Vars').first().json.ai_agents.cooldown }},\n    \"workflow_path\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.workflow_path) }},\n    \"model\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.model) }},\n    \"openai_key\": {{ JSON.stringify($('Get Vars').first().json.global_vars.openai_key) }},\n    \"directus_token\": {{ JSON.stringify($('Get Vars').first().json.global_vars.directus_token) }},\n    \"stirling_pdf_key\": {{ JSON.stringify($('Get Vars').first().json.global_vars.stirling_pdf_key) }},\n    \"elevenlabs_key\": \"{{ $('Get Vars').first().json.global_vars.elevenlabs_key }}\",\n    \"conversations_id\": {{ JSON.stringify($('Get Vars').first().json.conversations.id) }},\n    \"context_window\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.context_window) }},\n    \"enabled_condition\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.enabled_condition) }},\n    \"allow_whatsapp_groups\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.allow_whatsapp_groups) }},\n    \"allow_human_interruption\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.allow_human_interruption) }},\n    \"agent_phone_number\": {{ JSON.stringify(($('Get Vars').first().json.ai_agents.phone_number || '').replace(/\\D/g, '')) }},\n    \"agent_mentioned\": {{ JSON.stringify(($('Consumer').first().json.body?.content || '' ).includes('@' + ($('Get Vars').first().json.ai_agents.phone_number || '').replace(/\\D/g, ''))) }},\n    \"agent_name\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.name) }},\n    \"system_message\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.system_message) }},\n    \"user_type\": {{ JSON.stringify($('Get Vars').first().json.users.type) }},\n    \"output_format\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.output_format) }},\n    \"elevenlabs_model\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.elevenlabs_model) }},\n    \"elevenlabs_voice\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.elevenlabs_voice) }},\n    \"chatwoot_service\": {{ JSON.stringify($('Get Vars').first().json.global_vars.chatwoot_service) }},\n    \"n8n_webhook_service\": {{ JSON.stringify($('Get Vars').first().json.global_vars.n8n_webhook_service) }},\n    \"stirling_pdf_service\": {{ JSON.stringify($('Get Vars').first().json.global_vars.stirling_pdf_service) }},\n    \"directus_service\": {{ JSON.stringify($('Get Vars').first().json.global_vars.directus_service) }},\n    \"enabled_rag\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.enabled_rag) }},\n    \"ai_agent_id\": {{ JSON.stringify($('Get Vars').first().json.ai_agents.id) }},\n    \"pinecone_key\": {{ JSON.stringify($('Get Vars').first().json.global_vars.pinecone_key) }},\n    \"downtime\": {{ new Date(\"1970-01-01T\" + $('Get Vars').first().json.ai_agents.downtime + \"Z\").getTime() / 1000 }},\n    \"clientId\": {{ JSON.stringify($('Get Vars').first().json.global_vars.clientId) }},\n    \"clientSecret\": {{ JSON.stringify($('Get Vars').first().json.global_vars.clientSecret) }},\n    \"refreshToken\": {{ JSON.stringify($('Get Vars').first().json.global_vars.refreshToken) }},\n    \"accessToken\": {{ JSON.stringify($('Get Vars').first().json.global_vars.accessToken) }},\n    \"core_chat_histories\": {{ JSON.stringify($('Get Vars').item.json.core_chat_histories, null, 2) }}\n  }\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -700,
-        580
+        -500,
+        560
       ],
       "id": "cc1cc3ea-47e2-439b-9960-b775136dd90b",
       "name": "Mapping"
@@ -1055,8 +1169,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -900,
-        580
+        -700,
+        560
       ],
       "id": "9990a106-8f3e-402f-8a23-6af38a90cf44",
       "name": "Downtime",
@@ -1195,9 +1309,558 @@
           "name": "Postgres BrendhaMattos"
         }
       }
+    },
+    {
+      "parameters": {
+        "name": "clickup",
+        "description": "Ferramenta para gerenciar tarefas no ClickUp. Permite criar, listar, atualizar ou remover tarefas. Para criar, forneça pelo menos o título. Para atualizar ou remover, você precisa fornecer o ID da tarefa. Para listar, você pode aplicar filtros opcionais.",
+        "jsCode": "const workspaceId = '9011917991';\nconst listId = '901109860036';\nconst apiKey = 'pk_44163283_ZIFREHZQNJWKZ5YSD0XVV45B272AOARG';\nconst https = require('https');\n\nconst logs = [];\n\nfunction log(message) {\n  logs.push({ time: new Date().toISOString(), message });\n}\n\nfunction request(path, method, body = null) {\n  log(`Requisição: ${method} ${path}`);\n  \n  return new Promise((resolve, reject) => {\n    const options = {\n      hostname: 'api.clickup.com',\n      path,\n      method,\n      headers: {\n        'Content-Type': 'application/json',\n        'Authorization': apiKey\n      }\n    };\n    \n    const req = https.request(options, (res) => {\n      let data = '';\n      res.on('data', chunk => data += chunk);\n      res.on('end', () => {\n        try {\n          log(`Resposta: status ${res.statusCode}`);\n          \n          // Tratamento de respostas vazias (comum em DELETEs)\n          if (!data || data.trim() === '') {\n            return res.statusCode < 300 \n              ? resolve({ success: true }) \n              : reject({ \n                  success: false, \n                  message: `Erro: ${res.statusMessage}`, \n                  statusCode: res.statusCode \n                });\n          }\n          \n          const responseData = JSON.parse(data);\n          \n          if (res.statusCode < 300) {\n            resolve(responseData);\n          } else {\n            reject({\n              success: false,\n              message: `Erro: ${responseData.err || res.statusMessage}`,\n              statusCode: res.statusCode\n            });\n          }\n        } catch (error) {\n          log(`Erro ao processar resposta: ${error.message}`);\n          reject({\n            success: false,\n            message: `Erro ao processar resposta: ${error.message}`,\n            data\n          });\n        }\n      });\n    });\n\n    req.on('error', (error) => {\n      log(`Erro na requisição: ${error.message}`);\n      reject({ success: false, message: `Erro na requisição: ${error.message}` });\n    });\n\n    if (body) {\n      const data = typeof body === 'string' ? body : JSON.stringify(body);\n      log(`Enviando dados: ${data.substring(0, 100)}${data.length > 100 ? '...' : ''}`);\n      req.write(data);\n    }\n    \n    req.end();\n  });\n}\n\nconst operations = {\n  async list(query) {\n    log('Operação: listar tarefas');\n    \n    try {\n      // Construir parâmetros de consulta\n      const params = [];\n      \n      if (query.status) params.push(`statuses[]=${encodeURIComponent(query.status)}`);\n      if (query.assignee) params.push(`assignees[]=${encodeURIComponent(query.assignee)}`);\n      if (query.due_date_gt) params.push(`due_date_gt=${encodeURIComponent(query.due_date_gt)}`);\n      if (query.due_date_lt) params.push(`due_date_lt=${encodeURIComponent(query.due_date_lt)}`);\n      \n      // Paginação\n      params.push(`page=${query.page || 0}`);\n      const limit = Math.min(query.limit || 20, 100);\n      params.push(`limit=${limit}`);\n      \n      log(`Parâmetros: ${params.join('&')}`);\n      \n      // Fazer requisição\n      const data = await request(\n        `/api/v2/list/${listId}/task?${params.join('&')}`, \n        'GET'\n      );\n      \n      log(`Tarefas encontradas: ${data.tasks.length}`);\n      \n      return {\n        success: true,\n        tasks: data.tasks,\n        total_count: data.tasks.length,\n        has_more: data.tasks.length === limit\n      };\n    } catch (error) {\n      log(`Erro: ${error.message || JSON.stringify(error)}`);\n      return error;\n    }\n  },\n\n  async create(query) {\n    log('Operação: criar tarefa');\n    \n    if (!query.title) {\n      log('Erro: Título da tarefa não fornecido');\n      return { success: false, message: \"Título da tarefa é obrigatório para criação\" };\n    }\n    \n    const body = {\n      name: query.title,\n      description: query.description || '',\n      due_date: query.due_date || null,\n      priority: query.priority || 3,\n      assignees: query.assignees || []\n    };\n    \n    try {\n      log(`Criando tarefa: \"${query.title}\"`);\n      const data = await request(`/api/v2/list/${listId}/task`, 'POST', body);\n      log(`Tarefa criada com sucesso, ID: ${data.id}`);\n      \n      return {\n        success: true,\n        message: \"Tarefa criada com sucesso\",\n        taskId: data.id,\n        taskUrl: data.url\n      };\n    } catch (error) {\n      log(`Erro: ${error.message || JSON.stringify(error)}`);\n      return error;\n    }\n  },\n  \n  async delete(query) {\n    log('Operação: remover tarefa');\n    \n    if (!query.task_id) {\n      log('Erro: ID da tarefa não fornecido');\n      return { success: false, message: \"ID da tarefa é obrigatório para remoção\" };\n    }\n    \n    try {\n      log(`Removendo tarefa: ${query.task_id}`);\n      await request(`/api/v2/task/${query.task_id}`, 'DELETE');\n      log('Tarefa removida com sucesso');\n      \n      return {\n        success: true,\n        message: \"Tarefa removida com sucesso\",\n        taskId: query.task_id\n      };\n    } catch (error) {\n      log(`Erro: ${error.message || JSON.stringify(error)}`);\n      return error;\n    }\n  },\n  \n  async update(query) {\n    log('Operação: atualizar tarefa');\n    \n    if (!query.task_id) {\n      log('Erro: ID da tarefa não fornecido');\n      return { success: false, message: \"ID da tarefa é obrigatório para atualização\" };\n    }\n    \n    // Mapear campos\n    const fields = {\n      title: 'name',\n      description: 'description',\n      due_date: 'due_date',\n      priority: 'priority',\n      status: 'status',\n      assignees: 'assignees'\n    };\n    \n    const body = {};\n    \n    // Filtrar campos fornecidos\n    Object.entries(fields).forEach(([src, dest]) => {\n      if (query[src] !== undefined) body[dest] = query[src];\n    });\n    \n    if (Object.keys(body).length === 0) {\n      log('Erro: Nenhum campo fornecido para atualização');\n      return { success: false, message: \"Nenhum campo fornecido para atualização\" };\n    }\n    \n    try {\n      log(`Atualizando tarefa: ${query.task_id}`);\n      await request(`/api/v2/task/${query.task_id}`, 'PUT', body);\n      log('Tarefa atualizada com sucesso');\n      \n      return {\n        success: true,\n        message: \"Tarefa atualizada com sucesso\",\n        taskId: query.task_id\n      };\n    } catch (error) {\n      log(`Erro: ${error.message || JSON.stringify(error)}`);\n      return error;\n    }\n  }\n};\n\ntry {\n  log(`Iniciando processamento: ${JSON.stringify(query)}`);\n  \n  const operation = query.operation || 'create';\n  \n  const result = await operations[operation](query);\n  \n  return JSON.stringify({\n    success: true,\n    ...result,\n    logs: logs\n  });\n} catch (error) {\n  log(`Erro não tratado: ${error.message || JSON.stringify(error)}`);\n  return JSON.stringify({ \n    success: false, \n    message: `Erro não tratado: ${error.message || 'Erro desconhecido'}`,\n    logs \n  });\n}",
+        "specifyInputSchema": true,
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"operation\": {\n      \"type\": \"string\",\n      \"description\": \"Operação a ser realizada: criar, listar, atualizar ou remover tarefas\",\n      \"enum\": [\"create\", \"list\", \"update\", \"delete\"],\n      \"default\": \"create\"\n    },\n    \"task_id\": {\n      \"type\": \"string\",\n      \"description\": \"ID da tarefa (obrigatório para atualizar ou remover)\"\n    },\n    \"title\": {\n      \"type\": \"string\",\n      \"description\": \"Título da tarefa (obrigatório para criar, opcional para atualizar)\"\n    },\n    \"description\": {\n      \"type\": \"string\",\n      \"description\": \"Descrição detalhada da tarefa (opcional)\"\n    },\n    \"due_date\": {\n      \"type\": \"string\",\n      \"description\": \"Data de vencimento no formato timestamp ou ISO 8601 (opcional)\"\n    },\n    \"priority\": {\n      \"type\": \"integer\",\n      \"description\": \"Prioridade da tarefa (1: Urgente, 2: Alta, 3: Normal, 4: Baixa) (opcional)\",\n      \"enum\": [1, 2, 3, 4]\n    },\n    \"status\": {\n      \"type\": \"string\",\n      \"description\": \"Status da tarefa (para atualizar ou filtrar na listagem)\"\n    },\n    \"assignees\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"integer\"\n      },\n      \"description\": \"Lista de IDs dos usuários atribuídos à tarefa (opcional)\"\n    },\n    \"assignee\": {\n      \"type\": \"integer\",\n      \"description\": \"Filtrar por ID do usuário atribuído (para listar)\"\n    },\n    \"due_date_gt\": {\n      \"type\": \"string\",\n      \"description\": \"Filtrar tarefas com data de vencimento posterior (para listar)\"\n    },\n    \"due_date_lt\": {\n      \"type\": \"string\",\n      \"description\": \"Filtrar tarefas com data de vencimento anterior (para listar)\"\n    },\n    \"page\": {\n      \"type\": \"integer\",\n      \"description\": \"Número da página para paginação (para listar)\",\n      \"default\": 0\n    },\n    \"limit\": {\n      \"type\": \"integer\",\n      \"description\": \"Número de tarefas por página (máximo 100, para listar)\",\n      \"default\": 20\n    }\n  },\n  \"required\": [\"operation\"],\n  \"dependencies\": {\n    \"operation\": {\n      \"oneOf\": [\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"create\"]\n            }\n          },\n          \"required\": [\"title\"]\n        },\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"list\"]\n            }\n          }\n        },\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"update\"]\n            }\n          },\n          \"required\": [\"task_id\"]\n        },\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"delete\"]\n            }\n          },\n          \"required\": [\"task_id\"]\n        }\n      ]\n    }\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        2080,
+        2160
+      ],
+      "id": "6a06dfcc-eb35-41cb-b35b-313783de7027",
+      "name": "Clickup",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "name": "scheduling",
+        "description": "Chama agente de calendário como ferramenta para gerenciar agendamentos e compromissos do calendário através do n8n. Processa solicitações relacionadas a criação, atualização, consulta e cancelamento de eventos agendados. Sem parâmetros necessários.",
+        "jsCode": "// SchedulingAssistant tool for n8n\nconst axios = require('axios');\n\ntry {\n  // Acessar parâmetros e variáveis do mapeamento\n  const params = query;\n  const mapping = $('Mapping').first().json;\n\n  const user = mapping.chatwoot.contact_id;\n  const directus_token = mapping.system.directus_token;\n  const directus_service = mapping.system.directus_service;\n  const n8n_service = mapping.system.n8n_webhook_service;\n\n  // Corrigido: caminho correto para o webhook\n  const url = `${n8n_service}/webhook/calendar/agent`;\n\n  // Montar payload para envio\n  const payload = {\n    params,\n    directus_token,\n    directus_service,\n    user\n  };\n\n  // Chamar o webhook do outro fluxo\n  const response = await axios.post(url, payload);\n\n  // Retornar resposta como string para o n8n\n  return JSON.stringify(response.data);\n\n} catch (error) {\n  // Lançar erro para que o n8n registre corretamente\n  throw new Error(`Erro ao processar agendamento: ${error.message}`);\n}\n",
+        "specifyInputSchema": true,
+        "jsonSchemaExample": "{\n\t\"solicitacao\": \"Descreva a solicitação do usuario relativa a operacao do calendario com maximo de detalhes para o agente de calendário\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        1960,
+        2160
+      ],
+      "id": "2b803416-dc79-40fb-8a61-e3f5f4959332",
+      "name": "Google Calendar",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "toolDescription": "Chama agente de calendário como ferramenta para gerenciar agendamentos e compromissos do calendário através do n8n. Processa solicitações relacionadas a criação, atualização, consulta e cancelamento de eventos agendados. Sem parâmetros necessários.",
+        "method": "POST",
+        "url": "={{ $env.WEBHOOK_URL }}webhook/calendar/agent",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={\n  \"api-address\": \"http://{{ $('Main Agent1').first().json.body.mapping.parseJson().system.directus_service }}:8055\",\n  \"api-token\": \"{{ $('Main Agent1').first().json.body.mapping.parseJson().system.directus_token }}\",\n  \"last-workflow\": \"{{ $workflow.name }}\"\n}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"solicitacao\": \"{{ $fromAI(\n    \"solicitacao\",\n    \"Descreva a solicitação do usuario relativa a operacao do calendario com maximo de detalhes para o agente de calendário\",\n    \"string\"\n  )}}\",\n  \"contact\": \"{{ $('Main Agent1').first().json.body.mapping.parseJson().chatwoot.contact_id }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        2200,
+        2160
+      ],
+      "id": "534c19ed-9826-4afa-99a6-4fe7fc100d37",
+      "name": "Agent Calendar"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Get Vars').first().json.global_vars.chatwoot_service.startsWith('chatwoot') \n  ? \"http://\" \n      + $('Get Vars').first().json.global_vars.chatwoot_service \n      + \":3000\" \n  : $('Get Vars').first().json.global_vars.chatwoot_service\n}}/api/v1/accounts/{{ $('Get Vars').first().json.ai_agents.account_id }}/conversations/{{ $('Mapping').first().json.chatwoot.conversation_id }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "={{ $('Mapping').first().json.chatwoot.bot_token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "={{ $json.segment }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cfc6ce74-572a-4f3e-8fba-5a9846898477",
+      "name": "Envia Chatwoot Text",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1660,
+        1320
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Mapping').first().json.system.output_format }}",
+                    "rightValue": "text",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "e93af114-87ee-4381-a219-c11dc5473382"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "c67b209f-0c91-4209-823e-d31f6c280071",
+                    "leftValue": "={{ $('Mapping').first().json.system.output_format }}",
+                    "rightValue": "audio",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "audio"
+            }
+          ]
+        },
+        "options": {
+          "allMatchingOutputs": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1460,
+        1420
+      ],
+      "id": "d99d7fd1-ae84-4824-afa2-86e40be2c81e",
+      "name": "Response Format"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "b68a41dc-a942-407f-8646-b0d831b0c2bf",
+      "name": "Loop Messages",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1060,
+        1300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Get Vars').first().json.global_vars.chatwoot_service.startsWith('chatwoot') \n  ? \"http://\" \n      + $('Get Vars').first().json.global_vars.chatwoot_service \n      + \":3000\" \n  : $('Get Vars').first().json.global_vars.chatwoot_service\n}}/api/v1/accounts/{{ $('Get Vars').item.json.ai_agents.account_id }}/conversations/{{ $('Mapping').item.json.chatwoot.conversation_id }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "={{ $('Mapping').first().json.chatwoot.bot_token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "Mensagem com anexo"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "attachments[]",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "file_type",
+              "value": "audio"
+            },
+            {
+              "name": "message_type",
+              "value": "outgoing"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "172debf4-0a4d-40ba-b2ee-2e1ad9949e73",
+      "name": "Send Chatwoot Media",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2320,
+        1520
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 0
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1260,
+        1420
+      ],
+      "id": "e1c93871-9415-49ab-9c6a-04a5aa9ceb15",
+      "name": "Delay Before Message",
+      "webhookId": "b77f8239-7758-41ad-b4ad-ad2207bc2c18",
+      "notesInFlow": true,
+      "notes": "Delay antes de todas mensagens"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2520,
+        1420
+      ],
+      "id": "c3eaee09-a37a-4490-ba53-3216c3aaa956",
+      "name": "Delay After Message",
+      "webhookId": "3696b807-1a5f-4264-b8c7-31858e152dd4",
+      "notesInFlow": true,
+      "notes": "Delay depois de todas mensagens"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $('Mapping').first().json.system.elevenlabs_voice }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "output_format",
+              "value": "mp3_44100_128"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "xi-api-key",
+              "value": "={{ $('Mapping').first().json.system.elevenlabs_key }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model_id",
+              "value": "={{ $('Mapping').first().json.system.elevenlabs_model }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.segment }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1660,
+        1520
+      ],
+      "id": "7b889405-9a23-49ce-b286-6bb52565c2f6",
+      "name": "Text To Speech ElevenLabs"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2320,
+        1320
+      ],
+      "id": "c8303c27-9510-4c7f-881b-50132e8dedcb",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"messages\": {\n      \"description\": \"Array com as mensagens\",\n      \"type\": \"array\",\n      \"items\": {\n        \"description\": \"As mensagens segmentadas\",\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"required\": [\"messages\"]\n}"
+      },
+      "id": "9638005d-1e58-466c-83ce-5ff0510ef893",
+      "name": "OutputParser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        1560
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "=output.messages",
+        "options": {
+          "destinationFieldName": "segment"
+        }
+      },
+      "id": "e6154c2c-5005-48e8-afc5-199c90d9bde3",
+      "name": "Split Messages",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        860,
+        1300
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Execute Core').item.json.final.output }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=<prompt>\n  <papel>\n    Você é um assistente especializado em separar textos em pequenas mensagens claras e naturais, sem modificar o conteúdo original. Seu papel é facilitar a leitura e o entendimento das mensagens, produzindo resultados em formato JSON.\n  </papel>\n\n  <requisicao>\n    Receba um texto de entrada e divida-o em partes coerentes e fáceis de ler, retornando exatamente no formato JSON descrito abaixo:\n\n    {\n      \"messages\": [\n        \"mensagemSeparada\",\n        \"mensagemSeparada\",\n        \"mensagemSeparada\"\n      ]\n    }\n  </requisicao>\n\n  <explicacao>\n    Sua tarefa é dividir as mensagens respeitando a fluidez e coerência natural do texto. Considere pontos finais (.), vírgulas (,), e especialmente quebras de linha (\\n) como indicações claras para separar o conteúdo em novas mensagens. Mensagens contendo listas (numeradas ou não) jamais devem ser divididas; mantenha-as intactas em uma única mensagem.\n    Cada parte separada deve ser compreensível isoladamente, como se você estivesse ajudando uma pessoa a entender rapidamente o conteúdo.\n  </explicacao>\n\n  <parametros>\n    - Divida o texto em no mínimo 1 e no máximo 5 mensagens.\n    - Nunca divida listas em mais de uma mensagem; listas sempre completas.\n    - Preserve exatamente o conteúdo original.\n    - Evite dividir frases pela metade ou causar quebra de sentido.\n    - Cada mensagem deve ser clara, concisa e de fácil leitura.\n    - Sempre preserve as quebras de linha originais do texto.\n    - Nunca mude ou adicione conteúdo além do original.\n  </parametros>\n</prompt>"
+            }
+          ]
+        }
+      },
+      "id": "775a24fe-1699-49ea-98b8-d07ddb3e828f",
+      "name": "Message Segment Agent",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        500,
+        1300
+      ],
+      "retryOnFail": true,
+      "maxTries": 5
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1880,
+        1520
+      ],
+      "id": "61099941-a0c8-4ca5-b46a-40d776fb6e35",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        2100,
+        1520
+      ],
+      "id": "2ea2dc56-ec80-42b5-bb7e-e1eb61f6861c",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "WITH last_conversation AS (\n  -- Última conversa do usuário\n  SELECT id\n  FROM conversations\n  WHERE user_id = {{ $('Mapping').first().json.chatwoot.contact_id }}\n  ORDER BY date_created DESC\n  LIMIT 1\n),\nlast_two_chat_histories AS (\n  -- Dois últimos históricos da conversa\n  SELECT \n    id,\n    ROW_NUMBER() OVER (ORDER BY id DESC) AS rn\n  FROM core_chat_histories\n  WHERE session_id = (SELECT id FROM last_conversation)\n  ORDER BY id DESC\n  LIMIT 2\n),\nupdate_chat_histories AS (\n  UPDATE core_chat_histories c\n  SET \n    date_created = NOW(),\n    message = (\n      CASE \n        WHEN l.rn = 2 \n          THEN jsonb_set(\n            c.message::jsonb, \n            '{user_name}', \n            to_jsonb('{{ $('Mapping').first().json.chatwoot.user_name }}'::text), \n            true\n          )\n        ELSE c.message::jsonb\n      END\n    )::json\n  FROM last_two_chat_histories l\n  WHERE c.id = l.id\n  RETURNING 1\n),\nupdate_conversations AS (\n  UPDATE conversations conv\n  SET date_updated = NOW()\n  WHERE conv.id = (SELECT id FROM last_conversation)\n  RETURNING 1\n)\nUPDATE users u\nSET date_updated = NOW()\nWHERE u.id = {{ $('Mapping').first().json.chatwoot.contact_id }};\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        1260,
+        1200
+      ],
+      "id": "1a2755d2-4264-49d9-b59b-4efd495761f7",
+      "name": "Add Conversation Info",
+      "credentials": {
+        "postgres": {
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataToSave": {
+          "values": [
+            {
+              "key": "workflow",
+              "value": "[Anna] Consumer"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executionData",
+      "typeVersion": 1,
+      "position": [
+        -1100,
+        560
+      ],
+      "id": "00e99c95-22bd-41f4-bd95-c7c9d3a91101",
+      "name": "Execution Data"
+    },
+    {
+      "parameters": {
+        "dataToSave": {
+          "values": [
+            {
+              "key": "workflow",
+              "value": "[Anna] Main Agent"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executionData",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        1900
+      ],
+      "id": "b178feb7-cb6b-4385-9a5b-48dcb0428d7a",
+      "name": "Execution Data1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "main",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1380,
+        1900
+      ],
+      "id": "a84bdb0a-c2f0-4ad2-919a-cd2a8f39c74b",
+      "name": "Main Agent1",
+      "webhookId": "d503e6f9-0989-42d5-a598-e268b20c3182"
+    },
+    {
+      "parameters": {
+        "content": "# Modelos\nUsar o openRouter para testes de modelos e trocar o modelo em produção.",
+        "height": 300,
+        "width": 540,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        720,
+        2540
+      ],
+      "typeVersion": 1,
+      "id": "6d028b50-e3de-455a-916a-c2fb2b37f875",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4.1-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        940,
+        2700
+      ],
+      "id": "1cb53a78-cd5c-49f5-9241-d761966c82ba",
+      "name": "Openai",
+      "credentials": {
+        "openAiApi": {
+          "id": "AhNlapeTC4e4mLvK",
+          "name": "brendha_mattos"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gemma2-9b-it",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        2700
+      ],
+      "id": "34ca70be-bbfb-4636-a873-f951a976c0de",
+      "name": "Groq",
+      "credentials": {
+        "groqApi": {
+          "id": "KQvxBFUV0z48qAZh",
+          "name": "Groq Sy"
+        }
+      }
     }
   ],
   "connections": {
+    "Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Main Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Main Agent": {
+      "main": [
+        [
+          {
+            "node": "No Operation 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Add to List": {
       "main": [
         [
@@ -1300,7 +1963,7 @@
       "main": [
         [
           {
-            "node": "Chatwoot Output",
+            "node": "Message Segment Agent",
             "type": "main",
             "index": 0
           }
@@ -1340,11 +2003,16 @@
         ]
       ]
     },
+    "No Operation 2": {
+      "main": [
+        []
+      ]
+    },
     "Consumer": {
       "main": [
         [
           {
-            "node": "Get Vars",
+            "node": "Execution Data",
             "type": "main",
             "index": 0
           }
@@ -1367,6 +2035,11 @@
             "index": 0
           }
         ]
+      ]
+    },
+    "OpenRouter": {
+      "ai_languageModel": [
+        []
       ]
     },
     "Get Vars": {
@@ -1419,6 +2092,17 @@
           {
             "node": "Parse JSON",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restart History": {
+      "ai_tool": [
+        [
+          {
+            "node": "Main Agent",
+            "type": "ai_tool",
             "index": 0
           }
         ]
@@ -1508,20 +2192,15 @@
         ]
       ]
     },
-    "Chatwoot Output": {
-      "main": [
+    "Set Timer": {
+      "ai_tool": [
         [
           {
-            "node": "Add Register",
-            "type": "main",
+            "node": "Main Agent",
+            "type": "ai_tool",
             "index": 0
           }
         ]
-      ]
-    },
-    "Add Register": {
-      "main": [
-        []
       ]
     },
     "Knowledge Trigger": {
@@ -1622,17 +2301,6 @@
         ]
       ]
     },
-    "OpenRouter ": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "RAG Agent",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Mapping": {
       "main": [
         [
@@ -1720,13 +2388,262 @@
           }
         ]
       ]
+    },
+    "Clickup": {
+      "ai_tool": [
+        [
+          {
+            "node": "Main Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "Main Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "Main Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envia Chatwoot Text": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Response Format": {
+      "main": [
+        [
+          {
+            "node": "Envia Chatwoot Text",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Text To Speech ElevenLabs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Messages": {
+      "main": [
+        [
+          {
+            "node": "Add Conversation Info",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Delay Before Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Chatwoot Media": {
+      "main": [
+        [
+          {
+            "node": "Delay After Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delay Before Message": {
+      "main": [
+        [
+          {
+            "node": "Response Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delay After Message": {
+      "main": [
+        [
+          {
+            "node": "Loop Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text To Speech ElevenLabs": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing": {
+      "main": [
+        [
+          {
+            "node": "Delay After Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OutputParser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Message Segment Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Messages": {
+      "main": [
+        [
+          {
+            "node": "Loop Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message Segment Agent": {
+      "main": [
+        [
+          {
+            "node": "Split Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Send Chatwoot Media",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execution Data": {
+      "main": [
+        [
+          {
+            "node": "Get Vars",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Main Agent1": {
+      "main": [
+        [
+          {
+            "node": "Execution Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execution Data1": {
+      "main": [
+        [
+          {
+            "node": "Main Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Openai": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Main Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Message Segment Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "RAG Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq": {
+      "ai_languageModel": [
+        []
+      ]
     }
   },
   "settings": {},
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "93565406-21b0-4447-bb22-9c35c023ad87",
-  "triggerCount": 4,
+  "versionId": "74bd45bb-abde-4248-8df3-2d03b9bb2914",
+  "triggerCount": 5,
   "tags": []
 }
