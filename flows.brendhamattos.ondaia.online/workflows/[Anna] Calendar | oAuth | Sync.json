@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-05-22T17:33:04.738Z",
-  "updatedAt": "2025-05-22T17:33:56.772Z",
+  "updatedAt": "2025-05-23T15:18:03.232Z",
   "id": "8aHR4dporADwJ74h",
   "name": "[Anna] Calendar | oAuth | Sync",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -1469,7 +1469,7 @@
   "staticData": null,
   "meta": null,
   "pinData": null,
-  "versionId": "5a429739-732a-41d0-a295-e4fb9e72ed88",
-  "triggerCount": 0,
+  "versionId": "7ae0588f-438d-4fdc-8e85-fa5973ccc3c7",
+  "triggerCount": 1,
   "tags": []
 }
