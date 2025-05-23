@@ -1,0 +1,35 @@
+{
+  "createdAt": "2025-05-23T17:40:22.901Z",
+  "updatedAt": "2025-05-23T17:40:24.422Z",
+  "id": "O3UmjQKpGsR3xs9E",
+  "name": "My workflow",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "brendha_mattos",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c6ef4a3e-e9b1-40f9-9c12-1a6720f7b983",
+      "name": "Webhook",
+      "webhookId": "ba4c8328-53a8-400f-b8dd-ca82b41ef3a0"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "154f0647-987c-4d74-a27f-65a7f59331b5",
+  "triggerCount": 1,
+  "tags": []
+}
