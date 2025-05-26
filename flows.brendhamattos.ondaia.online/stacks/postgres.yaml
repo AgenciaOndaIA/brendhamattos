@@ -1,6 +1,6 @@
-services: 
-  postgres: 
-    image: postgres:16
+services:
+  postgres:
+    image: postgres16-pgvector:latest
     command: [
         postgres, 
         --max_connections=300,
