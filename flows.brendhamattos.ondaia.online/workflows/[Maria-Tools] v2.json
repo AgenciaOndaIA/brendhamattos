@@ -1,10 +1,10 @@
 {
-  "createdAt": "2025-05-22T17:32:57.888Z",
-  "updatedAt": "2025-05-26T10:16:25.690Z",
-  "id": "ZKiceuJDPN6ul8sb",
+  "createdAt": "2025-05-22T11:45:44.347Z",
+  "updatedAt": "2025-05-22T14:55:29.914Z",
+  "id": "5THOUYV7IK9HSCcD",
   "name": "[Maria-Tools] v2",
-  "active": true,
-  "isArchived": false,
+  "active": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -27,7 +27,7 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        3000,
+        2980,
         260
       ],
       "id": "86fc41a1-157f-4de3-a48e-900654d6fbd6",
@@ -56,7 +56,7 @@
       "type": "n8n-nodes-base.rabbitmq",
       "typeVersion": 1.1,
       "position": [
-        3000,
+        2980,
         60
       ],
       "id": "487094f8-45f3-492c-93c8-c3b61aa8494c",
@@ -117,13 +117,13 @@
       "parameters": {
         "content": "",
         "height": 500,
-        "width": 700,
+        "width": 740,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        2460,
+        2420,
         -40
       ],
       "id": "6cc95810-a5a1-4a1e-a246-4d7a34a7b1c8",
@@ -133,13 +133,13 @@
       "parameters": {
         "content": "",
         "height": 300,
-        "width": 500,
+        "width": 540,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        2460,
+        2420,
         800
       ],
       "id": "158e2c22-dea8-4eb9-9ef6-e307f4c84f4b",
@@ -149,12 +149,12 @@
       "parameters": {
         "content": "",
         "height": 1640,
-        "width": 2580,
+        "width": 2640,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2440,
+        2380,
         -200
       ],
       "typeVersion": 1,
@@ -522,13 +522,13 @@
       "parameters": {
         "content": "",
         "height": 300,
-        "width": 500,
+        "width": 540,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        2460,
+        2420,
         480
       ],
       "id": "a9b931bc-714a-46db-999f-05a3de0ddde7",
@@ -925,7 +925,7 @@
         "rule": {
           "interval": [
             {
-              "field": "hours"
+              "field": "minutes"
             }
           ]
         }
@@ -937,7 +937,8 @@
         580
       ],
       "id": "d4e407d0-1fce-456a-a21f-1a95f1ff5df4",
-      "name": "1H Schedule Trigger"
+      "name": "1H Schedule Trigger",
+      "disabled": true
     },
     {
       "parameters": {
@@ -1197,8 +1198,8 @@
           "name": "OndaIA_Brendha"
         },
         "openAiApi": {
-          "id": "MDEnRr5fnEmSW1ZW",
-          "name": "OpenAi account"
+          "id": "AhNlapeTC4e4mLvK",
+          "name": "brendha_mattos"
         }
       }
     },
@@ -1239,13 +1240,13 @@
       "parameters": {
         "content": "",
         "height": 300,
-        "width": 1100,
+        "width": 1140,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        2460,
+        2420,
         1120
       ],
       "id": "bc15cc35-f869-420e-bd9d-d8f36854c310",
@@ -1660,14 +1661,10 @@
     }
   },
   "settings": {},
-  "staticData": {
-    "node:1H Schedule Trigger": {
-      "recurrenceRules": []
-    }
-  },
+  "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "09a270f3-d143-4cde-be9f-09eb6990dd86",
-  "triggerCount": 5,
+  "versionId": "c3ec35d2-d250-4300-9485-6028b4843737",
+  "triggerCount": 4,
   "tags": []
 }
