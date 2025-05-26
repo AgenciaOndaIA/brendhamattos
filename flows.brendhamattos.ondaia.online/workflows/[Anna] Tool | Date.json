@@ -1,10 +1,10 @@
 {
-  "createdAt": "2025-05-22T17:33:05.781Z",
-  "updatedAt": "2025-05-23T15:18:05.964Z",
-  "id": "XnOHJXY8kUvXYimu",
+  "createdAt": "2025-05-23T21:19:37.323Z",
+  "updatedAt": "2025-05-23T21:27:23.357Z",
+  "id": "I4v690wsOaFwV1Xs",
   "name": "[Anna] Tool | Date",
-  "active": true,
-  "isArchived": false,
+  "active": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -138,7 +138,7 @@
   "staticData": null,
   "meta": null,
   "pinData": null,
-  "versionId": "98b44a6b-8813-4aaf-8881-fceaadc07034",
-  "triggerCount": 1,
+  "versionId": "ad300d0c-e0eb-48c7-b16d-ca1df7993169",
+  "triggerCount": 0,
   "tags": []
 }
