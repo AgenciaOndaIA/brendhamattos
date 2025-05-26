@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-23T17:40:22.901Z",
-  "updatedAt": "2025-05-23T17:40:24.422Z",
+  "updatedAt": "2025-05-26T16:30:34.555Z",
   "id": "O3UmjQKpGsR3xs9E",
   "name": "My workflow",
   "active": true,
@@ -8,6 +8,7 @@
   "nodes": [
     {
       "parameters": {
+        "httpMethod": "POST",
         "path": "brendha_mattos",
         "options": {}
       },
@@ -29,7 +30,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "154f0647-987c-4d74-a27f-65a7f59331b5",
+  "versionId": "f84115a6-6205-4de6-bc69-fbc25ad27b2b",
   "triggerCount": 1,
   "tags": []
 }
