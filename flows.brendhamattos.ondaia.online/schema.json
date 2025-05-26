@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "directus": "11.3.4",
+  "directus": "11.7.2",
   "vendor": "postgres",
   "collections": [
     {
@@ -12,11 +12,11 @@
         "archive_value": null,
         "collapse": "open",
         "collection": "ai_agents",
-        "color": "#FACC15",
+        "color": "#FFFFFF",
         "display_template": null,
         "group": null,
         "hidden": false,
-        "icon": "label",
+        "icon": "sports_golf",
         "item_duplication_fields": null,
         "note": "AI Agents Configuration",
         "preview_url": null,
@@ -29,6 +29,41 @@
       },
       "schema": {
         "name": "ai_agents"
+      }
+    },
+    {
+      "collection": "calendars",
+      "meta": {
+        "accountability": "all",
+        "archive_app_filter": true,
+        "archive_field": "status",
+        "archive_value": "archived",
+        "collapse": "open",
+        "collection": "calendars",
+        "color": null,
+        "display_template": null,
+        "group": null,
+        "hidden": false,
+        "icon": "calendar_month",
+        "item_duplication_fields": null,
+        "note": null,
+        "preview_url": null,
+        "singleton": false,
+        "sort": 7,
+        "sort_field": "sort",
+        "translations": [
+          {
+            "language": "pt-BR",
+            "plural": "Calendários",
+            "singular": "Calendário",
+            "translation": "Calendários"
+          }
+        ],
+        "unarchive_value": "draft",
+        "versioning": false
+      },
+      "schema": {
+        "name": "calendars"
       }
     },
     {
@@ -71,7 +106,7 @@
         "color": null,
         "display_template": null,
         "group": "users",
-        "hidden": true,
+        "hidden": false,
         "icon": "bookmark",
         "item_duplication_fields": null,
         "note": null,
@@ -99,7 +134,7 @@
         "color": null,
         "display_template": null,
         "group": "users",
-        "hidden": true,
+        "hidden": false,
         "icon": "bookmark",
         "item_duplication_fields": null,
         "note": null,
@@ -208,16 +243,16 @@
         "archive_value": null,
         "collapse": "open",
         "collection": "global_vars",
-        "color": "#FACC15",
+        "color": null,
         "display_template": null,
         "group": null,
         "hidden": false,
-        "icon": "label",
+        "icon": "data_usage",
         "item_duplication_fields": null,
         "note": "Global System Variables",
         "preview_url": null,
         "singleton": true,
-        "sort": 3,
+        "sort": 1,
         "sort_field": null,
         "translations": null,
         "unarchive_value": null,
@@ -236,11 +271,11 @@
         "archive_value": null,
         "collapse": "open",
         "collection": "knowledge",
-        "color": "#FACC15",
+        "color": "#FFFFFF",
         "display_template": null,
         "group": null,
         "hidden": false,
-        "icon": "label",
+        "icon": "person_celebrate",
         "item_duplication_fields": null,
         "note": null,
         "preview_url": null,
@@ -404,18 +439,31 @@
         "archive_value": null,
         "collapse": "open",
         "collection": "users",
-        "color": "#FACC15",
+        "color": "#FFFFFF",
         "display_template": null,
         "group": null,
         "hidden": false,
-        "icon": "label",
+        "icon": "interpreter_mode",
         "item_duplication_fields": null,
         "note": "System Users",
         "preview_url": null,
         "singleton": false,
         "sort": 2,
         "sort_field": null,
-        "translations": null,
+        "translations": [
+          {
+            "language": "pt-BR",
+            "plural": "Contatos",
+            "singular": "Contato",
+            "translation": "Contatos"
+          },
+          {
+            "language": "en-US",
+            "plural": "Contacts",
+            "singular": "Contact",
+            "translation": "Contacts"
+          }
+        ],
         "unarchive_value": null,
         "versioning": false
       },
@@ -664,7 +712,10 @@
         "hidden": false,
         "interface": "file-image",
         "note": null,
-        "options": null,
+        "options": {
+          "crop": false,
+          "letterbox": true
+        },
         "readonly": false,
         "required": false,
         "sort": 1,
@@ -760,10 +811,12 @@
         "field": "system_message",
         "group": "identity",
         "hidden": false,
-        "interface": "input-multiline",
+        "interface": "input-code",
         "note": null,
         "options": {
-          "placeholder": "Digite seu prompt para o assistente de IA aqui..."
+          "language": "xml",
+          "placeholder": "Digite seu prompt para o assistente de IA aqui...",
+          "template": "<!-- Qualificação de lead -->\n<prompt id=\"qualificacao_lead\">\n  <papel>\n      Você é um Anna especializada em técnicas de venda e persuasão, respondendo clientes por WhatsApp, com foco em entender rapidamente o interesse dos potenciais clientes.\n  </papel>\n  <requisicao>\n    Durante a conversa, faça perguntas estratégicas para entender se o lead realmente demonstra interesse pelo produto \"Chatbot de Inteligência Artificial\". Se perceber que há uma oportunidade, já sugira o agendamento de uma reunião para aprofundar a conversa.\n\n    Ao seguir com o papo, procure adaptar suas próximas perguntas com base nas respostas que for recebendo, aproveitando para esclarecer e explorar pontos importantes. Assim que tiver todas as informações necessárias, faça um breve resumo do perfil do lead, destacando os detalhes obtidos para ajudar você ou sua equipe na preparação da próxima reunião.\n  </requisicao>\n  <explicacao>\n    As perguntas devem descobrir o nível de interesse, o tipo de uso pretendido pelo lead e seu orçamento disponível para contratar a solução.\n    A fonte do lead é facebook_ads e veio do anuncio \"A revolucao do antendimento de clientes, chatbots de ia\"\t\n  </explicacao>\n  <parametros>\n  \t<apresentação>\n      Quando o cliente começar a conversa, aproveite para se apresentar de maneira simpática e educada. Você pode usar a mensagem inicial dele como ponto de partida para sua apresentação, mostrando que está atento ao que ele trouxe. Não esqueça de finalizar com uma pergunta simples, para manter a conversa fluindo e incentivar uma interação mais natural.\n\t\t\t- \"Oi {{ NomeCliente }}, me conta, o que você vende?\"\n\t\t\t- \"{{ NomeCliente }}, me conta! O que impede você de escalar sua operação hoje?\"\n\t\t\t- \"{{ NomeCliente }}, o que chamou sua atenção no anúncio?\"\n    </apresentação>\n      Ao conversar com o lead, procure variar a maneira como você fala para evitar um tom mecânico ou repetitivo. Tente criar uma conexão genuína, utilizando técnicas de vendas que demonstrem interesse real pela situação dele, para compreender exatamente em que momento ele se encontra. Mantenha sempre um tom amigável e direto, fazendo as perguntas de forma clara, objetiva e seguindo a ordem numérica proposta. Assim, você mantém uma conversa natural e consegue engajar o lead de maneira mais eficiente.\n      <pegunta number=\"1\" tool_call=\"guardar_resposta_lead\" para>\n        Solicite o nome do usuario, que nesse momento é um Lead.\n      </pegunta>\n      <pegunta number=\"2\">\n        Depois diga, ah que legal {userName}, deixa eu te perguntar mais uma coisa, vocês possuem um site? Se sim, qual é?\n      </pegunta>\n      <pegunta number=\"3\">\n        Continuando o mapeamento de lead, pergunte se o cliente possui processo comercial.\n      </pegunta>\n      <pegunta number=\"4\">\n        Agora pergunte se o cliente já possui alguma automação de atendimento.\n      </pegunta>\n      <agendamento_reuniao>\n        - \"Vamos agendar uma conversa para entender melhor o seu cenário e ver como podemos ajudar?\"\n        - Pergunte ao lead sobre a disponibilidade:\n        - \"Qual é o melhor dia e horário para você?\"\n        - \"Quando seria um bom momento para marcarmos nossa reunião?\"\n        - Após o cliente sugerir uma data e horário, confirme:\n        - \"Ótimo, vou verificar a disponibilidade e já confirmo.\"\n        - Se houver disponibilidade, finalize:\n        - \"Perfeito, temos esse horário disponível! Qual é o seu e-mail para eu enviar o convite?\"\n        - O título da reunião deve seguir o formato: \"[Análise de Funil - {Nome do cliente}]\".\n\t\t</agendamento_reuniao>\n    \t<manejo_de_objeções>\n          - Princípios Gerais:\n          - Ouça a objeção até o final, faça uma pausa e demonstre compreensão.\n          - Concorde com parte da objeção antes de oferecer uma perspectiva diferente.\n          - Evite confrontar diretamente; busque pontos de concordância.\n\t</manejo_de_objeções>\n  <limitações>\n      Se o cliente fizer alguma pergunta que não tenha relação direta com seu atendimento, não tente responder algo que esteja fora do seu alcance. Em vez disso, explique educadamente que aquele assunto não faz parte do que você atende, oferecendo alternativas. Você pode dizer algo como: \"Essa questão está fora do nosso escopo aqui, mas posso ajudar você com [serviço relevante] ou indicar quem seria a pessoa certa para te auxiliar nisso.\" e faca uma chamada de funcao 'transferir_atendimento' com o parametro time 'suporte'.\n\t</limitações>\n  </parametros>\n</prompt>"
         },
         "readonly": false,
         "required": false,
@@ -813,7 +866,7 @@
         },
         "readonly": false,
         "required": false,
-        "sort": 1,
+        "sort": 2,
         "special": [
           "alias",
           "no-data",
@@ -842,7 +895,7 @@
         "options": null,
         "readonly": false,
         "required": false,
-        "sort": 4,
+        "sort": 5,
         "special": [
           "alias",
           "no-data",
@@ -871,7 +924,7 @@
         "options": null,
         "readonly": false,
         "required": false,
-        "sort": 2,
+        "sort": 3,
         "special": [
           "alias",
           "no-data",
@@ -902,7 +955,7 @@
         },
         "readonly": false,
         "required": false,
-        "sort": 3,
+        "sort": 4,
         "special": [
           "alias",
           "no-data",
@@ -935,7 +988,7 @@
         },
         "readonly": false,
         "required": true,
-        "sort": 1,
+        "sort": 2,
         "special": null,
         "translations": null,
         "validation": null,
@@ -982,7 +1035,7 @@
         },
         "readonly": false,
         "required": true,
-        "sort": 2,
+        "sort": 3,
         "special": null,
         "translations": null,
         "validation": null,
@@ -1042,7 +1095,7 @@
         },
         "readonly": false,
         "required": true,
-        "sort": 4,
+        "sort": 5,
         "special": [
           "cast-csv"
         ],
@@ -1090,7 +1143,7 @@
         },
         "readonly": false,
         "required": true,
-        "sort": 3,
+        "sort": 4,
         "special": null,
         "translations": null,
         "validation": null,
@@ -1489,6 +1542,10 @@
         "options": {
           "allowOther": false,
           "choices": [
+            {
+              "text": "Sarvam AI: Sarvam-M",
+              "value": "sarvamai/sarvam-m"
+            },
             {
               "text": "TheDrummer: Valkyrie 49B V1",
               "value": "thedrummer/valkyrie-49b-v1"
@@ -2198,7 +2255,7 @@
               "value": "eva-unit-01/eva-qwen-2.5-32b"
             },
             {
-              "text": "Unslopnemo 12B",
+              "text": "TheDrummer: UnslopNemo 12B",
               "value": "thedrummer/unslopnemo-12b"
             },
             {
@@ -2270,7 +2327,7 @@
               "value": "google/gemini-flash-1.5-8b"
             },
             {
-              "text": "Rocinante 12B",
+              "text": "TheDrummer: Rocinante 12B",
               "value": "thedrummer/rocinante-12b"
             },
             {
@@ -2540,10 +2597,6 @@
             {
               "text": "OLMo 7B Instruct",
               "value": "allenai/olmo-7b-instruct"
-            },
-            {
-              "text": "NeverSleep: Llama 3 Lumimaid 8B (extended)",
-              "value": "neversleep/llama-3-lumimaid-8b:extended"
             },
             {
               "text": "NeverSleep: Llama 3 Lumimaid 8B",
@@ -2996,12 +3049,12 @@
               "value": "eleven_multilingual_sts_v2"
             },
             {
-              "text": "Eleven English v1",
-              "value": "eleven_monolingual_v1"
-            },
-            {
               "text": "Eleven English v2",
               "value": "eleven_english_sts_v2"
+            },
+            {
+              "text": "Eleven English v1",
+              "value": "eleven_monolingual_v1"
             },
             {
               "text": "Eleven Multilingual v1",
@@ -3318,6 +3371,1176 @@
       "schema": {
         "name": "elevenlabs_voice",
         "table": "ai_agents",
+        "data_type": "character varying",
+        "default_value": null,
+        "max_length": 255,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "ai_agents",
+      "field": "divider",
+      "type": "alias",
+      "meta": {
+        "collection": "ai_agents",
+        "conditions": null,
+        "display": null,
+        "display_options": null,
+        "field": "divider",
+        "group": "chatwoot_connection",
+        "hidden": false,
+        "interface": "presentation-divider",
+        "note": "Controle suas conexões aqui!",
+        "options": {
+          "icon": "azm",
+          "inlineTitle": true,
+          "title": "Connections"
+        },
+        "readonly": false,
+        "required": false,
+        "sort": 1,
+        "special": [
+          "alias",
+          "no-data"
+        ],
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      }
+    },
+    {
+      "collection": "ai_agents",
+      "field": "agents_id",
+      "type": "csv",
+      "meta": {
+        "collection": "ai_agents",
+        "conditions": null,
+        "display": null,
+        "display_options": {
+          "choices": null
+        },
+        "field": "agents_id",
+        "group": "chatwoot_connection",
+        "hidden": false,
+        "interface": "tags",
+        "note": "Id do agente humano.",
+        "options": {
+          "alphabetize": true,
+          "iconRight": "inbox",
+          "placeholder": null,
+          "presets": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9"
+          ]
+        },
+        "readonly": false,
+        "required": false,
+        "sort": 6,
+        "special": [
+          "cast-csv"
+        ],
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "half"
+      },
+      "schema": {
+        "name": "agents_id",
+        "table": "ai_agents",
+        "data_type": "text",
+        "default_value": null,
+        "max_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "ai_agents",
+      "field": "teams_id",
+      "type": "integer",
+      "meta": {
+        "collection": "ai_agents",
+        "conditions": null,
+        "display": null,
+        "display_options": null,
+        "field": "teams_id",
+        "group": "chatwoot_connection",
+        "hidden": false,
+        "interface": "input",
+        "note": "Id do time de agentes humanos.",
+        "options": {
+          "min": 1,
+          "placeholder": null
+        },
+        "readonly": false,
+        "required": false,
+        "sort": 7,
+        "special": null,
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "half"
+      },
+      "schema": {
+        "name": "teams_id",
+        "table": "ai_agents",
+        "data_type": "integer",
+        "default_value": null,
+        "max_length": null,
+        "numeric_precision": 32,
+        "numeric_scale": 0,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "ai_agents",
+      "field": "calendar",
+      "type": "integer",
+      "meta": {
+        "collection": "ai_agents",
+        "conditions": null,
+        "display": null,
+        "display_options": null,
+        "field": "calendar",
+        "group": null,
+        "hidden": false,
+        "interface": "select-dropdown-m2o",
+        "note": null,
+        "options": null,
+        "readonly": false,
+        "required": false,
+        "sort": 12,
+        "special": null,
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      },
+      "schema": {
+        "name": "calendar",
+        "table": "ai_agents",
+        "data_type": "integer",
+        "default_value": null,
+        "max_length": null,
+        "numeric_precision": 32,
+        "numeric_scale": 0,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": "calendars",
+        "foreign_key_column": "id"
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "standard",
+      "type": "alias",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": null,
+        "display_options": null,
+        "field": "standard",
+        "group": null,
+        "hidden": true,
+        "interface": null,
+        "note": null,
+        "options": null,
+        "readonly": false,
+        "required": false,
+        "sort": 1,
+        "special": [
+          "alias",
+          "no-data",
+          "group"
+        ],
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "name",
+      "type": "string",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": null,
+        "display_options": null,
+        "field": "name",
+        "group": null,
+        "hidden": false,
+        "interface": "input",
+        "note": null,
+        "options": null,
+        "readonly": false,
+        "required": false,
+        "sort": 2,
+        "special": null,
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "half"
+      },
+      "schema": {
+        "name": "name",
+        "table": "calendars",
+        "data_type": "character varying",
+        "default_value": null,
+        "max_length": 255,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "token_expiration",
+      "type": "timestamp",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": null,
+        "display_options": null,
+        "field": "token_expiration",
+        "group": null,
+        "hidden": false,
+        "interface": "datetime",
+        "note": null,
+        "options": {
+          "relative": true,
+          "round": "floor",
+          "strict": true
+        },
+        "readonly": true,
+        "required": false,
+        "sort": 3,
+        "special": null,
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "half"
+      },
+      "schema": {
+        "name": "token_expiration",
+        "table": "calendars",
+        "data_type": "timestamp with time zone",
+        "default_value": null,
+        "max_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "calendars",
+      "type": "json",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": null,
+        "display_options": null,
+        "field": "calendars",
+        "group": null,
+        "hidden": true,
+        "interface": "list",
+        "note": null,
+        "options": {
+          "fields": [
+            {
+              "field": "id",
+              "meta": {
+                "field": "id",
+                "interface": "input",
+                "type": "string"
+              },
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "field": "name",
+              "meta": {
+                "field": "name",
+                "interface": "input",
+                "options": {
+                  "placeholder": "Calendar name..."
+                },
+                "type": "string",
+                "width": "full"
+              },
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "field": "description",
+              "meta": {
+                "field": "description",
+                "interface": "input",
+                "type": "string",
+                "width": "full"
+              },
+              "name": "description",
+              "type": "string"
+            }
+          ]
+        },
+        "readonly": false,
+        "required": false,
+        "sort": 4,
+        "special": [
+          "cast-json"
+        ],
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      },
+      "schema": {
+        "name": "calendars",
+        "table": "calendars",
+        "data_type": "json",
+        "default_value": null,
+        "max_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "prompt_info",
+      "type": "alias",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": null,
+        "display_options": null,
+        "field": "prompt_info",
+        "group": null,
+        "hidden": false,
+        "interface": "presentation-notice",
+        "note": null,
+        "options": {
+          "icon": "code",
+          "text": "# Variáveis disponíveis\n\n**${contactName}** → Nome do cliente\n\n**${chatHistory}** → Histórico da conversa\n\n**${role}** → Função do usuário\n\n**${now}** → Horário atual\n\n"
+        },
+        "readonly": false,
+        "required": false,
+        "sort": 5,
+        "special": [
+          "alias",
+          "no-data"
+        ],
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "prompt",
+      "type": "text",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": null,
+        "display_options": null,
+        "field": "prompt",
+        "group": null,
+        "hidden": false,
+        "interface": "input-code",
+        "note": null,
+        "options": {
+          "language": "xml",
+          "lineWrapping": true,
+          "template": "<prompt>\n  <context date=\"${now}\" user=\"${userName}\" role=\"${role}\">\n  <history conversation=\"${conversationHistory}\" />\n  </context>\n\n  <rules>\n    <rule>Não sobreponha novos eventos com existentes.</rule>\n    <rule>Confirme obrigatoriamente o e-mail do usuário antes de agendar um novo evento.</rule>\n    <rule security=\"max\">Se usuário não for Admin, sempre omita horários explícitos.</rule>\n  </rules>\n\n  <rules>\n    <listEvents node=\"List Events\" />\n    <checkConflict>\n      <onClear node=\"Create Events\">Crie o evento.</onClear>\n      <onConflict>Avise o usuário e peça outro horário.</onConflict>\n    </checkConflict>\n  </rules>\n\n  <role>Vocé uma Ferramenta auxiliar de agendamentos ao agente principal.</role>\n</prompt>"
+        },
+        "readonly": false,
+        "required": false,
+        "sort": 6,
+        "special": null,
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      },
+      "schema": {
+        "name": "prompt",
+        "table": "calendars",
+        "data_type": "text",
+        "default_value": "<prompt>\n  <context date=\"${now}\" user=\"${userName}\" role=\"${role}\">\n  <history conversation=\"${conversationHistory}\" />\n  </context>\n\n  <rules>\n    <rule>Não sobreponha novos eventos com existentes.</rule>\n    <rule>Confirme obrigatoriamente o e-mail do usuário antes de agendar um novo evento.</rule>\n    <rule security=\"max\">Se usuário não for Admin, sempre omita horários explícitos.</rule>\n  </rules>\n\n  <rules>\n    <listEvents node=\"List Events\" />\n    <checkConflict>\n      <onClear node=\"Create Events\">Crie o evento.</onClear>\n      <onConflict>Avise o usuário e peça outro horário.</onConflict>\n    </checkConflict>\n  </rules>\n\n  <role>Vocé uma Ferramenta auxiliar de agendamentos ao agente principal.</role>\n</prompt>",
+        "max_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "is_nullable": false,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "show_tokens",
+      "type": "string",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": "raw",
+        "display_options": {
+          "format": true
+        },
+        "field": "show_tokens",
+        "group": null,
+        "hidden": false,
+        "interface": "select-radio",
+        "note": null,
+        "options": {
+          "choices": [
+            {
+              "icon": "check",
+              "text": "Exibir",
+              "value": "show"
+            },
+            {
+              "icon": "cancel",
+              "text": "Esconder",
+              "value": "hide"
+            }
+          ]
+        },
+        "readonly": false,
+        "required": false,
+        "sort": 7,
+        "special": null,
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      },
+      "schema": {
+        "name": "show_tokens",
+        "table": "calendars",
+        "data_type": "character varying",
+        "default_value": "hide",
+        "max_length": 255,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "tokens",
+      "type": "alias",
+      "meta": {
+        "collection": "calendars",
+        "conditions": [
+          {
+            "hidden": true,
+            "name": "Show Tokens = Esconder",
+            "options": {},
+            "rule": {
+              "_and": [
+                {
+                  "show_tokens": {
+                    "_eq": "hide"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "display": null,
+        "display_options": null,
+        "field": "tokens",
+        "group": null,
+        "hidden": false,
+        "interface": "group-raw",
+        "note": null,
+        "options": null,
+        "readonly": false,
+        "required": false,
+        "sort": 8,
+        "special": [
+          "alias",
+          "no-data",
+          "group"
+        ],
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "agents",
+      "type": "alias",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": null,
+        "display_options": null,
+        "field": "agents",
+        "group": null,
+        "hidden": false,
+        "interface": "list-o2m",
+        "note": null,
+        "options": {
+          "enableLink": true,
+          "sort": null,
+          "template": "{{name}}"
+        },
+        "readonly": false,
+        "required": false,
+        "sort": 9,
+        "special": [
+          "o2m"
+        ],
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "id",
+      "type": "integer",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": null,
+        "display_options": null,
+        "field": "id",
+        "group": "standard",
+        "hidden": true,
+        "interface": "input",
+        "note": null,
+        "options": null,
+        "readonly": true,
+        "required": false,
+        "sort": 1,
+        "special": null,
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      },
+      "schema": {
+        "name": "id",
+        "table": "calendars",
+        "data_type": "integer",
+        "default_value": "nextval('calendars_id_seq'::regclass)",
+        "max_length": null,
+        "numeric_precision": 32,
+        "numeric_scale": 0,
+        "is_nullable": false,
+        "is_unique": true,
+        "is_indexed": false,
+        "is_primary_key": true,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": true,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "status",
+      "type": "string",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": "labels",
+        "display_options": {
+          "choices": [
+            {
+              "background": "var(--theme--primary-background)",
+              "color": "var(--theme--primary)",
+              "foreground": "var(--theme--primary)",
+              "text": "Publicado",
+              "value": "published"
+            },
+            {
+              "background": "var(--theme--background-normal)",
+              "color": "var(--theme--foreground)",
+              "foreground": "var(--theme--foreground)",
+              "text": "Rascunho",
+              "value": "draft"
+            },
+            {
+              "background": "var(--theme--warning-background)",
+              "color": "var(--theme--warning)",
+              "foreground": "var(--theme--warning)",
+              "text": "Arquivado",
+              "value": "archived"
+            }
+          ],
+          "showAsDot": true
+        },
+        "field": "status",
+        "group": "standard",
+        "hidden": false,
+        "interface": "select-dropdown",
+        "note": null,
+        "options": {
+          "choices": [
+            {
+              "color": "var(--theme--primary)",
+              "text": "Publicado",
+              "value": "published"
+            },
+            {
+              "color": "var(--theme--foreground)",
+              "text": "Rascunho",
+              "value": "draft"
+            },
+            {
+              "color": "var(--theme--warning)",
+              "text": "Arquivado",
+              "value": "archived"
+            }
+          ]
+        },
+        "readonly": false,
+        "required": false,
+        "sort": 2,
+        "special": null,
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      },
+      "schema": {
+        "name": "status",
+        "table": "calendars",
+        "data_type": "character varying",
+        "default_value": "draft",
+        "max_length": 255,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "is_nullable": false,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "sort",
+      "type": "integer",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": null,
+        "display_options": null,
+        "field": "sort",
+        "group": "standard",
+        "hidden": true,
+        "interface": "input",
+        "note": null,
+        "options": null,
+        "readonly": false,
+        "required": false,
+        "sort": 3,
+        "special": null,
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      },
+      "schema": {
+        "name": "sort",
+        "table": "calendars",
+        "data_type": "integer",
+        "default_value": null,
+        "max_length": null,
+        "numeric_precision": 32,
+        "numeric_scale": 0,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "user_created",
+      "type": "uuid",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": "user",
+        "display_options": null,
+        "field": "user_created",
+        "group": "standard",
+        "hidden": true,
+        "interface": "select-dropdown-m2o",
+        "note": null,
+        "options": {
+          "template": "{{avatar}} {{first_name}} {{last_name}}"
+        },
+        "readonly": true,
+        "required": false,
+        "sort": 4,
+        "special": [
+          "user-created"
+        ],
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "half"
+      },
+      "schema": {
+        "name": "user_created",
+        "table": "calendars",
+        "data_type": "uuid",
+        "default_value": null,
+        "max_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": "directus_users",
+        "foreign_key_column": "id"
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "user_updated",
+      "type": "uuid",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": "user",
+        "display_options": null,
+        "field": "user_updated",
+        "group": "standard",
+        "hidden": true,
+        "interface": "select-dropdown-m2o",
+        "note": null,
+        "options": {
+          "template": "{{avatar}} {{first_name}} {{last_name}}"
+        },
+        "readonly": true,
+        "required": false,
+        "sort": 5,
+        "special": [
+          "user-updated"
+        ],
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "half"
+      },
+      "schema": {
+        "name": "user_updated",
+        "table": "calendars",
+        "data_type": "uuid",
+        "default_value": null,
+        "max_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": "directus_users",
+        "foreign_key_column": "id"
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "date_created",
+      "type": "timestamp",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": "datetime",
+        "display_options": {
+          "relative": true
+        },
+        "field": "date_created",
+        "group": "standard",
+        "hidden": true,
+        "interface": "datetime",
+        "note": null,
+        "options": null,
+        "readonly": true,
+        "required": false,
+        "sort": 6,
+        "special": [
+          "date-created"
+        ],
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "half"
+      },
+      "schema": {
+        "name": "date_created",
+        "table": "calendars",
+        "data_type": "timestamp with time zone",
+        "default_value": null,
+        "max_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "date_updated",
+      "type": "timestamp",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": "datetime",
+        "display_options": {
+          "relative": true
+        },
+        "field": "date_updated",
+        "group": "standard",
+        "hidden": true,
+        "interface": "datetime",
+        "note": null,
+        "options": null,
+        "readonly": true,
+        "required": false,
+        "sort": 7,
+        "special": [
+          "date-updated"
+        ],
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "half"
+      },
+      "schema": {
+        "name": "date_updated",
+        "table": "calendars",
+        "data_type": "timestamp with time zone",
+        "default_value": null,
+        "max_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "client_id",
+      "type": "string",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": "raw",
+        "display_options": {
+          "background": "#2ECDA7",
+          "border": true,
+          "color": "#E35169",
+          "icon": "avg_pace"
+        },
+        "field": "client_id",
+        "group": "tokens",
+        "hidden": false,
+        "interface": "input",
+        "note": "Client ID - App do Google Cloud console - https://console.cloud.google.com/apis/credentials",
+        "options": {
+          "iconLeft": null,
+          "iconRight": null,
+          "placeholder": null,
+          "trim": true
+        },
+        "readonly": false,
+        "required": false,
+        "sort": 1,
+        "special": null,
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      },
+      "schema": {
+        "name": "client_id",
+        "table": "calendars",
+        "data_type": "character varying",
+        "default_value": null,
+        "max_length": 255,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "client_secret",
+      "type": "string",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": "formatted-value",
+        "display_options": {
+          "background": "#2ECDA7",
+          "border": true,
+          "color": "#E35169",
+          "icon": "avg_pace",
+          "masked": true
+        },
+        "field": "client_secret",
+        "group": "tokens",
+        "hidden": false,
+        "interface": "input",
+        "note": "Client Secret - App do Google Cloud console - https://console.cloud.google.com/apis/credentials",
+        "options": {
+          "iconLeft": null,
+          "iconRight": null,
+          "masked": true,
+          "placeholder": null,
+          "trim": true
+        },
+        "readonly": false,
+        "required": false,
+        "sort": 2,
+        "special": null,
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      },
+      "schema": {
+        "name": "client_secret",
+        "table": "calendars",
+        "data_type": "character varying",
+        "default_value": null,
+        "max_length": 255,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "refresh_token",
+      "type": "string",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": "raw",
+        "display_options": {
+          "background": "#2ECDA7",
+          "border": true,
+          "color": "#E35169",
+          "icon": "avg_pace"
+        },
+        "field": "refresh_token",
+        "group": "tokens",
+        "hidden": false,
+        "interface": "input",
+        "note": "Token que permite obter um novo Access Token quando o atual expira.",
+        "options": {
+          "iconLeft": null,
+          "iconRight": null,
+          "placeholder": null,
+          "trim": true
+        },
+        "readonly": false,
+        "required": false,
+        "sort": 3,
+        "special": null,
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      },
+      "schema": {
+        "name": "refresh_token",
+        "table": "calendars",
+        "data_type": "character varying",
+        "default_value": null,
+        "max_length": 255,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "access_token",
+      "type": "string",
+      "meta": {
+        "collection": "calendars",
+        "conditions": null,
+        "display": "raw",
+        "display_options": {
+          "background": "#2ECDA7",
+          "border": true,
+          "color": "#E35169",
+          "icon": "avg_pace"
+        },
+        "field": "access_token",
+        "group": "tokens",
+        "hidden": false,
+        "interface": "input",
+        "note": "Token de acesso que concede permissão para acessar recursos do Google em nome do usuário autenticado.  Expira de hora em hora.",
+        "options": {
+          "iconLeft": null,
+          "iconRight": null,
+          "placeholder": null,
+          "trim": true
+        },
+        "readonly": false,
+        "required": false,
+        "sort": 4,
+        "special": null,
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      },
+      "schema": {
+        "name": "access_token",
+        "table": "calendars",
         "data_type": "character varying",
         "default_value": null,
         "max_length": 255,
@@ -3659,10 +4882,11 @@
         "field": "user_id",
         "group": null,
         "hidden": false,
-        "interface": "input",
+        "interface": "select-dropdown-m2o",
         "note": null,
         "options": {
-          "min": 0
+          "min": 0,
+          "template": "{{username}}"
         },
         "readonly": false,
         "required": false,
@@ -3826,9 +5050,11 @@
         "field": "session_id",
         "group": null,
         "hidden": false,
-        "interface": "input",
+        "interface": "select-dropdown-m2o",
         "note": null,
-        "options": null,
+        "options": {
+          "template": "{{user_id.username}}"
+        },
         "readonly": false,
         "required": false,
         "sort": 2,
@@ -4959,7 +6185,7 @@
         "group": "group",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Chave de API da sua conta (Login -> Configurações -> Configurações da Conta -> Sua chave de API).",
         "options": {
           "masked": true,
           "placeholder": "Stirling PDF API Key",
@@ -5006,7 +6232,7 @@
         "group": "group",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Token da sua conta (Login -> Admin User -> Token).",
         "options": {
           "masked": true,
           "placeholder": "Directus User Token",
@@ -5053,7 +6279,7 @@
         "group": "group",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "API Key da sua conta - https://openrouter.ai/settings/keys.",
         "options": {
           "masked": true,
           "placeholder": "OpenRouter API Key",
@@ -5163,7 +6389,7 @@
         "group": "group",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "API Key da sua conta - https://platform.openai.com/settings/organization/api-keys",
         "options": {
           "masked": true,
           "placeholder": "OpenAI API Key",
@@ -5210,7 +6436,7 @@
         "group": "group",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "API Key da sua conta -https://elevenlabs.io/app/settings/api-keys",
         "options": {
           "masked": true,
           "placeholder": "OpenRouter API Key",
@@ -5257,7 +6483,7 @@
         "group": "group",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Token da sua conta -https://jina.ai",
         "options": {
           "masked": true,
           "placeholder": "Jina AI Token",
@@ -5340,7 +6566,7 @@
         "group": "group",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "SERVER URL. Ex: https://s3.seusite.com.br",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -5388,7 +6614,7 @@
         "group": "group",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "API Key da sua conta -https://www.pinecone.io",
         "options": {
           "masked": true,
           "placeholder": "Pinecone API Key",
@@ -5440,7 +6666,7 @@
         "group": "github",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Nome do usuário da sua conta do GitHub -https://github.com",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -5493,7 +6719,7 @@
         "group": "github",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Nome do repositório que criou para hospedar os Backups -https://github.com",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -5541,7 +6767,7 @@
         "group": "portainer",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Senha que você utiliza para logar no Portainer.",
         "options": {
           "masked": true,
           "placeholder": null,
@@ -5593,7 +6819,7 @@
         "group": "portainer",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Usuário que você utiliza para logar no Portainer.",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -5646,11 +6872,11 @@
         "group": "stacks",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Endereço interno ou URL do App. Ex: http://chatwoot:3000 ou https://app.seusite.com.br",
         "options": {
           "iconLeft": null,
           "iconRight": null,
-          "placeholder": null,
+          "placeholder": "http://chatwoot:3000 ou https://app.seusite.com.br",
           "trim": true
         },
         "readonly": false,
@@ -5666,7 +6892,7 @@
         "name": "chatwoot_service",
         "table": "global_vars",
         "data_type": "character varying",
-        "default_value": "chatwoot",
+        "default_value": "http://chatwoot:3000",
         "max_length": 255,
         "numeric_precision": null,
         "numeric_scale": null,
@@ -5699,11 +6925,11 @@
         "group": "stacks",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Endereço interno ou URL do App. Ex: http://n8n_webhook:5678/webhook ou https://webhook.seusite.com.br/webhook",
         "options": {
           "iconLeft": null,
           "iconRight": null,
-          "placeholder": null,
+          "placeholder": "http://n8n_webhook:5678/webhook ou https://webhook.seusite.com.br/webhook",
           "trim": true
         },
         "readonly": false,
@@ -5724,7 +6950,7 @@
         "name": "n8n_webhook_service",
         "table": "global_vars",
         "data_type": "character varying",
-        "default_value": "n8n_webhook",
+        "default_value": "http://n8n_webhook:5678/webhook",
         "max_length": 255,
         "numeric_precision": null,
         "numeric_scale": null,
@@ -5757,11 +6983,11 @@
         "group": "stacks",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Endereço interno ou URL do App. Ex: http://stirling-pdf:8080 ou https://pdf.seusite.com.br",
         "options": {
           "iconLeft": null,
           "iconRight": null,
-          "placeholder": null,
+          "placeholder": "http://stirling-pdf:8080 ou https://pdf.seusite.com.br",
           "trim": true
         },
         "readonly": false,
@@ -5777,7 +7003,7 @@
         "name": "stirling_pdf_service",
         "table": "global_vars",
         "data_type": "character varying",
-        "default_value": "stirling-pdf",
+        "default_value": "http://stirling-pdf:8080",
         "max_length": 255,
         "numeric_precision": null,
         "numeric_scale": null,
@@ -5810,11 +7036,11 @@
         "group": "stacks",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Endereço interno ou URL do App. Ex: http://directus:8055 ou https://directus.seusite.com.br",
         "options": {
           "iconLeft": null,
           "iconRight": null,
-          "placeholder": null,
+          "placeholder": "http://directus:8055 ou https://directus.seusite.com.br",
           "trim": true
         },
         "readonly": false,
@@ -5830,7 +7056,7 @@
         "name": "directus_service",
         "table": "global_vars",
         "data_type": "character varying",
-        "default_value": "directus",
+        "default_value": "http://directus:8055",
         "max_length": 255,
         "numeric_precision": null,
         "numeric_scale": null,
@@ -5863,23 +7089,18 @@
         "group": "stacks",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Endereço interno ou URL do App. Ex: http://n8n_editor:5678 ou https://flows.seusite.com.br",
         "options": {
           "iconLeft": null,
           "iconRight": null,
-          "placeholder": null,
+          "placeholder": "http://n8n_editor:5678 ou https://flows.seusite.com.br",
           "trim": true
         },
         "readonly": false,
         "required": false,
         "sort": 3,
         "special": null,
-        "translations": [
-          {
-            "language": "en-US",
-            "translation": "n8n Editor Service"
-          }
-        ],
+        "translations": null,
         "validation": null,
         "validation_message": null,
         "width": "half"
@@ -5888,7 +7109,7 @@
         "name": "n8n_editor_service",
         "table": "global_vars",
         "data_type": "character varying",
-        "default_value": "n8n_editor",
+        "default_value": "http://n8n_editor:5678",
         "max_length": 255,
         "numeric_precision": null,
         "numeric_scale": null,
@@ -5921,7 +7142,7 @@
         "group": "stacks",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "http://n8n_worker:5678",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -5946,7 +7167,7 @@
         "name": "n8n_worker_service",
         "table": "global_vars",
         "data_type": "character varying",
-        "default_value": "n8n_worker",
+        "default_value": "Endereço interno: http://n8n_worker:5678",
         "max_length": 255,
         "numeric_precision": null,
         "numeric_scale": null,
@@ -5979,11 +7200,11 @@
         "group": "stacks",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Endereço interno ou URL do App. Ex: http://portainer:9000 ou https://portainer.seusite.com.br",
         "options": {
           "iconLeft": null,
           "iconRight": null,
-          "placeholder": null,
+          "placeholder": "http://portainer:9000 ou https://portainer.seusite.com.br",
           "trim": true
         },
         "readonly": false,
@@ -5999,7 +7220,7 @@
         "name": "portainer_service",
         "table": "global_vars",
         "data_type": "character varying",
-        "default_value": "portainer",
+        "default_value": "http://portainer:9000",
         "max_length": 255,
         "numeric_precision": null,
         "numeric_scale": null,
@@ -6032,11 +7253,11 @@
         "group": "stacks",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Endereço interno ou URL do App. Ex: http://minio:9000 ou https://minio.seusite.com.br",
         "options": {
           "iconLeft": null,
           "iconRight": null,
-          "placeholder": null,
+          "placeholder": "http://minio:9000 ou https://minio.seusite.com.br",
           "trim": true
         },
         "readonly": false,
@@ -6057,7 +7278,7 @@
         "name": "s3_minio_service",
         "table": "global_vars",
         "data_type": "character varying",
-        "default_value": "minio",
+        "default_value": "http://minio:9000",
         "max_length": 255,
         "numeric_precision": null,
         "numeric_scale": null,
@@ -6084,9 +7305,11 @@
         "field": "stacks",
         "group": "advanced",
         "hidden": false,
-        "interface": "group-raw",
-        "note": null,
-        "options": null,
+        "interface": "group-detail",
+        "note": "Adicione o endereço do serviço, pode ser o endereço interno ou URL do serviço. Ex: https://app.chatwoot.com ou http://chatwoot:3000",
+        "options": {
+          "headerIcon": "deployed_code"
+        },
         "readonly": false,
         "required": false,
         "sort": 2,
@@ -6148,7 +7371,7 @@
         "group": "google_oauth",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Client ID - App do Google Cloud console - https://console.cloud.google.com/apis/credentials",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -6201,7 +7424,7 @@
         "group": "google_oauth",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Client Secret - App do Google Cloud console - https://console.cloud.google.com/apis/credentials",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -6254,7 +7477,7 @@
         "group": "google_oauth",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Token que permite obter um novo Access Token quando o atual expira.",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -6305,9 +7528,9 @@
         },
         "field": "accessToken",
         "group": "google_oauth",
-        "hidden": true,
+        "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Token de acesso que concede permissão para acessar recursos do Google em nome do usuário autenticado.  Expira de hora em hora.",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -8931,6 +10154,81 @@
       }
     },
     {
+      "collection": "ai_agents",
+      "field": "calendar",
+      "related_collection": "calendars",
+      "meta": {
+        "junction_field": null,
+        "many_collection": "ai_agents",
+        "many_field": "calendar",
+        "one_allowed_collections": null,
+        "one_collection": "calendars",
+        "one_collection_field": null,
+        "one_deselect_action": "nullify",
+        "one_field": "agents",
+        "sort_field": null
+      },
+      "schema": {
+        "table": "ai_agents",
+        "column": "calendar",
+        "foreign_key_table": "calendars",
+        "foreign_key_column": "id",
+        "constraint_name": "ai_agents_calendar_foreign",
+        "on_update": "NO ACTION",
+        "on_delete": "SET NULL"
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "user_created",
+      "related_collection": "directus_users",
+      "meta": {
+        "junction_field": null,
+        "many_collection": "calendars",
+        "many_field": "user_created",
+        "one_allowed_collections": null,
+        "one_collection": "directus_users",
+        "one_collection_field": null,
+        "one_deselect_action": "nullify",
+        "one_field": null,
+        "sort_field": null
+      },
+      "schema": {
+        "table": "calendars",
+        "column": "user_created",
+        "foreign_key_table": "directus_users",
+        "foreign_key_column": "id",
+        "constraint_name": "calendars_user_created_foreign",
+        "on_update": "NO ACTION",
+        "on_delete": "NO ACTION"
+      }
+    },
+    {
+      "collection": "calendars",
+      "field": "user_updated",
+      "related_collection": "directus_users",
+      "meta": {
+        "junction_field": null,
+        "many_collection": "calendars",
+        "many_field": "user_updated",
+        "one_allowed_collections": null,
+        "one_collection": "directus_users",
+        "one_collection_field": null,
+        "one_deselect_action": "nullify",
+        "one_field": null,
+        "sort_field": null
+      },
+      "schema": {
+        "table": "calendars",
+        "column": "user_updated",
+        "foreign_key_table": "directus_users",
+        "foreign_key_column": "id",
+        "constraint_name": "calendars_user_updated_foreign",
+        "on_update": "NO ACTION",
+        "on_delete": "NO ACTION"
+      }
+    },
+    {
       "collection": "conversations",
       "field": "user_id",
       "related_collection": "users",
@@ -8952,7 +10250,7 @@
         "foreign_key_column": "id",
         "constraint_name": "conversations_user_id_foreign",
         "on_update": "NO ACTION",
-        "on_delete": "SET NULL"
+        "on_delete": "CASCADE"
       }
     },
     {
@@ -8977,7 +10275,7 @@
         "foreign_key_column": "id",
         "constraint_name": "core_chat_histories_session_id_foreign",
         "on_update": "NO ACTION",
-        "on_delete": "SET NULL"
+        "on_delete": "CASCADE"
       }
     },
     {
@@ -9277,7 +10575,7 @@
         "foreign_key_column": "id",
         "constraint_name": "users_ai_agent_foreign",
         "on_update": "NO ACTION",
-        "on_delete": "SET NULL"
+        "on_delete": "CASCADE"
       }
     },
     {
