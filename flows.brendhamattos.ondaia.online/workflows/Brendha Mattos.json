@@ -1,10 +1,10 @@
 {
   "createdAt": "2025-04-24T22:27:16.794Z",
-  "updatedAt": "2025-05-15T16:38:36.561Z",
+  "updatedAt": "2025-05-26T10:14:03.703Z",
   "id": "SDjjNPNJD1PGhn97",
   "name": "Brendha Mattos",
-  "active": true,
-  "isArchived": false,
+  "active": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -151,8 +151,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        0,
-        0
+        -40,
+        40
       ],
       "id": "a74537ec-eef0-4108-bba7-9c7aaacfd4da",
       "name": "Sticky Note14"
@@ -325,7 +325,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "abe9979c-e35a-45cc-96b2-05db5f82def7",
+  "versionId": "3fb2ef8b-90a8-4f3d-90f8-8887b47a4906",
   "triggerCount": 1,
   "tags": []
 }
