@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-22T17:33:04.738Z",
-  "updatedAt": "2025-05-23T16:51:25.311Z",
+  "updatedAt": "2025-05-23T21:54:41.716Z",
   "id": "8aHR4dporADwJ74h",
   "name": "[Anna] Calendar | oAuth | Sync",
   "active": true,
@@ -37,8 +37,8 @@
       "name": "Set Redis",
       "credentials": {
         "redis": {
-          "id": "TbdCTNDGffvuZRjL",
-          "name": "Redis account"
+          "id": "1VL8GiWa4ifxJ1E5",
+          "name": "Brendha"
         }
       }
     },
@@ -61,8 +61,8 @@
       "executeOnce": true,
       "credentials": {
         "redis": {
-          "id": "TbdCTNDGffvuZRjL",
-          "name": "Redis account"
+          "id": "1VL8GiWa4ifxJ1E5",
+          "name": "Brendha"
         }
       }
     },
@@ -490,8 +490,8 @@
       "executeOnce": true,
       "credentials": {
         "postgres": {
-          "id": "QaUDiDcemy6udc5h",
-          "name": "Postgres account"
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
         }
       }
     },
@@ -680,8 +680,8 @@
       "executeOnce": true,
       "credentials": {
         "postgres": {
-          "id": "QaUDiDcemy6udc5h",
-          "name": "Postgres account"
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
         }
       }
     },
@@ -864,8 +864,8 @@
       "executeOnce": true,
       "credentials": {
         "postgres": {
-          "id": "QaUDiDcemy6udc5h",
-          "name": "Postgres account"
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
         }
       }
     },
@@ -955,8 +955,8 @@
       "name": "List Companies",
       "credentials": {
         "postgres": {
-          "id": "QaUDiDcemy6udc5h",
-          "name": "Postgres account"
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
         }
       }
     },
@@ -1209,8 +1209,8 @@
       "executeOnce": true,
       "credentials": {
         "postgres": {
-          "id": "QaUDiDcemy6udc5h",
-          "name": "Postgres account"
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
         }
       }
     },
@@ -1469,7 +1469,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "70aca5bb-ad35-4f42-a2ac-e95e1e82608c",
+  "versionId": "6cbc5eb6-11c2-49d4-9471-b58a6e6ce99c",
   "triggerCount": 1,
   "tags": []
 }
