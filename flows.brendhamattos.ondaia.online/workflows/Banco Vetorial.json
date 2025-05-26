@@ -1,0 +1,495 @@
+{
+  "createdAt": "2025-05-26T10:53:19.511Z",
+  "updatedAt": "2025-05-26T11:56:50.952Z",
+  "id": "YWltaS4LeUkmVbQg",
+  "name": "Banco Vetorial",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1920,
+        680
+      ],
+      "id": "a773094e-6396-4c50-8a76-fab84bf3a267",
+      "name": "Wait",
+      "webhookId": "bcfe3420-6a5f-4552-8ccc-988385ffed92"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f5d468c3-c2f1-441a-9cab-fdebcc4a6a6c",
+              "name": "content",
+              "value": "=url: {{$json.url}}\ntitle: {{ $json.metadata.title }}\ndescription: {{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1560,
+        680
+      ],
+      "id": "c63e0f1d-4e27-41b5-b3ea-96fad3bfe957",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": {
+          "__rl": true,
+          "value": "assistant_brendhamattos",
+          "mode": "list",
+          "cachedResultName": "assistant_brendhamattos"
+        },
+        "embeddingBatchSize": 1,
+        "options": {
+          "queryName": "match_assistant_brendhamattos"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.1,
+      "position": [
+        -1360,
+        680
+      ],
+      "id": "ab640749-5d4a-4797-8420-e30901aa2fbc",
+      "name": "Supabase Vector Store",
+      "credentials": {
+        "supabaseApi": {
+          "id": "8ypiQ79vqSpOnFUy",
+          "name": "Supabase "
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        -1100,
+        860
+      ],
+      "id": "63c553dd-02e7-4a32-b926-548e38a50faf",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "chunkSize": 200,
+        "chunkOverlap": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterTokenSplitter",
+      "typeVersion": 1,
+      "position": [
+        -940,
+        1000
+      ],
+      "id": "6ac55e84-0200-4aca-89cd-ad6306b2dfbe",
+      "name": "Token Splitter"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2140,
+        680
+      ],
+      "id": "547c7036-1fe1-434e-b0c1-26d1702a67a5",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "options": {
+          "dimensions": 1536
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1460,
+        960
+      ],
+      "id": "6c669f48-cca1-4376-adb0-5c43e4144ac1",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "AhNlapeTC4e4mLvK",
+          "name": "brendha_mattos"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -440,
+        620
+      ],
+      "id": "67d99019-494d-42c0-b51a-4936641cea88",
+      "name": "When chat message received",
+      "webhookId": "e2491cb7-7f1a-4642-97f9-7200e4226201"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "busque no banco de dados na api do ghl todas as dúvidas em relação a api, requisições e webhooks"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -220,
+        620
+      ],
+      "id": "52f4bb1f-b36a-4e0b-8419-e9542cefc05f",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        420,
+        800
+      ],
+      "id": "9b1044ed-057d-41fd-a583-4902aad3271d",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -180,
+        860
+      ],
+      "id": "5e165687-1e0a-4756-bcd8-aebcd09d2506",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "match_assistant_bobgrow",
+        "toolDescription": "busque informações sobre a api da ghl",
+        "tableName": {
+          "__rl": true,
+          "value": "assistant_bobgrow",
+          "mode": "list",
+          "cachedResultName": "assistant_bobgrow"
+        },
+        "options": {
+          "queryName": "match_assistant_bobgrow"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.1,
+      "position": [
+        -20,
+        860
+      ],
+      "id": "76937616-1bc5-4414-b7ce-da53528d8eb6",
+      "name": "Supabase Vector Store1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "8ypiQ79vqSpOnFUy",
+          "name": "Supabase "
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -100,
+        1060
+      ],
+      "id": "3548445d-3436-4a99-af69-bedcebcd78f6",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "AhNlapeTC4e4mLvK",
+          "name": "brendha_mattos"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a5f553fd-2ec1-4493-877d-ebb7a349eedd",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        140,
+        620
+      ],
+      "id": "5c70b07f-0b06-4cbc-8c4c-aa712b90a93e",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "https://api.apify.com/v2/acts/pintostudio~youtube-transcript-scraper/runs/last/dataset/items?token=apify_api_LDQejHND6GQhEunAPADzleFbRVQUFe21z2S6",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1740,
+        680
+      ],
+      "id": "8030f1d2-3bae-498a-a9ef-f4d472e5f347",
+      "name": "Scraper_youtube"
+    },
+    {
+      "parameters": {
+        "content": "## Entrada de conhecimento",
+        "height": 700,
+        "width": 1500
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2240,
+        520
+      ],
+      "typeVersion": 1,
+      "id": "119c30c9-b6d4-4b21-89de-2f3468a60fb5",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Banco de dados",
+        "height": 700,
+        "width": 1500
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -700,
+        520
+      ],
+      "typeVersion": 1,
+      "id": "9a522599-e683-4984-aef5-cba8fa5de5ce",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -400,
+        900
+      ],
+      "id": "6065738f-5803-47ab-a7b8-26f4639c3563",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "AhNlapeTC4e4mLvK",
+          "name": "brendha_mattos"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Scraper_youtube",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Token Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scraper_youtube": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "42b8a11f-6f74-4d29-beb7-211581fa8d95",
+  "triggerCount": 0,
+  "tags": []
+}
