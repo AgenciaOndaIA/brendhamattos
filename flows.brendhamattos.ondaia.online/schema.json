@@ -1811,6 +1811,10 @@
               "value": "nvidia/llama-3.1-nemotron-ultra-253b-v1:free"
             },
             {
+              "text": "NVIDIA: Llama 3.1 Nemotron Ultra 253B v1",
+              "value": "nvidia/llama-3.1-nemotron-ultra-253b-v1"
+            },
+            {
               "text": "Meta: Llama 4 Maverick (free)",
               "value": "meta-llama/llama-4-maverick:free"
             },
@@ -3045,20 +3049,20 @@
               "value": "eleven_flash_v2"
             },
             {
-              "text": "Eleven English v1",
-              "value": "eleven_monolingual_v1"
-            },
-            {
-              "text": "Eleven English v2",
-              "value": "eleven_english_sts_v2"
-            },
-            {
               "text": "Eleven Multilingual v1",
               "value": "eleven_multilingual_v1"
             },
             {
+              "text": "Eleven English v1",
+              "value": "eleven_monolingual_v1"
+            },
+            {
               "text": "Eleven Multilingual v2",
               "value": "eleven_multilingual_sts_v2"
+            },
+            {
+              "text": "Eleven English v2",
+              "value": "eleven_english_sts_v2"
             }
           ]
         },
