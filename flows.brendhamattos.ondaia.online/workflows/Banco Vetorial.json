@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-26T10:53:19.511Z",
-  "updatedAt": "2025-05-28T18:13:40.445Z",
+  "updatedAt": "2025-05-28T19:59:18.517Z",
   "id": "YWltaS4LeUkmVbQg",
   "name": "Banco Vetorial",
   "active": false,
@@ -15,7 +15,7 @@
           "mode": "list",
           "cachedResultName": "assistant_brendhamattos"
         },
-        "embeddingBatchSize": 10,
+        "embeddingBatchSize": 1,
         "options": {
           "queryName": "match_assistant_brendhamattos"
         }
@@ -149,44 +149,13 @@
     },
     {
       "parameters": {
-        "mode": "retrieve-as-tool",
-        "toolName": "match_assistant_brendhamattos",
-        "toolDescription": "busque informações sobre em BD",
-        "tableName": {
-          "__rl": true,
-          "value": "assistant_brendhamattos",
-          "mode": "list",
-          "cachedResultName": "assistant_brendhamattos"
-        },
-        "includeDocumentMetadata": false,
-        "options": {
-          "queryName": "match_assistant_brendhamattos"
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
-      "typeVersion": 1.1,
-      "position": [
-        540,
-        1060
-      ],
-      "id": "76937616-1bc5-4414-b7ce-da53528d8eb6",
-      "name": "Supabase Vector Store1",
-      "credentials": {
-        "supabaseApi": {
-          "id": "8ypiQ79vqSpOnFUy",
-          "name": "Supabase "
-        }
-      }
-    },
-    {
-      "parameters": {
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        460,
-        1260
+        120,
+        1120
       ],
       "id": "3548445d-3436-4a99-af69-bedcebcd78f6",
       "name": "Embeddings OpenAI1",
@@ -293,14 +262,18 @@
         "operation": "download",
         "fileId": {
           "__rl": true,
-          "value": "1Ob8FxXzJMOhn__vSLIarxRsx4vpI6sBG",
+          "value": "16nwIMIWcoWJZGl-hsChCZI62QMh3j5hrrOmNVM34W3Q",
           "mode": "list",
-          "cachedResultName": "video 01.csv",
-          "cachedResultUrl": "https://drive.google.com/file/d/1Ob8FxXzJMOhn__vSLIarxRsx4vpI6sBG/view?usp=drivesdk"
+          "cachedResultName": "Boneca Reborne",
+          "cachedResultUrl": "https://docs.google.com/document/d/16nwIMIWcoWJZGl-hsChCZI62QMh3j5hrrOmNVM34W3Q/edit?usp=drivesdk"
         },
         "options": {
           "googleFileConversion": {
-            "conversion": {}
+            "conversion": {
+              "docsToFormat": "text/plain",
+              "drawingsToFormat": "application/pdf",
+              "slidesToFormat": "application/pdf"
+            }
           }
         }
       },
@@ -335,10 +308,8 @@
     },
     {
       "parameters": {
-        "options": {
-          "encoding": "utf-8",
-          "headerRow": true
-        }
+        "operation": "text",
+        "options": {}
       },
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
@@ -348,6 +319,72 @@
       ],
       "id": "85866ac2-2f98-41a1-9cf9-dd3c46e5f51c",
       "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6f40eec8-7241-45f4-bd8d-c46849b70653",
+              "name": "data",
+              "value": "={\n\"start\": \"{{ $json.start }}\",\n\"dur\": \"{{ $json.dur }}\",\n\"text\": \"{{ $json.text }}\"\n}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2040,
+        940
+      ],
+      "id": "8a5f6100-3f6f-468e-bcef-801c786a81ee",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Pega a string crua\nconst raw = items[0].json.data;\n\n// 2. Converte a string JSON para objeto JavaScript\nconst jsonParsed = JSON.parse(raw); // agora jsonParsed é um array com um objeto que tem .data\n\n// 3. Pega a lista real de blocos de transcrição\nconst parsed = jsonParsed[0].data;\n\n// 4. Retorna cada um como item separado\nreturn parsed.map(obj => ({\n  json: {\n    start: obj.start,\n    dur: obj.dur,\n    text: obj.text\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1620,
+        660
+      ],
+      "id": "8e2e63cc-d0bb-4075-8340-597a29e18bf4",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "macht_assistant_brendhamattos",
+        "toolDescription": "Busque no Banco de dados",
+        "tableName": {
+          "__rl": true,
+          "value": "assistant_brendhamattos",
+          "mode": "list",
+          "cachedResultName": "assistant_brendhamattos"
+        },
+        "options": {
+          "queryName": "match_assistant_brendhamattos"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.1,
+      "position": [
+        -20,
+        900
+      ],
+      "id": "47d8033b-981b-4605-a395-77af974d0556",
+      "name": "Supabase Vector Store1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "8ypiQ79vqSpOnFUy",
+          "name": "Supabase "
+        }
+      }
     }
   ],
   "connections": {
@@ -439,11 +476,6 @@
         ]
       ]
     },
-    "Supabase Vector Store1": {
-      "ai_tool": [
-        []
-      ]
-    },
     "Embeddings OpenAI1": {
       "ai_embedding": [
         [
@@ -486,6 +518,50 @@
       "main": [
         []
       ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -496,7 +572,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "34b91a01-092e-42ee-bde6-738a0b5273ae",
+  "versionId": "4ceefd3e-2f76-47b4-a38c-9aaa5ed59845",
   "triggerCount": 0,
   "tags": []
 }
