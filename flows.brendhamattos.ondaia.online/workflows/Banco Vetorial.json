@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-26T10:53:19.511Z",
-  "updatedAt": "2025-05-26T11:56:50.952Z",
+  "updatedAt": "2025-05-28T14:22:37.853Z",
   "id": "YWltaS4LeUkmVbQg",
   "name": "Banco Vetorial",
   "active": false,
@@ -187,16 +187,17 @@
     {
       "parameters": {
         "mode": "retrieve-as-tool",
-        "toolName": "match_assistant_bobgrow",
-        "toolDescription": "busque informações sobre a api da ghl",
+        "toolName": "match_assistant_brendhamattos",
+        "toolDescription": "busque informações sobre em BD",
         "tableName": {
           "__rl": true,
-          "value": "assistant_bobgrow",
+          "value": "assistant_brendhamattos",
           "mode": "list",
-          "cachedResultName": "assistant_bobgrow"
+          "cachedResultName": "assistant_brendhamattos"
         },
+        "includeDocumentMetadata": false,
         "options": {
-          "queryName": "match_assistant_bobgrow"
+          "queryName": "match_assistant_brendhamattos"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
@@ -278,7 +279,7 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -2240,
+        -2260,
         520
       ],
       "typeVersion": 1,
@@ -489,7 +490,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "42b8a11f-6f74-4d29-beb7-211581fa8d95",
+  "versionId": "665725ee-755d-40b5-8f3b-d0cbd27bf69c",
   "triggerCount": 0,
   "tags": []
 }
