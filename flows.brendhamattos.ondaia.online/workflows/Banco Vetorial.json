@@ -1,48 +1,11 @@
 {
   "createdAt": "2025-05-26T10:53:19.511Z",
-  "updatedAt": "2025-05-28T14:22:37.853Z",
+  "updatedAt": "2025-05-28T18:13:40.445Z",
   "id": "YWltaS4LeUkmVbQg",
   "name": "Banco Vetorial",
   "active": false,
   "isArchived": false,
   "nodes": [
-    {
-      "parameters": {
-        "amount": 2
-      },
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        -1920,
-        680
-      ],
-      "id": "a773094e-6396-4c50-8a76-fab84bf3a267",
-      "name": "Wait",
-      "webhookId": "bcfe3420-6a5f-4552-8ccc-988385ffed92"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "f5d468c3-c2f1-441a-9cab-fdebcc4a6a6c",
-              "name": "content",
-              "value": "=url: {{$json.url}}\ntitle: {{ $json.metadata.title }}\ndescription: {{ $json.text }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1560,
-        680
-      ],
-      "id": "c63e0f1d-4e27-41b5-b3ea-96fad3bfe957",
-      "name": "Edit Fields1"
-    },
     {
       "parameters": {
         "mode": "insert",
@@ -52,7 +15,7 @@
           "mode": "list",
           "cachedResultName": "assistant_brendhamattos"
         },
-        "embeddingBatchSize": 1,
+        "embeddingBatchSize": 10,
         "options": {
           "queryName": "match_assistant_brendhamattos"
         }
@@ -61,7 +24,7 @@
       "typeVersion": 1.1,
       "position": [
         -1360,
-        680
+        660
       ],
       "id": "ab640749-5d4a-4797-8420-e30901aa2fbc",
       "name": "Supabase Vector Store",
@@ -79,22 +42,22 @@
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1,
       "position": [
-        -1100,
-        860
+        -1180,
+        840
       ],
       "id": "63c553dd-02e7-4a32-b926-548e38a50faf",
       "name": "Default Data Loader"
     },
     {
       "parameters": {
-        "chunkSize": 200,
+        "chunkSize": 100,
         "chunkOverlap": 10
       },
       "type": "@n8n/n8n-nodes-langchain.textSplitterTokenSplitter",
       "typeVersion": 1,
       "position": [
-        -940,
-        1000
+        -1240,
+        980
       ],
       "id": "6ac55e84-0200-4aca-89cd-ad6306b2dfbe",
       "name": "Token Splitter"
@@ -104,8 +67,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -2140,
-        680
+        -2180,
+        660
       ],
       "id": "547c7036-1fe1-434e-b0c1-26d1702a67a5",
       "name": "When clicking ‘Test workflow’"
@@ -119,8 +82,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -1460,
-        960
+        -1420,
+        900
       ],
       "id": "6c669f48-cca1-4376-adb0-5c43e4144ac1",
       "name": "Embeddings OpenAI",
@@ -165,8 +128,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolThink",
       "typeVersion": 1,
       "position": [
-        420,
-        800
+        280,
+        880
       ],
       "id": "9b1044ed-057d-41fd-a583-4902aad3271d",
       "name": "Think"
@@ -203,8 +166,8 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
       "typeVersion": 1.1,
       "position": [
-        -20,
-        860
+        540,
+        1060
       ],
       "id": "76937616-1bc5-4414-b7ce-da53528d8eb6",
       "name": "Supabase Vector Store1",
@@ -222,8 +185,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -100,
-        1060
+        460,
+        1260
       ],
       "id": "3548445d-3436-4a99-af69-bedcebcd78f6",
       "name": "Embeddings OpenAI1",
@@ -265,8 +228,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -1740,
-        680
+        -2440,
+        500
       ],
       "id": "8030f1d2-3bae-498a-a9ef-f4d472e5f347",
       "name": "Scraper_youtube"
@@ -324,31 +287,70 @@
           "name": "brendha_mattos"
         }
       }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1Ob8FxXzJMOhn__vSLIarxRsx4vpI6sBG",
+          "mode": "list",
+          "cachedResultName": "video 01.csv",
+          "cachedResultUrl": "https://drive.google.com/file/d/1Ob8FxXzJMOhn__vSLIarxRsx4vpI6sBG/view?usp=drivesdk"
+        },
+        "options": {
+          "googleFileConversion": {
+            "conversion": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -1980,
+        660
+      ],
+      "id": "789db11a-154a-47bd-a220-32d495664efb",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "w7Mesxp3SvtAG8a8",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1620,
+        480
+      ],
+      "id": "f6c86dc2-4c25-4f4e-bae3-ddadc747a4f5",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "options": {
+          "encoding": "utf-8",
+          "headerRow": true
+        }
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -1800,
+        660
+      ],
+      "id": "85866ac2-2f98-41a1-9cf9-dd3c46e5f51c",
+      "name": "Extract from File"
     }
   ],
   "connections": {
-    "Wait": {
-      "main": [
-        [
-          {
-            "node": "Scraper_youtube",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields1": {
-      "main": [
-        [
-          {
-            "node": "Supabase Vector Store",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Default Data Loader": {
       "ai_document": [
         [
@@ -375,7 +377,7 @@
       "main": [
         [
           {
-            "node": "Wait",
+            "node": "Google Drive",
             "type": "main",
             "index": 0
           }
@@ -439,13 +441,7 @@
     },
     "Supabase Vector Store1": {
       "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Embeddings OpenAI1": {
@@ -461,13 +457,7 @@
     },
     "Scraper_youtube": {
       "main": [
-        [
-          {
-            "node": "Edit Fields1",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "OpenAI Chat Model": {
@@ -480,6 +470,22 @@
           }
         ]
       ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        []
+      ]
     }
   },
   "settings": {
@@ -490,7 +496,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "665725ee-755d-40b5-8f3b-d0cbd27bf69c",
+  "versionId": "34b91a01-092e-42ee-bde6-738a0b5273ae",
   "triggerCount": 0,
   "tags": []
 }
