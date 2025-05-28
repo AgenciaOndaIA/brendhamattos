@@ -1755,10 +1755,6 @@
               "value": "shisa-ai/shisa-v2-llama3.3-70b:free"
             },
             {
-              "text": "Qwen: Qwen2.5 Coder 7B Instruct",
-              "value": "qwen/qwen2.5-coder-7b-instruct"
-            },
-            {
               "text": "OpenAI: GPT-4.1",
               "value": "openai/gpt-4.1"
             },
@@ -2571,10 +2567,6 @@
               "value": "neversleep/llama-3-lumimaid-70b"
             },
             {
-              "text": "DeepSeek-Coder-V2",
-              "value": "deepseek/deepseek-coder"
-            },
-            {
               "text": "Google: Gemini 1.5 Flash ",
               "value": "google/gemini-flash-1.5"
             },
@@ -2593,10 +2585,6 @@
             {
               "text": "OpenAI: GPT-4o (2024-05-13)",
               "value": "openai/gpt-4o-2024-05-13"
-            },
-            {
-              "text": "OLMo 7B Instruct",
-              "value": "allenai/olmo-7b-instruct"
             },
             {
               "text": "NeverSleep: Llama 3 Lumimaid 8B",
@@ -3045,20 +3033,20 @@
               "value": "eleven_flash_v2"
             },
             {
-              "text": "Eleven English v2",
-              "value": "eleven_english_sts_v2"
-            },
-            {
               "text": "Eleven Multilingual v2",
               "value": "eleven_multilingual_sts_v2"
+            },
+            {
+              "text": "Eleven Multilingual v1",
+              "value": "eleven_multilingual_v1"
             },
             {
               "text": "Eleven English v1",
               "value": "eleven_monolingual_v1"
             },
             {
-              "text": "Eleven Multilingual v1",
-              "value": "eleven_multilingual_v1"
+              "text": "Eleven English v2",
+              "value": "eleven_english_sts_v2"
             }
           ]
         },
