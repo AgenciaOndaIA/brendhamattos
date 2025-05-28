@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-22T17:33:06.831Z",
-  "updatedAt": "2025-05-28T17:30:29.436Z",
+  "updatedAt": "2025-05-28T20:05:42.450Z",
   "id": "KmQFVLzk9PoaqCUa",
   "name": "[Maria] v2",
   "active": true,
@@ -2118,6 +2118,19 @@
       ],
       "id": "1a713d6b-de8c-434f-a8de-e71c29946b98",
       "name": "Execution Data3"
+    },
+    {
+      "parameters": {
+        "sseEndpoint": "https://webhook.brendhamattos.ondaia.online/mcp/conhecimento/sse"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        900,
+        960
+      ],
+      "id": "8e29fbfe-d4d2-45cb-b233-ec72b0832a34",
+      "name": "MCP Conhecimento"
     }
   ],
   "connections": {
@@ -3029,6 +3042,17 @@
           }
         ]
       ]
+    },
+    "MCP Conhecimento": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {},
@@ -3037,7 +3061,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "33e75503-0827-441f-bc9e-912d206c36c2",
+  "versionId": "fcf0c58e-7241-4961-bf0d-79111eca9bb8",
   "triggerCount": 6,
   "tags": []
 }
