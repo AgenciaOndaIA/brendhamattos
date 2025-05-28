@@ -1,0 +1,108 @@
+{
+  "createdAt": "2025-05-28T20:03:42.966Z",
+  "updatedAt": "2025-05-28T20:04:58.535Z",
+  "id": "BECJvEZ8HunY478J",
+  "name": "MCP -Conhecimento",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "conhecimento"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 1,
+      "position": [
+        -460,
+        -200
+      ],
+      "id": "1ca42cf9-8697-4b34-91a3-5e31320b3f16",
+      "name": "MCP Server Trigger",
+      "webhookId": "5bb710e5-c45f-4bb7-9577-6ecfc4192a98"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        140,
+        180
+      ],
+      "id": "0fdbebb9-0ac5-43b0-a866-8a97853883ad",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "AhNlapeTC4e4mLvK",
+          "name": "brendha_mattos"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "macht_assistant_brendhamattos",
+        "toolDescription": "Busque no Banco de dados",
+        "tableName": {
+          "__rl": true,
+          "value": "assistant_brendhamattos",
+          "mode": "list",
+          "cachedResultName": "assistant_brendhamattos"
+        },
+        "options": {
+          "queryName": "match_assistant_brendhamattos"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.1,
+      "position": [
+        -20,
+        -20
+      ],
+      "id": "9a7a70a8-1121-488a-b7b6-83b752d5705f",
+      "name": "Supabase Vector Store1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "8ypiQ79vqSpOnFUy",
+          "name": "Supabase "
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "d4ae993d-1eaf-49ba-8424-ced124a8256b",
+  "triggerCount": 1,
+  "tags": []
+}
