@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-26T10:53:19.511Z",
-  "updatedAt": "2025-05-28T19:59:18.517Z",
+  "updatedAt": "2025-05-28T21:32:06.480Z",
   "id": "YWltaS4LeUkmVbQg",
   "name": "Banco Vetorial",
   "active": false,
@@ -262,15 +262,15 @@
         "operation": "download",
         "fileId": {
           "__rl": true,
-          "value": "16nwIMIWcoWJZGl-hsChCZI62QMh3j5hrrOmNVM34W3Q",
+          "value": "1Sozg0Z4oZ1Ku9K3Bma-SR6Sq_FkIVcbU",
           "mode": "list",
-          "cachedResultName": "Boneca Reborne",
-          "cachedResultUrl": "https://docs.google.com/document/d/16nwIMIWcoWJZGl-hsChCZI62QMh3j5hrrOmNVM34W3Q/edit?usp=drivesdk"
+          "cachedResultName": "Atomic habits ( PDFDrive ).pdf",
+          "cachedResultUrl": "https://drive.google.com/file/d/1Sozg0Z4oZ1Ku9K3Bma-SR6Sq_FkIVcbU/view?usp=drivesdk"
         },
         "options": {
           "googleFileConversion": {
             "conversion": {
-              "docsToFormat": "text/plain",
+              "docsToFormat": "application/pdf",
               "drawingsToFormat": "application/pdf",
               "slidesToFormat": "application/pdf"
             }
@@ -350,8 +350,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1620,
-        660
+        -2220,
+        940
       ],
       "id": "8e2e63cc-d0bb-4075-8340-597a29e18bf4",
       "name": "Code"
@@ -523,7 +523,7 @@
       "main": [
         [
           {
-            "node": "Code",
+            "node": "Supabase Vector Store",
             "type": "main",
             "index": 0
           }
@@ -543,13 +543,7 @@
     },
     "Edit Fields1": {
       "main": [
-        [
-          {
-            "node": "Supabase Vector Store",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Supabase Vector Store1": {
@@ -572,7 +566,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "4ceefd3e-2f76-47b4-a38c-9aaa5ed59845",
+  "versionId": "78755127-cbce-4eec-92dd-d24b3c0d5fc0",
   "triggerCount": 0,
   "tags": []
 }
