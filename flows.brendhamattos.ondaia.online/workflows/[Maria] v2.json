@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-22T17:33:06.831Z",
-  "updatedAt": "2025-05-26T10:15:55.901Z",
+  "updatedAt": "2025-05-28T14:12:41.407Z",
   "id": "KmQFVLzk9PoaqCUa",
   "name": "[Maria] v2",
   "active": true,
@@ -8,19 +8,296 @@
   "nodes": [
     {
       "parameters": {
+        "method": "POST",
+        "url": "=http://{{ $('Main Agent3').first().json.body.mapping.parseJson().system.n8n_webhook_service}}:5678/webhook/agent/knowledge",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "={{ $('Main Agent3').first().json.body.mapping.parseJson().chatwoot.content ?? $input.all()\n        .map(item => item.json.content)\n        .filter(content => content)\n        .join('\\n\\n') }}"
+            },
+            {
+              "name": "mapping",
+              "value": "={{ $('Main Agent3').first().json.body.mapping }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        920,
+        540
+      ],
+      "id": "0a315bb3-8387-4ccc-a308-b74bc4b89941",
+      "name": "Call Agent Rag",
+      "executeOnce": true,
+      "notesInFlow": true,
+      "notes": "Chama o agente principal"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {
+          "includeUnpaired": true
+        }
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        1100,
+        440
+      ],
+      "id": "727ff5ed-7257-46aa-a3bf-94d51edb4a40",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "main",
+                    "rightValue": "main",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "b746f04a-ab1b-44de-bde2-6eae85e7b6cf"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "main"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2f483833-145f-43e4-a8bd-99f55eb0b523",
+                    "leftValue": "={{ $('Main Agent3').item.json.body.mapping.parseJson().system.enabled_rag  }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "rag"
+            }
+          ]
+        },
+        "options": {
+          "allMatchingOutputs": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        720,
+        440
+      ],
+      "id": "7796e594-3568-47f1-ab7d-68af8409cb1f",
+      "name": "Agents"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "body.files",
+        "options": {
+          "destinationFieldName": "binary",
+          "includeBinary": false
+        }
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        440
+      ],
+      "id": "3fa68fcc-a04a-4197-ae87-5414951b7d24",
+      "name": "Split Base64",
+      "executeOnce": false,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a699652f-1f2d-4be5-b011-87f0f640faed",
+              "leftValue": "={{ Array.isArray($('Main Agent3').item.json.body.files) && $('Main Agent3').item.json.body.files.filter(x => x !== null).length > 0 }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "5747233c-9e48-4a90-93ba-561211e4bcf2",
+              "leftValue": "={{ $('Main Agent3').item.json.body.files",
+              "rightValue": "=",
+              "operator": {
+                "type": "array",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1520,
+        440
+      ],
+      "id": "470fb0d6-8a8f-42b3-bd6f-706a7c85062b",
+      "name": "Binary Exists?",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        2120,
+        440
+      ],
+      "id": "c731c741-562b-460c-9fce-e6d1ec717c8b",
+      "name": "Merge Binaries",
+      "alwaysOutputData": true,
+      "notesInFlow": true,
+      "executeOnce": true,
+      "notes": "Junta os binarios"
+    },
+    {
+      "parameters": {
+        "jsCode": "const mergedItem = { binary: {}};\n\n// Coleta todos os binários de todos os itens sem manipulação\n$input.all().forEach((inputItem) => {\n  if (inputItem.binary) {\n    Object.assign(mergedItem.binary, inputItem.binary);\n  }\n});\n\n// Retorna um único item com todos os binários\nreturn [mergedItem];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1920,
+        340
+      ],
+      "id": "e45f0429-e42e-4141-8bfc-2c0fa0df4c6a",
+      "name": "Binaries"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "binary",
+        "binaryPropertyName": "=data{{ $itemIndex }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1720,
+        340
+      ],
+      "id": "16046b53-8cbd-49e1-928a-b62132f17903",
+      "name": "Convert",
+      "notesInFlow": true,
+      "notes": "Converte texto em binário"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Main Agent3').first().json.body.mapping.parseJson().chatwoot.content || \" \"  }}",
+        "options": {
+          "systemMessage": "=You are a helpful assistant\n\nNunca use hiperlinks\n\n<system_information>\n1. Data e hora atuais: {{ $now.format(\"EEE, MMM dd, yyyy, HH:mm\") }}\n</system_information>\n\n<retrieval_augmented_generation_result>\n{{ \n  $('Call Agent Rag').isExecuted\n      ? $('Call Agent Rag').first().json.output\n      : \"Rag desativado\" \n}}\n\n</retrieval_augmented_generation_result>\n\n<prompt>\n  {{ $('Main Agent3').first().json.body.mapping.parseJson().system.system_message }}\n</prompt>",
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        2320,
+        440
+      ],
+      "id": "5a9ba4cd-eacb-4e6a-80f9-e6740abbeedb",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        2680,
+        440
+      ],
+      "id": "e2216d4b-ff2c-4459-b848-86810f621717",
+      "name": "Respond "
+    },
+    {
+      "parameters": {
+        "model": "gpt-4.1-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1800,
+        780
+      ],
+      "id": "880516b3-7f2c-4e86-b10e-b16735c20c20",
+      "name": "Openai3",
+      "credentials": {
+        "openAiApi": {
+          "id": "AhNlapeTC4e4mLvK",
+          "name": "brendha_mattos"
+        }
+      }
+    },
+    {
+      "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "={{ $('Main Agent1').item.json.body.mapping.parseJson().system.conversations_id }}",
+        "sessionKey": "={{ $('Main Agent3').first().json.body.mapping.parseJson().system.conversations_id }}",
         "tableName": "core_chat_histories",
-        "contextWindowLength": "={{ $('Main Agent1').item.json.body.mapping.parseJson().system.context_window }}"
+        "contextWindowLength": "={{ $('Main Agent3').first().json.body.mapping.parseJson().system.context_window }}"
       },
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        1600,
-        2160
+        1920,
+        780
       ],
-      "id": "eba64d47-8f88-48d6-8b6a-bca4629deb8b",
-      "name": "Memory",
+      "id": "3debcc21-22b3-48e0-97d9-c781707c2f97",
+      "name": "Memory1",
       "credentials": {
         "postgres": {
           "id": "ppYhvJxK7mITa7Mb",
@@ -32,35 +309,196 @@
       "parameters": {
         "content": "",
         "height": 180,
-        "width": 900,
+        "width": 2620,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1420,
-        2120
+        240,
+        740
       ],
       "typeVersion": 1,
-      "id": "d2a433ce-9c89-4fe2-9fbf-662169e66a0d",
-      "name": "Sticky Note"
+      "id": "a4604a48-774d-490a-8bd5-6159897bb90a",
+      "name": "Sticky Note2"
     },
     {
       "parameters": {
-        "promptType": "define",
-        "text": "={{ $json.body.content || ' ' }}",
-        "options": {
-          "systemMessage": "=You are a helpful assistant\n\nNunca use hiperlinks\n\n<system_information>\n1. Data e hora atuais: {{ $now.format(\"EEE, MMM dd, yyyy, HH:mm\") }}\n</system_information>\n\n<retrieval_augmented_generation_result>\n{{ $json.body.rag_return }}\n</retrieval_augmented_generation_result>\n\n<promp>\n  {{ $json.body.mapping.parseJson().system.system_message }}\n</promp>",
-          "passthroughBinaryImages": true
+        "content": "",
+        "height": 380,
+        "width": 2700,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        240,
+        340
+      ],
+      "id": "28b9fb64-713d-4ea4-ad43-c59b57ea1e05",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 640,
+        "width": 2740,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        220,
+        320
+      ],
+      "typeVersion": 1,
+      "id": "8cacce73-e23e-470a-8acd-a3cf40ec9700",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "Fluxo Core, responsável pelo processamento da AI",
+        "height": 80,
+        "width": 260,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        320,
+        300
+      ],
+      "id": "bfb86176-221f-48e1-b72d-c2e166579cd7",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "name": "restart_history",
+        "description": "=Invoque essa tool para iniciar uma nova conversa para o user, assim ignorando o histórico passado. Apenas quando o user solicitar.",
+        "jsCode": "const axios = require('axios');\n\n// Converte o mapeamento recebido em JSON\nconst mapping = JSON.parse($('Core Input').item.json.body.mapping);\n\n// Verifica se o usuário é admin; caso contrário, retorna erro\nif (mapping.system.user_type !== 'admin') {\n  return JSON.stringify({ success: false, error: \"Acesso negado: usuário não autorizado.\" });\n}\n\n/**\n * Função que espera pelo tempo especificado.\n * @param {number} ms - Milissegundos a aguardar.\n * @returns {Promise<void>}\n */\nconst delay = ms => new Promise(resolve => setTimeout(resolve, ms));\n\n/**\n * Função para enviar a requisição para criar uma conversa no Directus.\n * Tenta até 3 vezes em caso de falha, com delay de 1 segundo entre as tentativas.\n * @returns {Promise<object>} - Objeto com sucesso ou erro.\n */\nasync function sendRequest() {\n  const url = `http://${mapping.system.directus_service}:8055/items/conversations`;\n  const data = {\n    user_id: mapping.chatwoot.contact_id,\n    date_created: new Date().toISOString()\n  };\n  const headers = {\n    Authorization: `Bearer ${mapping.system.directus_token}`,\n    'Content-Type': 'application/json'\n  };\n\n  let attempt = 0;\n  let lastError = null;\n\n  while (attempt < 3) {\n    try {\n      const response = await axios.post(url, data, { headers });\n      console.log(`Requisição realizada com sucesso na tentativa ${attempt + 1}.`);\n      return { success: true, data: response.data };\n    } catch (error) {\n      attempt++;\n      lastError = error;\n      console.error(`Tentativa ${attempt} falhou:`, error.response ? error.response.data : error.message);\n      if (attempt < 3) {\n        console.log(\"Aguardando 1 segundo antes da nova tentativa...\");\n        await delay(1000);\n      }\n    }\n  }\n  \n  return { success: false, error: lastError.response ? lastError.response.data : lastError.message };\n}\n\nreturn sendRequest().then(result => JSON.stringify(result));"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        2280,
+        780
+      ],
+      "id": "64576ace-ec77-4c03-85d6-568dd0db318c",
+      "name": "Restart History1"
+    },
+    {
+      "parameters": {
+        "name": "set_timer",
+        "description": "Invoque essa tool para configurar um timer que iniciará uma ação após o tempo especificado. Apenas usuários admin podem usar essa tool. O tempo deve ser informado com valor e unidade (s, m, h). Apenas quando o user solicitar.",
+        "jsCode": "const axios = require('axios');\nconst dayjs = require('dayjs');\nconst duration = require('dayjs/plugin/duration');\ndayjs.extend(duration);\n\n/**\n * Esta tool configura um timer via webhook.\n * Ela envia, para o endpoint, todo o objeto mapping (obtido em Core Input)\n * e o tempo em segundos calculado a partir dos parâmetros \"timer_value\" e \"timer_unit\".\n * Apenas usuários admin podem utilizar esta tool.\n */\n\n// Converte o mapping recebido em JSON\nconst mapping = JSON.parse($('Core Input').item.json.body.mapping);\n\n// Verifica se o usuário é admin\nif (mapping.system.user_type !== 'admin') {\n  return JSON.stringify({ success: false, error: \"Acesso negado: usuário não autorizado.\" });\n}\n\n// Obtém os parâmetros do timer a partir do input (query)\nconst timerValue = query.timer_value;  // Número (ex: 30)\nconst timerUnit = query.timer_unit;      // \"s\", \"m\" ou \"h\"\n\n// Calcula o tempo em segundos usando dayjs.duration\nconst timerSeconds = dayjs.duration(timerValue, timerUnit).asSeconds();\n\n// Prepara o payload para o webhook\nconst payload = {\n  mapping: mapping,\n  timer_seconds: timerSeconds\n};\n\n// URL do webhook substituindo 'n8n_webhook' pelo valor da variável no mapping\nconst url = `http://${mapping.system.n8n_webhook_service}:5678/webhook/timer`;\n\n/**\n * Função para enviar a requisição ao webhook.\n * Tenta enviar uma única vez e retorna o resultado.\n */\nasync function sendTimerRequest() {\n  try {\n    console.log(`Enviando requisição para configurar o timer para ${timerSeconds} segundos...`);\n    const response = await axios.post(url, payload, {\n      headers: { 'Content-Type': 'application/json' }\n    });\n    console.log(\"Timer configurado com sucesso.\");\n    return { success: true, message: `Timer configurado com sucesso. Ele será acionado em ${timerSeconds} segundos.` };\n  } catch (error) {\n    console.error(\"Erro ao configurar o timer:\", error.response ? error.response.data : error.message);\n    return { success: false, error: error.response ? error.response.data : error.message };\n  }\n}\n\nreturn sendTimerRequest().then(result => JSON.stringify(result));",
+        "specifyInputSchema": true,
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"timer_value\": {\n      \"type\": \"number\",\n      \"description\": \"Valor do timer. Exemplo: 30\"\n    },\n    \"timer_unit\": {\n      \"type\": \"string\",\n      \"description\": \"Unidade de tempo para o timer: 's' para segundos, 'm' para minutos, 'h' para horas.\",\n      \"enum\": [\"s\", \"m\", \"h\"]\n    }\n  },\n  \"required\": [\"timer_value\", \"timer_unit\"]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        2400,
+        780
+      ],
+      "id": "6799a512-6697-42c2-ae74-139a72f65c98",
+      "name": "Set Timer1"
+    },
+    {
+      "parameters": {
+        "name": "clickup",
+        "description": "Ferramenta para gerenciar tarefas no ClickUp. Permite criar, listar, atualizar ou remover tarefas. Para criar, forneça pelo menos o título. Para atualizar ou remover, você precisa fornecer o ID da tarefa. Para listar, você pode aplicar filtros opcionais.",
+        "jsCode": "const workspaceId = '9011917991';\nconst listId = '901109860036';\nconst apiKey = 'pk_44163283_ZIFREHZQNJWKZ5YSD0XVV45B272AOARG';\nconst https = require('https');\n\nconst logs = [];\n\nfunction log(message) {\n  logs.push({ time: new Date().toISOString(), message });\n}\n\nfunction request(path, method, body = null) {\n  log(`Requisição: ${method} ${path}`);\n  \n  return new Promise((resolve, reject) => {\n    const options = {\n      hostname: 'api.clickup.com',\n      path,\n      method,\n      headers: {\n        'Content-Type': 'application/json',\n        'Authorization': apiKey\n      }\n    };\n    \n    const req = https.request(options, (res) => {\n      let data = '';\n      res.on('data', chunk => data += chunk);\n      res.on('end', () => {\n        try {\n          log(`Resposta: status ${res.statusCode}`);\n          \n          // Tratamento de respostas vazias (comum em DELETEs)\n          if (!data || data.trim() === '') {\n            return res.statusCode < 300 \n              ? resolve({ success: true }) \n              : reject({ \n                  success: false, \n                  message: `Erro: ${res.statusMessage}`, \n                  statusCode: res.statusCode \n                });\n          }\n          \n          const responseData = JSON.parse(data);\n          \n          if (res.statusCode < 300) {\n            resolve(responseData);\n          } else {\n            reject({\n              success: false,\n              message: `Erro: ${responseData.err || res.statusMessage}`,\n              statusCode: res.statusCode\n            });\n          }\n        } catch (error) {\n          log(`Erro ao processar resposta: ${error.message}`);\n          reject({\n            success: false,\n            message: `Erro ao processar resposta: ${error.message}`,\n            data\n          });\n        }\n      });\n    });\n\n    req.on('error', (error) => {\n      log(`Erro na requisição: ${error.message}`);\n      reject({ success: false, message: `Erro na requisição: ${error.message}` });\n    });\n\n    if (body) {\n      const data = typeof body === 'string' ? body : JSON.stringify(body);\n      log(`Enviando dados: ${data.substring(0, 100)}${data.length > 100 ? '...' : ''}`);\n      req.write(data);\n    }\n    \n    req.end();\n  });\n}\n\nconst operations = {\n  async list(query) {\n    log('Operação: listar tarefas');\n    \n    try {\n      // Construir parâmetros de consulta\n      const params = [];\n      \n      if (query.status) params.push(`statuses[]=${encodeURIComponent(query.status)}`);\n      if (query.assignee) params.push(`assignees[]=${encodeURIComponent(query.assignee)}`);\n      if (query.due_date_gt) params.push(`due_date_gt=${encodeURIComponent(query.due_date_gt)}`);\n      if (query.due_date_lt) params.push(`due_date_lt=${encodeURIComponent(query.due_date_lt)}`);\n      \n      // Paginação\n      params.push(`page=${query.page || 0}`);\n      const limit = Math.min(query.limit || 20, 100);\n      params.push(`limit=${limit}`);\n      \n      log(`Parâmetros: ${params.join('&')}`);\n      \n      // Fazer requisição\n      const data = await request(\n        `/api/v2/list/${listId}/task?${params.join('&')}`, \n        'GET'\n      );\n      \n      log(`Tarefas encontradas: ${data.tasks.length}`);\n      \n      return {\n        success: true,\n        tasks: data.tasks,\n        total_count: data.tasks.length,\n        has_more: data.tasks.length === limit\n      };\n    } catch (error) {\n      log(`Erro: ${error.message || JSON.stringify(error)}`);\n      return error;\n    }\n  },\n\n  async create(query) {\n    log('Operação: criar tarefa');\n    \n    if (!query.title) {\n      log('Erro: Título da tarefa não fornecido');\n      return { success: false, message: \"Título da tarefa é obrigatório para criação\" };\n    }\n    \n    const body = {\n      name: query.title,\n      description: query.description || '',\n      due_date: query.due_date || null,\n      priority: query.priority || 3,\n      assignees: query.assignees || []\n    };\n    \n    try {\n      log(`Criando tarefa: \"${query.title}\"`);\n      const data = await request(`/api/v2/list/${listId}/task`, 'POST', body);\n      log(`Tarefa criada com sucesso, ID: ${data.id}`);\n      \n      return {\n        success: true,\n        message: \"Tarefa criada com sucesso\",\n        taskId: data.id,\n        taskUrl: data.url\n      };\n    } catch (error) {\n      log(`Erro: ${error.message || JSON.stringify(error)}`);\n      return error;\n    }\n  },\n  \n  async delete(query) {\n    log('Operação: remover tarefa');\n    \n    if (!query.task_id) {\n      log('Erro: ID da tarefa não fornecido');\n      return { success: false, message: \"ID da tarefa é obrigatório para remoção\" };\n    }\n    \n    try {\n      log(`Removendo tarefa: ${query.task_id}`);\n      await request(`/api/v2/task/${query.task_id}`, 'DELETE');\n      log('Tarefa removida com sucesso');\n      \n      return {\n        success: true,\n        message: \"Tarefa removida com sucesso\",\n        taskId: query.task_id\n      };\n    } catch (error) {\n      log(`Erro: ${error.message || JSON.stringify(error)}`);\n      return error;\n    }\n  },\n  \n  async update(query) {\n    log('Operação: atualizar tarefa');\n    \n    if (!query.task_id) {\n      log('Erro: ID da tarefa não fornecido');\n      return { success: false, message: \"ID da tarefa é obrigatório para atualização\" };\n    }\n    \n    // Mapear campos\n    const fields = {\n      title: 'name',\n      description: 'description',\n      due_date: 'due_date',\n      priority: 'priority',\n      status: 'status',\n      assignees: 'assignees'\n    };\n    \n    const body = {};\n    \n    // Filtrar campos fornecidos\n    Object.entries(fields).forEach(([src, dest]) => {\n      if (query[src] !== undefined) body[dest] = query[src];\n    });\n    \n    if (Object.keys(body).length === 0) {\n      log('Erro: Nenhum campo fornecido para atualização');\n      return { success: false, message: \"Nenhum campo fornecido para atualização\" };\n    }\n    \n    try {\n      log(`Atualizando tarefa: ${query.task_id}`);\n      await request(`/api/v2/task/${query.task_id}`, 'PUT', body);\n      log('Tarefa atualizada com sucesso');\n      \n      return {\n        success: true,\n        message: \"Tarefa atualizada com sucesso\",\n        taskId: query.task_id\n      };\n    } catch (error) {\n      log(`Erro: ${error.message || JSON.stringify(error)}`);\n      return error;\n    }\n  }\n};\n\ntry {\n  log(`Iniciando processamento: ${JSON.stringify(query)}`);\n  \n  const operation = query.operation || 'create';\n  \n  const result = await operations[operation](query);\n  \n  return JSON.stringify({\n    success: true,\n    ...result,\n    logs: logs\n  });\n} catch (error) {\n  log(`Erro não tratado: ${error.message || JSON.stringify(error)}`);\n  return JSON.stringify({ \n    success: false, \n    message: `Erro não tratado: ${error.message || 'Erro desconhecido'}`,\n    logs \n  });\n}",
+        "specifyInputSchema": true,
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"operation\": {\n      \"type\": \"string\",\n      \"description\": \"Operação a ser realizada: criar, listar, atualizar ou remover tarefas\",\n      \"enum\": [\"create\", \"list\", \"update\", \"delete\"],\n      \"default\": \"create\"\n    },\n    \"task_id\": {\n      \"type\": \"string\",\n      \"description\": \"ID da tarefa (obrigatório para atualizar ou remover)\"\n    },\n    \"title\": {\n      \"type\": \"string\",\n      \"description\": \"Título da tarefa (obrigatório para criar, opcional para atualizar)\"\n    },\n    \"description\": {\n      \"type\": \"string\",\n      \"description\": \"Descrição detalhada da tarefa (opcional)\"\n    },\n    \"due_date\": {\n      \"type\": \"string\",\n      \"description\": \"Data de vencimento no formato timestamp ou ISO 8601 (opcional)\"\n    },\n    \"priority\": {\n      \"type\": \"integer\",\n      \"description\": \"Prioridade da tarefa (1: Urgente, 2: Alta, 3: Normal, 4: Baixa) (opcional)\",\n      \"enum\": [1, 2, 3, 4]\n    },\n    \"status\": {\n      \"type\": \"string\",\n      \"description\": \"Status da tarefa (para atualizar ou filtrar na listagem)\"\n    },\n    \"assignees\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"integer\"\n      },\n      \"description\": \"Lista de IDs dos usuários atribuídos à tarefa (opcional)\"\n    },\n    \"assignee\": {\n      \"type\": \"integer\",\n      \"description\": \"Filtrar por ID do usuário atribuído (para listar)\"\n    },\n    \"due_date_gt\": {\n      \"type\": \"string\",\n      \"description\": \"Filtrar tarefas com data de vencimento posterior (para listar)\"\n    },\n    \"due_date_lt\": {\n      \"type\": \"string\",\n      \"description\": \"Filtrar tarefas com data de vencimento anterior (para listar)\"\n    },\n    \"page\": {\n      \"type\": \"integer\",\n      \"description\": \"Número da página para paginação (para listar)\",\n      \"default\": 0\n    },\n    \"limit\": {\n      \"type\": \"integer\",\n      \"description\": \"Número de tarefas por página (máximo 100, para listar)\",\n      \"default\": 20\n    }\n  },\n  \"required\": [\"operation\"],\n  \"dependencies\": {\n    \"operation\": {\n      \"oneOf\": [\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"create\"]\n            }\n          },\n          \"required\": [\"title\"]\n        },\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"list\"]\n            }\n          }\n        },\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"update\"]\n            }\n          },\n          \"required\": [\"task_id\"]\n        },\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"delete\"]\n            }\n          },\n          \"required\": [\"task_id\"]\n        }\n      ]\n    }\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        2640,
+        780
+      ],
+      "id": "049fa424-d965-4653-b802-05595879a1c5",
+      "name": "Clickup1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "name": "scheduling",
+        "description": "Chama agente de calendário como ferramenta para gerenciar agendamentos e compromissos do calendário através do n8n. Processa solicitações relacionadas a criação, atualização, consulta e cancelamento de eventos agendados. Sem parâmetros necessários.",
+        "jsCode": "// SchedulingAssistant tool for n8n\nconst axios = require('axios');\n\ntry {\n  // Acessar parâmetros e variáveis do mapeamento\n  const params = query;\n  const mapping = $('Mapping').first().json;\n\n  const user = mapping.chatwoot.contact_id;\n  const directus_token = mapping.system.directus_token;\n  const directus_service = mapping.system.directus_service;\n  const n8n_service = mapping.system.n8n_webhook_service;\n\n  // Corrigido: caminho correto para o webhook\n  const url = `${n8n_service}/webhook/calendar/agent`;\n\n  // Montar payload para envio\n  const payload = {\n    params,\n    directus_token,\n    directus_service,\n    user\n  };\n\n  // Chamar o webhook do outro fluxo\n  const response = await axios.post(url, payload);\n\n  // Retornar resposta como string para o n8n\n  return JSON.stringify(response.data);\n\n} catch (error) {\n  // Lançar erro para que o n8n registre corretamente\n  throw new Error(`Erro ao processar agendamento: ${error.message}`);\n}\n",
+        "specifyInputSchema": true,
+        "jsonSchemaExample": "{\n\t\"solicitacao\": \"Descreva a solicitação do usuario relativa a operacao do calendario com maximo de detalhes para o agente de calendário\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        2520,
+        780
+      ],
+      "id": "d17b6b2f-b1be-4d2c-a8dd-efcf897d5878",
+      "name": "Google Calendar1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "toolDescription": "Chama agente de calendário como ferramenta para gerenciar agendamentos e compromissos do calendário através do n8n. Processa solicitações relacionadas a criação, atualização, consulta e cancelamento de eventos agendados. Sem parâmetros necessários.",
+        "method": "POST",
+        "url": "={{ $env.WEBHOOK_URL }}webhook/calendar/agent",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={\n  \"api-address\": \"http://{{ $('Main Agent3').first().json.body.mapping.parseJson().system.directus_service }}:8055\",\n  \"api-token\": \"{{ $('Main Agent3').first().json.body.mapping.parseJson().system.directus_token }}\",\n  \"last-workflow\": \"{{ $workflow.name }}\"\n}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"solicitacao\": \"{{ $fromAI(\n    \"solicitacao\",\n    \"Descreva a solicitação do usuario relativa a operacao do calendario com maximo de detalhes para o agente de calendário\",\n    \"string\"\n  )}}\",\n  \"contact\": \"{{ $('Main Agent3').first().json.body.mapping.parseJson().chatwoot.contact_id }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        2760,
+        780
+      ],
+      "id": "a16e1a9a-b08b-4de2-9c4e-08a019ee2376",
+      "name": "Agent Calendar1"
+    },
+    {
+      "parameters": {
+        "dataToSave": {
+          "values": [
+            {
+              "key": "lastWorkflow",
+              "value": "[Anna] Main Agent"
+            }
+          ]
         }
       },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.7,
+      "type": "n8n-nodes-base.executionData",
+      "typeVersion": 1,
       "position": [
-        1800,
-        1900
+        520,
+        440
       ],
-      "id": "caa20e44-11ed-4bd9-84d0-6babe8bf6317",
-      "name": "Main Agent"
+      "id": "4de84884-f355-4686-9bf3-2d5cf2a3205d",
+      "name": "Execution Data2"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "main",
+        "responseMode": "responseNode",
+        "options": {
+          "binaryPropertyName": "binaries"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        320,
+        440
+      ],
+      "id": "2231780e-3e19-40d4-85e8-2c40279cd548",
+      "name": "Main Agent3",
+      "webhookId": "d503e6f9-0989-42d5-a598-e268b20c3182"
     },
     {
       "parameters": {
@@ -72,10 +510,10 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -100,
-        660
+        -600,
+        -820
       ],
-      "id": "f38efd9f-18ce-4c0c-98b4-7983a19e7de0",
+      "id": "32ab5a5e-f5e5-4e7e-9788-0171931c6833",
       "name": "Add to List",
       "credentials": {
         "redis": {
@@ -94,10 +532,10 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        100,
-        660
+        -400,
+        -820
       ],
-      "id": "2b512577-c712-425a-b6bd-1b0d6841e09f",
+      "id": "cd5e20a9-e982-46b6-ae4b-841164ae4c2f",
       "name": "Get List",
       "credentials": {
         "redis": {
@@ -111,10 +549,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        500,
-        460
+        0,
+        -1020
       ],
-      "id": "31dc41d2-ba03-4e7a-b3d8-0251d3df8e8a",
+      "id": "a2c35781-9ea0-4459-aaee-a06a49566c58",
       "name": "No Operation"
     },
     {
@@ -126,10 +564,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        900,
-        760
+        400,
+        -720
       ],
-      "id": "56c62db7-ba58-43d5-a741-90a3f788e2fb",
+      "id": "6854625c-9711-4f28-ad56-386945f7943d",
       "name": "Parse JSON"
     },
     {
@@ -140,10 +578,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -1300,
-        1300
+        -1800,
+        -180
       ],
-      "id": "f6938961-3079-4917-9a71-afa7cdee37c9",
+      "id": "648192bc-47a5-4540-8316-9e092c593712",
       "name": "Split Itens"
     },
     {
@@ -155,24 +593,34 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        -1100,
-        1300
+        -1600,
+        -180
       ],
-      "id": "2557f44f-a46d-4be9-9fbb-54445cd3adc5",
+      "id": "02888108-e945-49b6-8946-eb686f9d9144",
       "name": "Loop"
     },
     {
       "parameters": {
         "url": "={{ $json.content.data_url }}",
-        "options": {}
+        "options": {
+          "batching": {
+            "batch": {}
+          },
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "=data{{ $runIndex }}"
+            }
+          }
+        }
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -700,
-        1300
+        -1200,
+        -180
       ],
-      "id": "287e6687-337c-4e05-bc09-c3c3a5708a3e",
+      "id": "b171cd8f-a64d-4125-9b87-509f581a5ff9",
       "name": "Download Media"
     },
     {
@@ -181,70 +629,43 @@
         "numberOutputs": 3,
         "output": "={{\n  $binary.data?.fileExtension === 'oga' \n    ? 0 \n    : !$binary.data || ['png', 'jpg', 'jpeg'].includes($binary.data.fileExtension)\n      ? 1 \n      : $binary.data.fileExtension === 'pdf' \n        ? 2 \n        : 3\n}}"
       },
-      "id": "fafc6665-bdb2-4bc8-8e73-3e97fd6ecee7",
+      "id": "b54d1bcb-6202-4813-82da-916c098acca0",
       "name": "Switch 02",
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -500,
-        1300
+        -1000,
+        -180
       ]
     },
     {
       "parameters": {
         "content": "",
-        "height": 600,
+        "height": 540,
         "width": 3140,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -1400,
-        380
+        -1900,
+        -1100
       ],
       "typeVersion": 1,
-      "id": "3890e33b-6500-44d7-8045-200c46b52135",
+      "id": "0fa08079-c8c7-481b-8955-9f9f2c5bbb0e",
       "name": "Sticky Note1"
-    },
-    {
-      "parameters": {
-        "content": "",
-        "height": 1360,
-        "width": 4220,
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        -1420,
-        360
-      ],
-      "typeVersion": 1,
-      "id": "235863e6-541c-44bf-a7a1-6487b692c76e",
-      "name": "Sticky Note2"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        2160,
-        1900
-      ],
-      "id": "e58ddba9-7d2d-426a-a322-9e4d7de3c2df",
-      "name": "No Operation 2"
     },
     {
       "parameters": {
         "operation": "delete",
         "key": "={{ $('Mapping').first().json.chatwoot.contact_id.toString() }}"
       },
-      "id": "384e7cbb-da65-4ed7-b144-3fd3b80f402b",
+      "id": "d670d44b-a286-418c-b876-57b30c97b822",
       "name": "Reset List",
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        300,
-        1300
+        -200,
+        -180
       ],
       "notesInFlow": false,
       "credentials": {
@@ -264,10 +685,10 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -100,
-        1100
+        -600,
+        -380
       ],
-      "id": "a58746f8-dcd6-4e0d-afb9-76120bdd9e61",
+      "id": "c16defcf-1fb1-48b5-9e6a-a5d8ba7e8840",
       "name": "Get Final List 2",
       "credentials": {
         "redis": {
@@ -286,10 +707,10 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        700,
-        560
+        200,
+        -920
       ],
-      "id": "68f9ccba-54cc-45d3-b489-e83cdde81ec8",
+      "id": "48c1cd33-ab02-4d54-9d49-a3ce4919cacc",
       "name": "Get Final List 1",
       "credentials": {
         "redis": {
@@ -301,15 +722,15 @@
     {
       "parameters": {
         "operation": "delete",
-        "key": "=3"
+        "key": "=38"
       },
-      "id": "90e3fce7-6625-46c9-9b27-4cf2ced01be5",
+      "id": "ce9ffa70-fdaa-48ef-9e6b-5184e44a1647",
       "name": "Reset List 2",
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1240,
-        480
+        740,
+        -1000
       ],
       "notesInFlow": false,
       "credentials": {
@@ -326,10 +747,10 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        500,
-        660
+        0,
+        -820
       ],
-      "id": "4b699b17-228b-4dd1-ad1f-f1ce74a09ea4",
+      "id": "4a7d11d0-bac9-4b95-b2eb-a4b371cdef0a",
       "name": "Cooldown",
       "webhookId": "816f562a-62f9-4197-b5da-004f01f371fe"
     },
@@ -345,10 +766,10 @@
       "type": "n8n-nodes-base.rabbitmqTrigger",
       "typeVersion": 1,
       "position": [
-        -1300,
-        560
+        -1800,
+        -920
       ],
-      "id": "bf8a1e4f-8f98-41dc-8d9a-d286086c9630",
+      "id": "cc482bef-f992-479b-a6b3-e9e94b6df1c6",
       "name": "Consumer",
       "credentials": {
         "rabbitmq": {
@@ -366,93 +787,41 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        100,
-        1200
+        -400,
+        -280
       ],
-      "id": "a2a6018c-f2d1-4e0d-89d9-189183c39b8d",
+      "id": "af57185e-579f-47b2-9495-cab2eadf5cfe",
       "name": "Switch 3"
     },
     {
       "parameters": {
-        "model": "={{ $json.body.mapping.parseJson().system.model }}",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
-      "typeVersion": 1,
-      "position": [
-        640,
-        1920
-      ],
-      "id": "25612fc6-0adb-47ea-8f4f-5c8e1f106a9d",
-      "name": "OpenRouter",
-      "credentials": {
-        "openRouterApi": {
-          "id": "L4mPQPRccrWHieLF",
-          "name": "OndaIA_Brendha"
-        }
-      }
-    },
-    {
-      "parameters": {
         "content": "",
-        "height": 300,
-        "width": 1240,
-        "color": 5
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        1300,
-        1800
-      ],
-      "id": "79cb0a5a-0fda-4787-bd59-a7a8817af68c",
-      "name": "Sticky Note5"
-    },
-    {
-      "parameters": {
-        "content": "",
-        "height": 540,
-        "width": 1500,
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1280,
-        1780
-      ],
-      "typeVersion": 1,
-      "id": "325c8cd9-46f0-4a59-9542-0a71c02c3ced",
-      "name": "Sticky Note7"
-    },
-    {
-      "parameters": {
-        "content": "",
-        "height": 700,
-        "width": 4180,
+        "height": 740,
+        "width": 4160,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -1400,
-        1000
+        -1900,
+        -520
       ],
       "typeVersion": 1,
-      "id": "3aecf5ab-87b5-4291-9d18-5eebbc1928d8",
+      "id": "9adb6dcd-cbfe-4b6b-adce-6d9684bdd0a2",
       "name": "Sticky Note6"
     },
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "=DO $$\nBEGIN\n  IF NOT EXISTS (\n    SELECT 1 \n    FROM ai_agents\n    WHERE account_id = {{ $json.body.account.id }}\n      AND {{ $json.body.inbox.id }} = ANY(string_to_array(inboxes_ids, ',')::int[])\n  ) THEN\n    RAISE EXCEPTION 'Nenhum AI Agent encontrado para a conta % e inbox %', {{ $json.body.account.id }}, {{ $json.body.inbox.id }};\n  END IF;\nEND $$;\nWITH\n-- 1) Seleciona o AI Agent associado à conta e à caixa de entrada\nselected_ai AS (\n    SELECT ai.*\n    FROM ai_agents ai\n    WHERE ai.account_id = {{ $json.body.account.id }}\n      AND {{ $json.body.inbox.id }} = ANY(string_to_array(ai.inboxes_ids, ',')::int[])\n    LIMIT 1\n),\n-- 2) Seleciona as variáveis globais (assume-se que seja um singleton)\nselected_gv AS (\n    SELECT *\n    FROM global_vars\n    LIMIT 1\n),\n-- 3) Faz o upsert do usuário: insere se não existir, caso contrário, ignora\nupsert_user AS (\n    INSERT INTO users (id, date_created, picture_url, username, phone, ai_agent)\n    SELECT {{ $json.body.sender.id }}, NOW(), '{{ $json.body.sender.avatar }}', '{{ $json.body.sender.name }}', '{{ $json.body.sender.phone_number }}', ai.id\n    FROM selected_ai ai\n    WHERE ai.id IS NOT NULL\n    ON CONFLICT (id) DO NOTHING\n    RETURNING *\n),\n-- 4) Seleciona o usuário (recém-inserido ou existente)\nfinal_user AS (\n    SELECT * FROM upsert_user\n    UNION\n    SELECT * FROM users\n    WHERE id = {{ $json.body.sender.id }}\n),\n-- 5) Cria uma nova conversa apenas se não existir nenhuma para esse usuário\nmaybe_new_conversation AS (\n    INSERT INTO conversations (id, user_id, date_created)\n    SELECT gen_random_uuid(), final_user.id, NOW()\n    FROM final_user\n    WHERE NOT EXISTS (\n        SELECT 1\n        FROM conversations\n        WHERE user_id = final_user.id\n    )\n    RETURNING *\n),\n-- 6) Seleciona a última conversa do usuário (nova ou existente)\nlast_conversation AS (\n    SELECT * FROM maybe_new_conversation\n    UNION\n    SELECT * FROM conversations\n    WHERE user_id = (SELECT id FROM final_user)\n    ORDER BY date_created DESC\n    LIMIT 1\n),\n-- 7) Seleciona os históricos de chat (simplificado)\nchat_histories AS (\n    SELECT ch.*\n    FROM core_chat_histories ch\n    JOIN last_conversation lc ON ch.session_id = lc.id\n    ORDER BY ch.date_created DESC\n    LIMIT (SELECT context_window FROM selected_ai)\n),\n-- 8) Seleciona os calendários (scheduling) associados ao usuário\nuser_calendars AS (\n    SELECT sch.*\n    FROM event_history_user sch\n    WHERE sch.user_id = (SELECT id FROM final_user)\n),\n-- 9) Seleciona os eventos do usuário a partir da data atual\nuser_events AS (\n    SELECT eh.*\n    FROM event_history eh\n    JOIN user_calendars uc ON eh.session_id = uc.id\n    WHERE eh.date >= CURRENT_DATE\n    ORDER BY eh.date ASC  -- Ordenando cronologicamente a partir de hoje\n)\n-- 10) Retorna os resultados no formato JSON\nSELECT\n    (SELECT row_to_json(ai) FROM selected_ai ai) AS ai_agents,\n    (SELECT row_to_json(gv) FROM selected_gv gv) AS global_vars,\n    (SELECT row_to_json(final_user) FROM final_user) AS users,\n    (SELECT row_to_json(last_conversation) FROM last_conversation) AS conversations,\n    (SELECT json_agg(row_to_json(ch)) FROM chat_histories ch) AS core_chat_histories,\n    (SELECT COALESCE(json_agg(evt), '[]'::json) FROM user_events evt) AS events;",
+        "query": "=DO $agents$\nBEGIN\n  IF NOT EXISTS (\n    SELECT 1 \n    FROM ai_agents\n    WHERE account_id = {{ $json.body.account.id }}\n      AND {{ $json.body.inbox.id }} = ANY(string_to_array(inboxes_ids, ',')::int[])\n  ) THEN\n    RAISE EXCEPTION 'Nenhum AI Agent encontrado para a conta % e inbox %', {{ $json.body.account.id }}, {{ $json.body.inbox.id }};\n  END IF;\nEND $agents$;\nWITH\n-- 1) Seleciona o AI Agent associado à conta e à caixa de entrada\nselected_ai AS (\n    SELECT ai.*\n    FROM ai_agents ai\n    WHERE ai.account_id = {{ $json.body.account.id }}\n      AND {{ $json.body.inbox.id }} = ANY(string_to_array(ai.inboxes_ids, ',')::int[])\n    LIMIT 1\n),\n-- 2) Seleciona as variáveis globais (assume-se que seja um singleton)\nselected_gv AS (\n    SELECT *\n    FROM global_vars\n    LIMIT 1\n),\n-- 3) Faz o upsert do usuário: insere se não existir, caso contrário, ignora\nupsert_user AS (\n    INSERT INTO users (id, date_created, picture_url, username, phone, ai_agent)\n    SELECT {{ $json.body.sender.id }}, NOW(), '{{ $json.body.sender.avatar }}', '{{ $json.body.sender.name }}', '{{ $json.body.sender.phone_number }}', ai.id\n    FROM selected_ai ai\n    WHERE ai.id IS NOT NULL\n    ON CONFLICT (id) DO NOTHING\n    RETURNING *\n),\n-- 4) Seleciona o usuário (recém-inserido ou existente)\nfinal_user AS (\n    SELECT * FROM upsert_user\n    UNION\n    SELECT * FROM users\n    WHERE id = {{ $json.body.sender.id }}\n),\n-- 5) Cria uma nova conversa apenas se não existir nenhuma para esse usuário\nmaybe_new_conversation AS (\n    INSERT INTO conversations (id, user_id, date_created)\n    SELECT gen_random_uuid(), final_user.id, NOW()\n    FROM final_user\n    WHERE NOT EXISTS (\n        SELECT 1\n        FROM conversations\n        WHERE user_id = final_user.id\n    )\n    RETURNING *\n),\n-- 6) Seleciona a última conversa do usuário (nova ou existente)\nlast_conversation AS (\n    SELECT * FROM maybe_new_conversation\n    UNION\n    SELECT * FROM conversations\n    WHERE user_id = (SELECT id FROM final_user)\n    ORDER BY date_created DESC\n    LIMIT 1\n),\n-- 7) Seleciona os históricos de chat (simplificado)\nchat_histories AS (\n    SELECT ch.*\n    FROM core_chat_histories ch\n    JOIN last_conversation lc ON ch.session_id = lc.id\n    ORDER BY ch.date_created DESC\n    LIMIT (SELECT context_window FROM selected_ai)\n),\n-- 8) Seleciona os calendários (scheduling) associados ao usuário\nuser_calendars AS (\n    SELECT sch.*\n    FROM event_history_user sch\n    WHERE sch.user_id = (SELECT id FROM final_user)\n),\n-- 9) Seleciona os eventos do usuário a partir da data atual\nuser_events AS (\n    SELECT eh.*\n    FROM event_history eh\n    JOIN user_calendars uc ON eh.session_id = uc.id\n    WHERE eh.date >= CURRENT_DATE\n    ORDER BY eh.date ASC  -- Ordenando cronologicamente a partir de hoje\n)\n-- 10) Retorna os resultados no formato JSON\nSELECT\n    (SELECT row_to_json(ai) FROM selected_ai ai) AS ai_agents,\n    (SELECT row_to_json(gv) FROM selected_gv gv) AS global_vars,\n    (SELECT row_to_json(final_user) FROM final_user) AS users,\n    (SELECT row_to_json(last_conversation) FROM last_conversation) AS conversations,\n    (SELECT json_agg(row_to_json(ch)) FROM chat_histories ch) AS core_chat_histories,\n    (SELECT COALESCE(json_agg(evt), '[]'::json) FROM user_events evt) AS events;",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        -900,
-        560
+        -1400,
+        -920
       ],
-      "id": "5dc52430-9223-4274-8491-de1754c40d62",
+      "id": "19420743-4218-47d2-aa9c-42d5a175fa5e",
       "name": "Get Vars",
       "credentials": {
         "postgres": {
@@ -507,13 +876,13 @@
         },
         "options": {}
       },
-      "id": "f1ebf6a5-de30-4492-8e13-943761e79db6",
+      "id": "abdd0f66-f5a9-468e-93fc-a0e22001c82f",
       "name": "Convert PDF",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -300,
-        1400
+        -800,
+        -80
       ],
       "notesInFlow": true
     },
@@ -547,13 +916,13 @@
         },
         "options": {}
       },
-      "id": "d3c25024-7b73-4ab9-8880-981c27068ba9",
+      "id": "d7181da2-df1f-4151-b6c0-ee0b608e0b6f",
       "name": "Transcription",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -300,
-        1200
+        -800,
+        -280
       ],
       "notesInFlow": true
     },
@@ -567,40 +936,11 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1300,
-        340
+        -1800,
+        -1140
       ],
-      "id": "a6d3c581-b365-4c04-bbba-74261115544a",
+      "id": "aeb41cb6-5852-4ad3-af4b-b5f5226475ff",
       "name": "Sticky Note13"
-    },
-    {
-      "parameters": {
-        "jsCode": "const axios = require('axios');\nconst FormData = require('form-data');\n\nconst mappingData = $('Mapping').first().json; // Obtém todo o conteúdo de 'Mapping'\nconsole.log(\"Mapping Data:\", mappingData);\n\nconst baseWebhookUrl = `http://${mappingData.system.n8n_webhook_service}:5678/webhook/`;\nconst finalWorkflowPath = mappingData.system.workflow_path;\nconst defaultFinalUrl = `${baseWebhookUrl}${finalWorkflowPath}`;\n\nconst formData = new FormData();\n\n// Unifica os valores de \"content\" com quebra de linha dupla\nconst unifiedContent = items\n  .map(item => item.json.content)\n  .filter(content => content) // Remove itens vazios ou undefined\n  .join('\\n\\n');\nconsole.log(\"Unified Content:\", unifiedContent);\n\n// Monta o JSON separado para o corpo da requisição\nconst jsonData = {\n  content: unifiedContent,\n  mapping: mappingData\n};\n\n// Adiciona os dados JSON ao FormData\nformData.append('content', jsonData.content);\nformData.append('mapping', JSON.stringify(jsonData.mapping));\n\n// Adiciona arquivos binários mantendo os nomes originais\nitems.forEach((item) => {\n  if (item.binary) {\n    Object.keys(item.binary).forEach((key) => {\n      const file = item.binary[key];\n      formData.append(key, Buffer.from(file.data, 'base64'), {\n        filename: file.fileName || key,\n        contentType: file.mimeType,\n      });\n    });\n  }\n});\n\nif (mappingData.system.enabled_rag === true || mappingData.system.enabled_rag === 'true') {\n  console.log(\"RAG is enabled. Sending request to the RAG endpoint first.\");\n  const ragUrl = `${baseWebhookUrl}rag`;\n  console.log(`Sending RAG request to: ${ragUrl}`);\n\n  return axios.post(ragUrl, formData, { headers: formData.getHeaders() })\n    .then(ragResponse => {\n      console.log(\"RAG Response received:\", ragResponse.data);\n      // Ajuste: obter o valor de \"output\" em vez de \"rag_return\"\n      const rag_return = ragResponse.data.output;\n      jsonData.rag_return = rag_return; // Inclui o retorno do RAG no JSON\n\n      // Reconstroi o FormData com os dados atualizados (incluindo rag_return)\n      const finalFormData = new FormData();\n      finalFormData.append('content', jsonData.content);\n      finalFormData.append('mapping', JSON.stringify(jsonData.mapping));\n      finalFormData.append('rag_return', rag_return);\n      items.forEach((item) => {\n        if (item.binary) {\n          Object.keys(item.binary).forEach((key) => {\n            const file = item.binary[key];\n            finalFormData.append(key, Buffer.from(file.data, 'base64'), {\n              filename: file.fileName || key,\n              contentType: file.mimeType,\n            });\n          });\n        }\n      });\n      \n      // Recupera a URL final do mapping; se não existir, usa a URL padrão\n      let finalUrl = mappingData.system.rag_return;\n      if (!finalUrl) {\n        console.error(\"mappingData.system.rag_return is undefined. Using default final URL instead.\");\n        finalUrl = defaultFinalUrl;\n      }\n      console.log(`Mapping system.rag_return value: \"${finalUrl}\"`);\n      console.log(\"Sending final request to the RAG final endpoint...\");\n\n      return axios.post(finalUrl, finalFormData, { headers: finalFormData.getHeaders() })\n        .then(finalResponse => {\n          console.log(\"Final Response received:\", finalResponse.data);\n          return [{\n            json: {\n              rag: ragResponse.data,\n              final: finalResponse.data,\n              logs: [\n                `RAG request sent to: ${ragUrl}`,\n                `RAG response received with output: ${rag_return}`,\n                `Final request sent to: ${finalUrl}`,\n                `Final response received successfully.`\n              ]\n            }\n          }];\n        })\n        .catch(finalError => {\n          console.error(`Final request error for URL (${finalUrl}):`, finalError.message);\n          return [{\n            json: {\n              error: finalError.message,\n              rag: ragResponse.data,\n              logs: [\n                `RAG request sent to: ${ragUrl}`,\n                `RAG response received with output: ${rag_return}`,\n                `Attempted final request to: ${finalUrl}`,\n                `Final request error: ${finalError.message}`\n              ]\n            }\n          }];\n        });\n    })\n    .catch(ragError => {\n      console.error(\"RAG request error:\", ragError.message);\n      return [{\n        json: {\n          error: ragError.message,\n          logs: [\n            `RAG request sent to: ${baseWebhookUrl}rag`,\n            `RAG request error: ${ragError.message}`\n          ]\n        }\n      }];\n    });\n} else {\n  console.log(\"RAG is not enabled. Sending request directly to the default final URL:\", defaultFinalUrl);\n  return axios.post(defaultFinalUrl, formData, { headers: formData.getHeaders() })\n    .then(response => {\n      console.log(\"Final Response received:\", response.data);\n      return [{\n        json: {\n          final: response.data,\n          logs: [\n            `Final request sent to: ${defaultFinalUrl}`,\n            `Final response received successfully.`\n          ]\n        }\n      }];\n    })\n    .catch(error => {\n      console.error(\"Final request error:\", error.message);\n      return [{\n        json: {\n          error: error.message,\n          logs: [\n            `Final request error for URL (${defaultFinalUrl}): ${error.message}`\n          ]\n        }\n      }];\n    });\n}\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -900,
-        1100
-      ],
-      "id": "c554b7b7-9e86-4318-8c13-b220a7bb8b46",
-      "name": "Execute Core"
-    },
-    {
-      "parameters": {
-        "content": "Fluxo Core, responsável pelo processamento da AI",
-        "height": 80,
-        "width": 260,
-        "color": 3
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        1300,
-        1800
-      ],
-      "id": "ca510ab9-7adf-4bb7-ba22-1710dc1295f9",
-      "name": "Sticky Note14"
     },
     {
       "parameters": {
@@ -611,10 +951,10 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        500,
-        1100
+        0,
+        -380
       ],
-      "id": "b39ad79d-99b1-48ce-8fde-ee081dd48322",
+      "id": "5cde3655-1cfa-49b1-8341-5cd322fee379",
       "name": "Clear History",
       "alwaysOutputData": true,
       "credentials": {
@@ -626,21 +966,6 @@
     },
     {
       "parameters": {
-        "name": "restart_history",
-        "description": "=Invoque essa tool para iniciar uma nova conversa para o user, assim ignorando o histórico passado. Apenas quando o user solicitar.",
-        "jsCode": "const axios = require('axios');\n\n// Converte o mapeamento recebido em JSON\nconst mapping = JSON.parse($('Core Input').item.json.body.mapping);\n\n// Verifica se o usuário é admin; caso contrário, retorna erro\nif (mapping.system.user_type !== 'admin') {\n  return JSON.stringify({ success: false, error: \"Acesso negado: usuário não autorizado.\" });\n}\n\n/**\n * Função que espera pelo tempo especificado.\n * @param {number} ms - Milissegundos a aguardar.\n * @returns {Promise<void>}\n */\nconst delay = ms => new Promise(resolve => setTimeout(resolve, ms));\n\n/**\n * Função para enviar a requisição para criar uma conversa no Directus.\n * Tenta até 3 vezes em caso de falha, com delay de 1 segundo entre as tentativas.\n * @returns {Promise<object>} - Objeto com sucesso ou erro.\n */\nasync function sendRequest() {\n  const url = `http://${mapping.system.directus_service}:8055/items/conversations`;\n  const data = {\n    user_id: mapping.chatwoot.contact_id,\n    date_created: new Date().toISOString()\n  };\n  const headers = {\n    Authorization: `Bearer ${mapping.system.directus_token}`,\n    'Content-Type': 'application/json'\n  };\n\n  let attempt = 0;\n  let lastError = null;\n\n  while (attempt < 3) {\n    try {\n      const response = await axios.post(url, data, { headers });\n      console.log(`Requisição realizada com sucesso na tentativa ${attempt + 1}.`);\n      return { success: true, data: response.data };\n    } catch (error) {\n      attempt++;\n      lastError = error;\n      console.error(`Tentativa ${attempt} falhou:`, error.response ? error.response.data : error.message);\n      if (attempt < 3) {\n        console.log(\"Aguardando 1 segundo antes da nova tentativa...\");\n        await delay(1000);\n      }\n    }\n  }\n  \n  return { success: false, error: lastError.response ? lastError.response.data : lastError.message };\n}\n\nreturn sendRequest().then(result => JSON.stringify(result));"
-      },
-      "type": "@n8n/n8n-nodes-langchain.toolCode",
-      "typeVersion": 1.1,
-      "position": [
-        1720,
-        2160
-      ],
-      "id": "2c8d4091-4798-44a3-89e5-d44ee314d784",
-      "name": "Restart History"
-    },
-    {
-      "parameters": {
         "mode": "expression",
         "numberOutputs": 3,
         "output": "={{\n  $json.content.data_url?.match(/\\.(oga|png|jpg|jpeg|txt|pdf)$/i) !== null \n  && !!$json.content.data_url \n    ? 0 \n    : !!$json.content.content \n      ? 1\n      : 2\n}}"
@@ -648,10 +973,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -900,
-        1500
+        -1400,
+        20
       ],
-      "id": "d7a5fbdf-6e60-4d93-8d49-6c16ce8f5965",
+      "id": "08a4c4a0-a4ad-4a79-95eb-cded95a7629d",
       "name": "Switch 2"
     },
     {
@@ -663,10 +988,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        300,
-        560
+        -200,
+        -920
       ],
-      "id": "be373b6a-08f3-45d3-b4b5-4bcaacf1f5fe",
+      "id": "5d622771-8507-4c8e-81e6-48d688888c4e",
       "name": "Switch 1"
     },
     {
@@ -678,10 +1003,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -300,
-        560
+        -800,
+        -920
       ],
-      "id": "fa7fce13-38d7-435a-bc81-1e7aa9471bf9",
+      "id": "846304a7-6fdc-4b95-ad16-e268cfc6feb7",
       "name": "Switch 0"
     },
     {
@@ -709,10 +1034,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        100,
-        1500
+        -400,
+        20
       ],
-      "id": "8e0bfa01-3df5-4f79-a805-9cada188d368",
+      "id": "79fd3a6c-5341-4f84-a78d-013dfc6c67d6",
       "name": "Keep Loop"
     },
     {
@@ -785,10 +1110,10 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        -100,
-        460
+        -600,
+        -1020
       ],
-      "id": "995200dd-f24d-4c62-86cf-459a81b1805b",
+      "id": "50a9d71b-f20c-454f-adc5-ccfd7b4d70d4",
       "name": "Update History",
       "credentials": {
         "postgres": {
@@ -804,29 +1129,11 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        100,
-        460
+        -400,
+        -1020
       ],
-      "id": "75d385e0-847d-406c-b433-32be456f9bbd",
+      "id": "fb5bca10-7c07-4a73-8521-bd203dd3d557",
       "name": "Open Conversation"
-    },
-    {
-      "parameters": {
-        "name": "set_timer",
-        "description": "Invoque essa tool para configurar um timer que iniciará uma ação após o tempo especificado. Apenas usuários admin podem usar essa tool. O tempo deve ser informado com valor e unidade (s, m, h). Apenas quando o user solicitar.",
-        "jsCode": "const axios = require('axios');\nconst dayjs = require('dayjs');\nconst duration = require('dayjs/plugin/duration');\ndayjs.extend(duration);\n\n/**\n * Esta tool configura um timer via webhook.\n * Ela envia, para o endpoint, todo o objeto mapping (obtido em Core Input)\n * e o tempo em segundos calculado a partir dos parâmetros \"timer_value\" e \"timer_unit\".\n * Apenas usuários admin podem utilizar esta tool.\n */\n\n// Converte o mapping recebido em JSON\nconst mapping = JSON.parse($('Core Input').item.json.body.mapping);\n\n// Verifica se o usuário é admin\nif (mapping.system.user_type !== 'admin') {\n  return JSON.stringify({ success: false, error: \"Acesso negado: usuário não autorizado.\" });\n}\n\n// Obtém os parâmetros do timer a partir do input (query)\nconst timerValue = query.timer_value;  // Número (ex: 30)\nconst timerUnit = query.timer_unit;      // \"s\", \"m\" ou \"h\"\n\n// Calcula o tempo em segundos usando dayjs.duration\nconst timerSeconds = dayjs.duration(timerValue, timerUnit).asSeconds();\n\n// Prepara o payload para o webhook\nconst payload = {\n  mapping: mapping,\n  timer_seconds: timerSeconds\n};\n\n// URL do webhook substituindo 'n8n_webhook' pelo valor da variável no mapping\nconst url = `http://${mapping.system.n8n_webhook_service}:5678/webhook/timer`;\n\n/**\n * Função para enviar a requisição ao webhook.\n * Tenta enviar uma única vez e retorna o resultado.\n */\nasync function sendTimerRequest() {\n  try {\n    console.log(`Enviando requisição para configurar o timer para ${timerSeconds} segundos...`);\n    const response = await axios.post(url, payload, {\n      headers: { 'Content-Type': 'application/json' }\n    });\n    console.log(\"Timer configurado com sucesso.\");\n    return { success: true, message: `Timer configurado com sucesso. Ele será acionado em ${timerSeconds} segundos.` };\n  } catch (error) {\n    console.error(\"Erro ao configurar o timer:\", error.response ? error.response.data : error.message);\n    return { success: false, error: error.response ? error.response.data : error.message };\n  }\n}\n\nreturn sendTimerRequest().then(result => JSON.stringify(result));",
-        "specifyInputSchema": true,
-        "schemaType": "manual",
-        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"timer_value\": {\n      \"type\": \"number\",\n      \"description\": \"Valor do timer. Exemplo: 30\"\n    },\n    \"timer_unit\": {\n      \"type\": \"string\",\n      \"description\": \"Unidade de tempo para o timer: 's' para segundos, 'm' para minutos, 'h' para horas.\",\n      \"enum\": [\"s\", \"m\", \"h\"]\n    }\n  },\n  \"required\": [\"timer_value\", \"timer_unit\"]\n}"
-      },
-      "type": "@n8n/n8n-nodes-langchain.toolCode",
-      "typeVersion": 1.1,
-      "position": [
-        1840,
-        2160
-      ],
-      "id": "3680376d-7af6-4818-b051-0aedb4da4bfa",
-      "name": "Set Timer"
     },
     {
       "parameters": {
@@ -847,10 +1154,10 @@
       "type": "n8n-nodes-base.postgresTrigger",
       "typeVersion": 1,
       "position": [
-        -1300,
-        1860
+        -1820,
+        380
       ],
-      "id": "b7185a67-4bc6-4b45-a71a-c1de89231c0f",
+      "id": "4308b6a5-ee00-4367-9131-6a22e0c2c530",
       "name": "Knowledge Trigger",
       "credentials": {
         "postgres": {
@@ -868,10 +1175,10 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        -1100,
-        1860
+        -1620,
+        380
       ],
-      "id": "42909b41-9d9d-4e31-9968-b83ea887b063",
+      "id": "cee271e0-eead-4097-90c0-e43420478f34",
       "name": "Get Global Vars",
       "credentials": {
         "postgres": {
@@ -887,10 +1194,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -900,
-        1860
+        -1420,
+        380
       ],
-      "id": "c2119d41-b433-48e6-9ebf-8a8e3b14dc0e",
+      "id": "af98fc5a-78f4-45de-9e22-511ab0af4f03",
       "name": "Process Docs"
     },
     {
@@ -902,13 +1209,12 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -580,
-        1860
+        -1100,
+        380
       ],
-      "id": "9409bd76-0209-4faf-b1c6-8366498d25f4",
+      "id": "b940050f-c40a-496b-8483-e0964fa308bc",
       "name": "Vector Trigger",
-      "webhookId": "31a23ccc-c8b7-4a93-980c-783c0490d567",
-      "disabled": true
+      "webhookId": "31a23ccc-c8b7-4a93-980c-783c0490d567"
     },
     {
       "parameters": {
@@ -945,10 +1251,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        20,
-        1860
+        -500,
+        380
       ],
-      "id": "495d7b40-b13f-433f-84cf-f7b455df6cdf",
+      "id": "b4e6ae91-21f6-4af5-a332-590aae9afe84",
       "name": "Embeddings",
       "notesInFlow": true
     },
@@ -961,10 +1267,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -380,
-        1860
+        -900,
+        380
       ],
-      "id": "2ceeb8fc-b92f-40e2-8c70-e114a08fcbd1",
+      "id": "16a971f6-9a72-49c7-9e50-78045777f650",
       "name": "Parse JSON 2"
     },
     {
@@ -975,10 +1281,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -180,
-        1860
+        -700,
+        380
       ],
-      "id": "3c0916ed-56a7-4e32-9e9c-3e0b71c9ef09",
+      "id": "40970f1b-d8b6-4686-86c8-1aa8c55b7965",
       "name": "Split Vectors"
     },
     {
@@ -990,10 +1296,10 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        220,
-        1860
+        -300,
+        380
       ],
-      "id": "4bbeb6e1-2bb9-455f-9383-4852ee74b9f9",
+      "id": "4f31bc75-a25e-401b-961a-95ffd6dfc555",
       "name": "Add Vectors",
       "credentials": {
         "postgres": {
@@ -1005,17 +1311,17 @@
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "rag",
+        "path": "/agent/knowledge",
         "responseMode": "lastNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -1300,
-        2180
+        -1820,
+        700
       ],
-      "id": "e564df0d-aad6-40d2-8d7a-018d6c709550",
+      "id": "b4900e4b-baf2-4b24-96fc-4f83db492c2a",
       "name": "RAG Input",
       "webhookId": "d503e6f9-0989-42d5-a598-e268b20c3182"
     },
@@ -1028,13 +1334,13 @@
           "passthroughBinaryImages": true
         }
       },
-      "id": "a2ded5bf-177d-4a12-89b4-b8eab7ca769c",
+      "id": "39207556-5aea-47c3-91db-d12bc205e143",
       "name": "RAG Agent",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        -900,
-        2180
+        -1220,
+        700
       ],
       "retryOnFail": false,
       "executeOnce": false
@@ -1048,92 +1354,60 @@
         "schemaType": "manual",
         "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"knowledge_id\": {\n      \"type\": \"integer\",\n      \"description\": \"O ID do conhecimento específico no qual a busca será realizada.\"\n    },\n    \"query\": {\n      \"type\": \"string\",\n      \"description\": \"A pergunta ou consulta que será usada para realizar a busca no banco vetorial.\"\n    }\n  }\n}"
       },
-      "id": "41fc08f8-545b-4630-aa13-8ec4b7b26c85",
+      "id": "1af9b7c5-79b1-4fa2-b547-03238b8c1159",
       "name": "Retriever",
       "type": "@n8n/n8n-nodes-langchain.toolCode",
       "typeVersion": 1.1,
       "position": [
-        -740,
-        2460
+        -1060,
+        980
       ]
     },
     {
       "parameters": {
         "content": "",
         "height": 660,
-        "width": 1860,
+        "width": 2060,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -1420,
-        1740
+        -1940,
+        260
       ],
       "typeVersion": 1,
-      "id": "8cca0dfb-74e9-479b-85a4-daeb7626a164",
+      "id": "f118d8f7-c21c-4fed-8ae3-1bbf7c7beb08",
       "name": "Sticky Note8"
     },
     {
       "parameters": {
         "content": "",
-        "height": 300,
-        "width": 1100,
-        "color": 5
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -1400,
-        2080
-      ],
-      "id": "be558bf9-3986-490d-97da-afe857ba3cd7",
-      "name": "Sticky Note9"
-    },
-    {
-      "parameters": {
-        "content": "",
-        "width": 350,
+        "width": 390,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -960,
-        2420
+        -1300,
+        940
       ],
       "typeVersion": 1,
-      "id": "bb80c8c5-a160-46fa-a53f-c0fbe1e83fe7",
+      "id": "2466ff75-8c42-488f-8e6b-973a91595848",
       "name": "Sticky Note3"
     },
     {
       "parameters": {
         "content": "",
         "height": 300,
-        "width": 700,
+        "width": 1300,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1400,
-        1760
+        -1200,
+        280
       ],
-      "id": "b1c86e44-32d6-4db3-aea5-094e05d0e47f",
-      "name": "Sticky Note10"
-    },
-    {
-      "parameters": {
-        "content": "",
-        "height": 300,
-        "width": 1100,
-        "color": 5
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -680,
-        1760
-      ],
-      "id": "1bfd9788-7df8-4dcb-aa39-e3d9e3c3bc3b",
+      "id": "ab154b27-4ffa-4209-93ee-40e196aabf9b",
       "name": "Sticky Note11"
     },
     {
@@ -1145,10 +1419,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -500,
-        560
+        -1000,
+        -920
       ],
-      "id": "cc1cc3ea-47e2-439b-9960-b775136dd90b",
+      "id": "ffacbcd6-78a8-4e07-8e30-4d3ec2f5ed4c",
       "name": "Mapping"
     },
     {
@@ -1156,10 +1430,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        300,
-        1100
+        -200,
+        -380
       ],
-      "id": "1391b948-718b-45b7-a5aa-29bc0d8c009f",
+      "id": "437ee87a-eca0-4f88-8024-fcfcc43ce4f9",
       "name": "No Operation "
     },
     {
@@ -1169,10 +1443,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -700,
-        560
+        -1200,
+        -920
       ],
-      "id": "9990a106-8f3e-402f-8a23-6af38a90cf44",
+      "id": "7bab42f2-e268-44b4-aa07-5dd463406048",
       "name": "Downtime",
       "alwaysOutputData": false
     },
@@ -1181,10 +1455,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        -100,
-        1300
+        -600,
+        -180
       ],
-      "id": "8508753a-1eb9-4d07-9fc3-a171ba5a866f",
+      "id": "1c6a30e3-5864-4ab9-ae4c-c0b82e024122",
       "name": "No Operation 0"
     },
     {
@@ -1196,10 +1470,10 @@
       "type": "n8n-nodes-base.postgresTrigger",
       "typeVersion": 1,
       "position": [
-        -180,
-        2180
+        -500,
+        700
       ],
-      "id": "14a66f3e-937f-4bfc-9c10-4772492baffb",
+      "id": "6a94d99c-f3bc-4c1b-8248-153053992ea0",
       "name": "Postgres Trigger",
       "credentials": {
         "postgres": {
@@ -1210,15 +1484,15 @@
     },
     {
       "parameters": {
-        "jsCode": "async function main() {\n  // Função auxiliar para limitar o tamanho dos logs\n  const trimLog = (msg, limit = 100) =>\n    (typeof msg === 'string' && msg.length > limit ? msg.substring(0, limit) + '...' : msg);\n\n  // Array para armazenar os logs de debug\n  let logs = [];\n\n  try {\n    // Obtém o payload do nó \"Postgres Trigger\"\n    const payload = $('Postgres Trigger').first().json.payload;\n    logs.push(\"Payload carregado.\");\n    console.log(\"Payload:\", trimLog(JSON.stringify(payload)));\n\n    // Determina a operação\n    const op = payload.operation;\n    logs.push(\"Operação: \" + op);\n    console.log(\"Operação:\", op);\n\n    // Garante que pinecone_host comece com \"https://\"\n    let pineconeHost = payload.data.pinecone_host;\n    if (!pineconeHost.startsWith(\"https://\")) {\n      pineconeHost = \"https://\" + pineconeHost;\n      logs.push(\"Prefixo 'https://' adicionado.\");\n      console.log(\"pinecone_host modificado:\", pineconeHost);\n    }\n\n    // Configura os headers para o Pinecone\n    const pineconeHeaders = {\n      \"Api-Key\": payload.global_vars.pinecone_key,\n      \"X-Pinecone-API-Version\": \"2024-10\",\n      \"Content-Type\": \"application/json\"\n    };\n    logs.push(\"Headers Pinecone configurados.\");\n    console.log(\"Headers Pinecone:\", pineconeHeaders);\n\n    let endpoint, options, response, mainResponse;\n\n    // Branch para deleção: DISABLED ou DELETE\n    if (op === \"DISABLED\" || op === \"DELETE\") {\n      endpoint = pineconeHost + \"/vectors/delete\";\n      logs.push(\"Endpoint para deleção: \" + endpoint);\n      console.log(\"Endpoint de deleção:\", endpoint);\n\n      const deleteBody = {\n        ids: [payload.data.id],\n        namespace: payload.data.namespace\n      };\n      logs.push(\"Body para deleção: \" + trimLog(JSON.stringify(deleteBody)));\n      console.log(\"Body de deleção:\", deleteBody);\n\n      options = {\n        method: \"POST\",\n        uri: endpoint,\n        headers: pineconeHeaders,\n        body: deleteBody,\n        json: true\n      };\n\n      response = await this.helpers.request(options);\n      logs.push(\"Resposta da deleção recebida.\");\n      console.log(\"Resposta da deleção:\", trimLog(JSON.stringify(response)));\n\n      mainResponse = response;\n\n    // Branch para upsert via OpenAI (para UPDATE ou INSERT com enabled true)\n    } else if ((op === \"UPDATE\" || op === \"INSERT\") && payload.data.enabled === true) {\n      let embedding; // Para o upsert no Pinecone\n\n      // Se for INSERT, verifica se já existe embedding em Directus (tabela dimensions)\n      if (op === \"INSERT\") {\n        const directusHost = \"http://\" + payload.global_vars.directus_service + \":8055\";\n        const directusEndpoint = directusHost + \"/items/dimensions\";\n        const directusHeaders = {\n          \"Authorization\": \"Bearer \" + payload.global_vars.directus_token,\n          \"Content-Type\": \"application/json\"\n        };\n        logs.push(\"Consultando Directus (dimensions) para vector_id: \" + payload.data.id);\n        console.log(\"Directus endpoint (dimensions):\", directusEndpoint);\n\n        const directusQueryOptions = {\n          method: \"GET\",\n          uri: directusEndpoint,\n          qs: { \"filter[vector_id][_eq]\": payload.data.id },\n          headers: directusHeaders,\n          json: true\n        };\n\n        let directusRecord = await this.helpers.request(directusQueryOptions);\n        logs.push(\"Resposta Directus (dimensions): \" + trimLog(JSON.stringify(directusRecord)));\n        console.log(\"Directus GET response (dimensions):\", trimLog(JSON.stringify(directusRecord)));\n\n        if (\n          directusRecord &&\n          directusRecord.data &&\n          directusRecord.data.length > 0 &&\n          directusRecord.data[0].values\n        ) {\n          let directusValues = directusRecord.data[0].values;\n          // Se for string, converte para array de floats; se já for array, utiliza diretamente.\n          if (typeof directusValues === \"string\") {\n            embedding = directusValues.split(\",\").map(item => parseFloat(item.trim()));\n          } else if (Array.isArray(directusValues)) {\n            embedding = directusValues;\n          }\n          logs.push(\"Embedding reutilizado do Directus (dimensions).\");\n          console.log(\"Embedding reutilizado:\", trimLog(JSON.stringify(embedding)));\n        }\n      }\n\n      // Se embedding não foi obtido (ou para UPDATE), gere via OpenAI\n      if (!embedding) {\n        const openAIEndpoint = \"https://api.openai.com/v1/embeddings\";\n        const openAIHeaders = {\n          \"Authorization\": \"Bearer \" + payload.global_vars.openai_key,\n          \"Content-Type\": \"application/json\"\n        };\n        logs.push(\"Endpoint OpenAI: \" + openAIEndpoint);\n        console.log(\"Endpoint OpenAI:\", openAIEndpoint);\n        logs.push(\"Headers OpenAI configurados.\");\n        console.log(\"Headers OpenAI:\", openAIHeaders);\n\n        // Constrói o input para OpenAI (adiciona espaço após cada vírgula em similar_questions)\n        const similarQuestionsInput = payload.data.similar_questions\n          ? payload.data.similar_questions.replace(/,/g, ', ')\n          : \"\";\n        const openAIInput = `Context: ${payload.data.context} Question: ${payload.data.question} Answer: ${payload.data.answer} Similar Questions: ${similarQuestionsInput}`;\n        logs.push(\"Input para OpenAI: \" + trimLog(openAIInput));\n        console.log(\"Input OpenAI:\", openAIInput);\n\n        const openAIBody = {\n          input: openAIInput,\n          model: \"text-embedding-3-small\",\n          dimensions: 1536\n        };\n        logs.push(\"Body para OpenAI: \" + trimLog(JSON.stringify(openAIBody)));\n        console.log(\"Body OpenAI:\", openAIBody);\n\n        options = {\n          method: \"POST\",\n          uri: openAIEndpoint,\n          headers: openAIHeaders,\n          body: openAIBody,\n          json: true\n        };\n\n        let openAIResponse = await this.helpers.request(options);\n        logs.push(\"Resposta do OpenAI recebida.\");\n        console.log(\"Resposta OpenAI:\", trimLog(JSON.stringify(openAIResponse)));\n\n        if (openAIResponse && openAIResponse.data && openAIResponse.data.length > 0) {\n          embedding = openAIResponse.data[0].embedding;\n          logs.push(\"Embedding extraído do OpenAI.\");\n          console.log(\"Embedding:\", trimLog(JSON.stringify(embedding)));\n        } else {\n          throw new Error(\"Embedding não retornado pelo OpenAI.\");\n        }\n      }\n\n      // Converte similar_questions CSV para array\n      let similarQuestionsArray = [];\n      if (payload.data.similar_questions) {\n        similarQuestionsArray = payload.data.similar_questions.split(\",\").map(s => s.trim());\n      }\n      logs.push(\"similar_questions convertido para array: \" + trimLog(JSON.stringify(similarQuestionsArray)));\n      console.log(\"similar_questions array:\", similarQuestionsArray);\n\n      // Upsert no Pinecone usando o embedding obtido\n      endpoint = pineconeHost + \"/vectors/upsert\";\n      logs.push(\"Endpoint para upsert (Pinecone): \" + endpoint);\n      console.log(\"Endpoint de upsert:\", endpoint);\n\n      const upsertBody = {\n        vectors: [\n          {\n            id: payload.data.id,\n            values: embedding, // embedding é um array de floats\n            metadata: {\n              a: payload.data.answer,\n              t: payload.data.context,\n              q: payload.data.question,\n              sq: similarQuestionsArray\n            }\n          }\n        ],\n        namespace: payload.data.namespace\n      };\n      logs.push(\"Body para upsert (Pinecone): \" + trimLog(JSON.stringify(upsertBody)));\n      console.log(\"Body de upsert:\", upsertBody);\n\n      options = {\n        method: \"POST\",\n        uri: endpoint,\n        headers: pineconeHeaders,\n        body: upsertBody,\n        json: true\n      };\n\n      response = await this.helpers.request(options);\n      logs.push(\"Resposta do upsert Pinecone recebida.\");\n      console.log(\"Resposta do upsert:\", trimLog(JSON.stringify(response)));\n\n      mainResponse = response;\n\n      // Atualiza ou cria o registro na tabela dimensions do Directus (como já estava implementado)\n      const directusHost = \"http://\" + payload.global_vars.directus_service + \":8055\";\n      const directusDimensionsEndpoint = directusHost + \"/items/dimensions\";\n      const directusHeaders = {\n        \"Authorization\": \"Bearer \" + payload.global_vars.directus_token,\n        \"Content-Type\": \"application/json\"\n      };\n      logs.push(\"Directus dimensions endpoint: \" + directusDimensionsEndpoint);\n      console.log(\"Directus dimensions endpoint:\", directusDimensionsEndpoint);\n\n      const directusQueryOptions = {\n        method: \"GET\",\n        uri: directusDimensionsEndpoint,\n        qs: { \"filter[vector_id][_eq]\": payload.data.id },\n        headers: directusHeaders,\n        json: true\n      };\n\n      let directusRecord = await this.helpers.request(directusQueryOptions);\n      logs.push(\"Resposta Directus (dimensions): \" + trimLog(JSON.stringify(directusRecord)));\n      console.log(\"Directus GET response (dimensions):\", trimLog(JSON.stringify(directusRecord)));\n\n      const currentTimestamp = new Date().toISOString();\n      // Converte o embedding para string sem colchetes\n      const directusValues = Array.isArray(embedding) ? embedding.join(\",\") : embedding;\n      const dimensionsBody = {\n        values: directusValues,\n        vector_id: payload.data.id,\n        date_created: currentTimestamp,\n        date_updated: currentTimestamp\n      };\n\n      if (directusRecord && directusRecord.data && directusRecord.data.length > 0) {\n        const recordId = directusRecord.data[0].id;\n        const directusUpdateEndpoint = directusDimensionsEndpoint + \"/\" + recordId;\n        logs.push(\"Atualizando registro dimensions Directus com id: \" + recordId);\n        console.log(\"Atualizando Directus dimensions em:\", directusUpdateEndpoint);\n\n        const directusUpdateOptions = {\n          method: \"PATCH\",\n          uri: directusUpdateEndpoint,\n          headers: directusHeaders,\n          body: dimensionsBody,\n          json: true\n        };\n\n        const directusUpdateResponse = await this.helpers.request(directusUpdateOptions);\n        logs.push(\"Resposta atualização Directus dimensions: \" + trimLog(JSON.stringify(directusUpdateResponse)));\n        console.log(\"Directus dimensions update response:\", trimLog(JSON.stringify(directusUpdateResponse)));\n      } else {\n        logs.push(\"Nenhum registro Dimensions Directus encontrado, criando novo.\");\n        console.log(\"Criando novo registro Dimensions Directus.\");\n\n        const directusCreateOptions = {\n          method: \"POST\",\n          uri: directusDimensionsEndpoint,\n          headers: directusHeaders,\n          body: dimensionsBody,\n          json: true\n        };\n\n        const directusCreateResponse = await this.helpers.request(directusCreateOptions);\n        logs.push(\"Resposta criação Directus dimensions: \" + trimLog(JSON.stringify(directusCreateResponse)));\n        console.log(\"Directus dimensions create response:\", trimLog(JSON.stringify(directusCreateResponse)));\n      }\n\n    // Branch para upsert usando valores do \"Get Dimensions\" (caso op seja ENABLED)\n    } else if (op === \"ENABLED\") {\n      endpoint = pineconeHost + \"/vectors/upsert\";\n      logs.push(\"Endpoint para upsert (Get Dimensions): \" + endpoint);\n      console.log(\"Endpoint de upsert:\", endpoint);\n\n      let similarQuestionsArray = [];\n      if (payload.data.similar_questions) {\n        similarQuestionsArray = payload.data.similar_questions.split(\",\").map(s => s.trim());\n      }\n      logs.push(\"similar_questions convertido para array: \" + trimLog(JSON.stringify(similarQuestionsArray)));\n      console.log(\"similar_questions array:\", similarQuestionsArray);\n\n      let values = $('Get Dimensions').first().json.values;\n      if (typeof values === \"string\") {\n        values = values.split(\",\").map(item => parseFloat(item.trim()));\n        logs.push(\"Valores convertidos de string para array: \" + trimLog(JSON.stringify(values)));\n        console.log(\"Valores convertidos:\", values);\n      } else if (Array.isArray(values)) {\n        if (values.length > 0 && typeof values[0] === \"string\") {\n          values = values.map(item => parseFloat(item.trim()));\n          logs.push(\"Valores convertidos de array de strings para floats: \" + trimLog(JSON.stringify(values)));\n          console.log(\"Valores convertidos:\", values);\n        }\n      } else {\n        values = [values];\n        logs.push(\"Valores encapsulados em array: \" + trimLog(JSON.stringify(values)));\n        console.log(\"Valores encapsulados:\", values);\n      }\n\n      const upsertBody = {\n        vectors: [\n          {\n            id: payload.data.id,\n            values: values,\n            metadata: {\n              a: payload.data.answer,\n              t: payload.data.context,\n              q: payload.data.question,\n              sq: similarQuestionsArray\n            }\n          }\n        ],\n        namespace: payload.data.namespace\n      };\n      logs.push(\"Body para upsert (Get Dimensions): \" + trimLog(JSON.stringify(upsertBody)));\n      console.log(\"Body de upsert:\", upsertBody);\n\n      options = {\n        method: \"POST\",\n        uri: endpoint,\n        headers: pineconeHeaders,\n        body: upsertBody,\n        json: true\n      };\n\n      response = await this.helpers.request(options);\n      logs.push(\"Resposta do upsert recebida.\");\n      console.log(\"Resposta do upsert:\", trimLog(JSON.stringify(response)));\n\n      mainResponse = response;\n    } else {\n      logs.push(\"Operação não compatível. Nenhuma requisição enviada.\");\n      console.log(\"Operação não compatível.\");\n      mainResponse = { message: \"Operação não compatível.\" };\n    }\n\n    // Atualiza a tabela vectors_status para os casos ENABLED, DISABLED, INSERT ou UPDATE (ou DELETE)\n    if ([\"ENABLED\", \"DISABLED\", \"INSERT\", \"UPDATE\", \"DELETE\"].includes(op)) {\n      const statusValue = payload.data.enabled === true ? \"#2ECDA7\" : \"#E35169\";\n      const directusStatusHost = \"http://\" + payload.global_vars.directus_service + \":8055\";\n      const directusStatusEndpoint = directusStatusHost + \"/items/vectors_status\";\n      const directusHeaders = {\n        \"Authorization\": \"Bearer \" + payload.global_vars.directus_token,\n        \"Content-Type\": \"application/json\"\n      };\n      logs.push(\"Atualizando tabela vectors_status em: \" + directusStatusEndpoint);\n      console.log(\"Directus vectors_status endpoint:\", directusStatusEndpoint);\n\n      const statusQueryOptions = {\n        method: \"GET\",\n        uri: directusStatusEndpoint,\n        qs: { \"filter[vector_id][_eq]\": payload.data.id },\n        headers: directusHeaders,\n        json: true\n      };\n\n      let statusRecord = await this.helpers.request(statusQueryOptions);\n      logs.push(\"Resposta da consulta vectors_status: \" + trimLog(JSON.stringify(statusRecord)));\n      console.log(\"Directus vectors_status GET response:\", trimLog(JSON.stringify(statusRecord)));\n\n      const currentTimestamp = new Date().toISOString();\n      const statusBody = {\n        value: statusValue,\n        vector_id: payload.data.id,\n        date_created: currentTimestamp,\n        date_updated: currentTimestamp\n      };\n\n      if (statusRecord && statusRecord.data && statusRecord.data.length > 0) {\n        const recordId = statusRecord.data[0].id;\n        const statusUpdateEndpoint = directusStatusEndpoint + \"/\" + recordId;\n        logs.push(\"Atualizando registro vectors_status com id: \" + recordId);\n        console.log(\"Atualizando vectors_status em:\", statusUpdateEndpoint);\n\n        const statusUpdateOptions = {\n          method: \"PATCH\",\n          uri: statusUpdateEndpoint,\n          headers: directusHeaders,\n          body: statusBody,\n          json: true\n        };\n\n        var statusResponse = await this.helpers.request(statusUpdateOptions);\n        logs.push(\"Resposta atualização vectors_status: \" + trimLog(JSON.stringify(statusResponse)));\n        console.log(\"Directus vectors_status update response:\", trimLog(JSON.stringify(statusResponse)));\n      } else {\n        logs.push(\"Nenhum registro vectors_status encontrado, criando novo.\");\n        console.log(\"Criando novo registro vectors_status.\");\n\n        const statusCreateOptions = {\n          method: \"POST\",\n          uri: directusStatusEndpoint,\n          headers: directusHeaders,\n          body: statusBody,\n          json: true\n        };\n\n        var statusResponse = await this.helpers.request(statusCreateOptions);\n        logs.push(\"Resposta criação vectors_status: \" + trimLog(JSON.stringify(statusResponse)));\n        console.log(\"Directus vectors_status create response:\", trimLog(JSON.stringify(statusResponse)));\n      }\n    }\n\n    return [{\n      json: {\n        mainResponse,\n        logs\n      }\n    }];\n  } catch (error) {\n    console.error(\"Erro:\", error);\n    logs.push(\"Erro: \" + error.message);\n    return [{\n      json: {\n        error: error.message,\n        logs\n      }\n    }];\n  }\n}\n\nreturn main();\n"
+        "jsCode": "const axios = require('axios');\n\nasync function main() {\n  const trimLog = (msg, limit = 100) => (typeof msg === 'string' && msg.length > limit ? msg.substring(0, limit) + '...' : msg);\n  let logs = [];\n\n  try {\n    const payload = $('Postgres Trigger').first().json.payload;\n    logs.push(\"Payload carregado.\");\n\n    const op = payload.operation;\n    logs.push(\"Operação: \" + op);\n\n    let pineconeHost = payload.data.pinecone_host;\n    if (!pineconeHost.startsWith(\"https://\")) pineconeHost = \"https://\" + pineconeHost;\n\n    const pineconeHeaders = {\n      \"Api-Key\": payload.global_vars.pinecone_key,\n      \"X-Pinecone-API-Version\": \"2024-10\",\n      \"Content-Type\": \"application/json\"\n    };\n    logs.push(\"Headers Pinecone configurados.\");\n\n    let endpoint, response, mainResponse;\n\n    const axiosRequest = async (options) => {\n      try {\n        const res = await axios(options);\n        return res.data;\n      } catch (err) {\n        throw new Error(err?.response?.data?.message || err.message || JSON.stringify(err));\n      }\n    };\n\n    const getDirectus = async (url, headers, params) => axiosRequest({ method: 'GET', url, headers, params });\n    const postDirectus = async (url, headers, data) => axiosRequest({ method: 'POST', url, headers, data });\n    const patchDirectus = async (url, headers, data) => axiosRequest({ method: 'PATCH', url, headers, data });\n\n    if (op === \"DISABLED\" || op === \"DELETE\") {\n      endpoint = pineconeHost + \"/vectors/delete\";\n      const deleteBody = { ids: [payload.data.id], namespace: payload.data.namespace };\n      response = await axiosRequest({ method: 'POST', url: endpoint, headers: pineconeHeaders, data: deleteBody });\n      mainResponse = response;\n    } else if ((op === \"UPDATE\" || op === \"INSERT\") && payload.data.enabled === true) {\n      let embedding;\n\n      if (op === \"INSERT\") {\n        const directusEndpoint = `http://${payload.global_vars.directus_service}:8055/items/dimensions`;\n        const directusHeaders = { Authorization: `Bearer ${payload.global_vars.directus_token}`, \"Content-Type\": \"application/json\" };\n        const params = { \"filter[vector_id][_eq]\": payload.data.id };\n\n        const directusRecord = await getDirectus(directusEndpoint, directusHeaders, params);\n        if (directusRecord?.data?.length > 0 && directusRecord.data[0].values) {\n          const directusValues = directusRecord.data[0].values;\n          embedding = typeof directusValues === 'string' ? directusValues.split(\",\").map(Number) : directusValues;\n          logs.push(\"Embedding reutilizado do Directus (dimensions).\");\n        }\n      }\n\n      if (!embedding) {\n        const openAIInput = `Context: ${payload.data.context} Question: ${payload.data.question} Answer: ${payload.data.answer} Similar Questions: ${payload.data.similar_questions?.replace(/,/g, ', ')}`;\n        const openAIBody = { input: openAIInput, model: \"text-embedding-3-small\", dimensions: 1536 };\n        const openAIHeaders = { Authorization: `Bearer ${payload.global_vars.openai_key}`, \"Content-Type\": \"application/json\" };\n        const openAIEndpoint = \"https://api.openai.com/v1/embeddings\";\n\n        const openAIResponse = await axiosRequest({ method: 'POST', url: openAIEndpoint, headers: openAIHeaders, data: openAIBody });\n        embedding = openAIResponse?.data?.[0]?.embedding;\n        if (!embedding) throw new Error(\"Embedding não retornado pelo OpenAI.\");\n      }\n\n      const similarQuestionsArray = payload.data.similar_questions?.split(',').map(s => s.trim()) || [];\n\n      endpoint = pineconeHost + \"/vectors/upsert\";\n      const upsertBody = {\n        vectors: [{\n          id: payload.data.id,\n          values: embedding,\n          metadata: {\n            a: payload.data.answer,\n            t: payload.data.context,\n            q: payload.data.question,\n            sq: similarQuestionsArray\n          }\n        }],\n        namespace: payload.data.namespace\n      };\n\n      response = await axiosRequest({ method: 'POST', url: endpoint, headers: pineconeHeaders, data: upsertBody });\n      mainResponse = response;\n\n      // Atualização/Criação Directus\n      const dimensionsUrl = `http://${payload.global_vars.directus_service}:8055/items/dimensions`;\n      const dimensionsHeaders = { Authorization: `Bearer ${payload.global_vars.directus_token}`, \"Content-Type\": \"application/json\" };\n      const dimensionsParams = { \"filter[vector_id][_eq]\": payload.data.id };\n      const dimensionsRecord = await getDirectus(dimensionsUrl, dimensionsHeaders, dimensionsParams);\n\n      const directusValues = Array.isArray(embedding) ? embedding.join(\",\") : embedding;\n      const timestamp = new Date().toISOString();\n      const dimensionsBody = { values: directusValues, vector_id: payload.data.id, date_created: timestamp, date_updated: timestamp };\n\n      if (dimensionsRecord?.data?.length > 0) {\n        const id = dimensionsRecord.data[0].id;\n        await patchDirectus(`${dimensionsUrl}/${id}`, dimensionsHeaders, dimensionsBody);\n      } else {\n        await postDirectus(dimensionsUrl, dimensionsHeaders, dimensionsBody);\n      }\n    }\n\n    return [{ json: { mainResponse, logs } }];\n  } catch (error) {\n    logs.push(\"Erro: \" + (error?.message || JSON.stringify(error)));\n    return [{ json: { error: error?.message || String(error), logs } }];\n  }\n}\n\nreturn main();"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        220,
-        2180
+        -100,
+        700
       ],
-      "id": "d31c7c9a-a837-4f69-b5c7-9fa5e5a792d1",
+      "id": "75b6519e-2b43-4ec1-8678-0a8680b5af28",
       "name": "Update Vectors"
     },
     {
@@ -1249,10 +1523,10 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        20,
-        2180
+        -300,
+        700
       ],
-      "id": "f62eaf07-9275-4845-bbf7-3a49cf42160c",
+      "id": "f6bc1bfa-9513-4a45-bf59-fd12e71283c0",
       "name": "Get Dimensions",
       "alwaysOutputData": true,
       "credentials": {
@@ -1272,10 +1546,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -280,
-        2080
+        -600,
+        600
       ],
-      "id": "4a2caf6e-ee2d-4767-9774-092cd7bff5cb",
+      "id": "1b091bd6-574b-4a16-9d3f-701b21195a9d",
       "name": "Sticky Note15"
     },
     {
@@ -1283,10 +1557,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        -540,
-        2180
+        -860,
+        700
       ],
-      "id": "83b2bc4b-d2a1-4e10-adf2-86e70eb07f2e",
+      "id": "c5eae3cc-a106-496f-864c-34f496f9c923",
       "name": "No Operation 3"
     },
     {
@@ -1298,10 +1572,10 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        -1100,
-        2180
+        -1420,
+        700
       ],
-      "id": "fac17f0f-52f1-46a1-8978-93ff90435f7f",
+      "id": "b680e49e-66c0-486b-b8bf-dd8f6f279b77",
       "name": "Get History",
       "credentials": {
         "postgres": {
@@ -1309,65 +1583,6 @@
           "name": "Postgres BrendhaMattos"
         }
       }
-    },
-    {
-      "parameters": {
-        "name": "clickup",
-        "description": "Ferramenta para gerenciar tarefas no ClickUp. Permite criar, listar, atualizar ou remover tarefas. Para criar, forneça pelo menos o título. Para atualizar ou remover, você precisa fornecer o ID da tarefa. Para listar, você pode aplicar filtros opcionais.",
-        "jsCode": "const workspaceId = '9011917991';\nconst listId = '901109860036';\nconst apiKey = 'pk_44163283_ZIFREHZQNJWKZ5YSD0XVV45B272AOARG';\nconst https = require('https');\n\nconst logs = [];\n\nfunction log(message) {\n  logs.push({ time: new Date().toISOString(), message });\n}\n\nfunction request(path, method, body = null) {\n  log(`Requisição: ${method} ${path}`);\n  \n  return new Promise((resolve, reject) => {\n    const options = {\n      hostname: 'api.clickup.com',\n      path,\n      method,\n      headers: {\n        'Content-Type': 'application/json',\n        'Authorization': apiKey\n      }\n    };\n    \n    const req = https.request(options, (res) => {\n      let data = '';\n      res.on('data', chunk => data += chunk);\n      res.on('end', () => {\n        try {\n          log(`Resposta: status ${res.statusCode}`);\n          \n          // Tratamento de respostas vazias (comum em DELETEs)\n          if (!data || data.trim() === '') {\n            return res.statusCode < 300 \n              ? resolve({ success: true }) \n              : reject({ \n                  success: false, \n                  message: `Erro: ${res.statusMessage}`, \n                  statusCode: res.statusCode \n                });\n          }\n          \n          const responseData = JSON.parse(data);\n          \n          if (res.statusCode < 300) {\n            resolve(responseData);\n          } else {\n            reject({\n              success: false,\n              message: `Erro: ${responseData.err || res.statusMessage}`,\n              statusCode: res.statusCode\n            });\n          }\n        } catch (error) {\n          log(`Erro ao processar resposta: ${error.message}`);\n          reject({\n            success: false,\n            message: `Erro ao processar resposta: ${error.message}`,\n            data\n          });\n        }\n      });\n    });\n\n    req.on('error', (error) => {\n      log(`Erro na requisição: ${error.message}`);\n      reject({ success: false, message: `Erro na requisição: ${error.message}` });\n    });\n\n    if (body) {\n      const data = typeof body === 'string' ? body : JSON.stringify(body);\n      log(`Enviando dados: ${data.substring(0, 100)}${data.length > 100 ? '...' : ''}`);\n      req.write(data);\n    }\n    \n    req.end();\n  });\n}\n\nconst operations = {\n  async list(query) {\n    log('Operação: listar tarefas');\n    \n    try {\n      // Construir parâmetros de consulta\n      const params = [];\n      \n      if (query.status) params.push(`statuses[]=${encodeURIComponent(query.status)}`);\n      if (query.assignee) params.push(`assignees[]=${encodeURIComponent(query.assignee)}`);\n      if (query.due_date_gt) params.push(`due_date_gt=${encodeURIComponent(query.due_date_gt)}`);\n      if (query.due_date_lt) params.push(`due_date_lt=${encodeURIComponent(query.due_date_lt)}`);\n      \n      // Paginação\n      params.push(`page=${query.page || 0}`);\n      const limit = Math.min(query.limit || 20, 100);\n      params.push(`limit=${limit}`);\n      \n      log(`Parâmetros: ${params.join('&')}`);\n      \n      // Fazer requisição\n      const data = await request(\n        `/api/v2/list/${listId}/task?${params.join('&')}`, \n        'GET'\n      );\n      \n      log(`Tarefas encontradas: ${data.tasks.length}`);\n      \n      return {\n        success: true,\n        tasks: data.tasks,\n        total_count: data.tasks.length,\n        has_more: data.tasks.length === limit\n      };\n    } catch (error) {\n      log(`Erro: ${error.message || JSON.stringify(error)}`);\n      return error;\n    }\n  },\n\n  async create(query) {\n    log('Operação: criar tarefa');\n    \n    if (!query.title) {\n      log('Erro: Título da tarefa não fornecido');\n      return { success: false, message: \"Título da tarefa é obrigatório para criação\" };\n    }\n    \n    const body = {\n      name: query.title,\n      description: query.description || '',\n      due_date: query.due_date || null,\n      priority: query.priority || 3,\n      assignees: query.assignees || []\n    };\n    \n    try {\n      log(`Criando tarefa: \"${query.title}\"`);\n      const data = await request(`/api/v2/list/${listId}/task`, 'POST', body);\n      log(`Tarefa criada com sucesso, ID: ${data.id}`);\n      \n      return {\n        success: true,\n        message: \"Tarefa criada com sucesso\",\n        taskId: data.id,\n        taskUrl: data.url\n      };\n    } catch (error) {\n      log(`Erro: ${error.message || JSON.stringify(error)}`);\n      return error;\n    }\n  },\n  \n  async delete(query) {\n    log('Operação: remover tarefa');\n    \n    if (!query.task_id) {\n      log('Erro: ID da tarefa não fornecido');\n      return { success: false, message: \"ID da tarefa é obrigatório para remoção\" };\n    }\n    \n    try {\n      log(`Removendo tarefa: ${query.task_id}`);\n      await request(`/api/v2/task/${query.task_id}`, 'DELETE');\n      log('Tarefa removida com sucesso');\n      \n      return {\n        success: true,\n        message: \"Tarefa removida com sucesso\",\n        taskId: query.task_id\n      };\n    } catch (error) {\n      log(`Erro: ${error.message || JSON.stringify(error)}`);\n      return error;\n    }\n  },\n  \n  async update(query) {\n    log('Operação: atualizar tarefa');\n    \n    if (!query.task_id) {\n      log('Erro: ID da tarefa não fornecido');\n      return { success: false, message: \"ID da tarefa é obrigatório para atualização\" };\n    }\n    \n    // Mapear campos\n    const fields = {\n      title: 'name',\n      description: 'description',\n      due_date: 'due_date',\n      priority: 'priority',\n      status: 'status',\n      assignees: 'assignees'\n    };\n    \n    const body = {};\n    \n    // Filtrar campos fornecidos\n    Object.entries(fields).forEach(([src, dest]) => {\n      if (query[src] !== undefined) body[dest] = query[src];\n    });\n    \n    if (Object.keys(body).length === 0) {\n      log('Erro: Nenhum campo fornecido para atualização');\n      return { success: false, message: \"Nenhum campo fornecido para atualização\" };\n    }\n    \n    try {\n      log(`Atualizando tarefa: ${query.task_id}`);\n      await request(`/api/v2/task/${query.task_id}`, 'PUT', body);\n      log('Tarefa atualizada com sucesso');\n      \n      return {\n        success: true,\n        message: \"Tarefa atualizada com sucesso\",\n        taskId: query.task_id\n      };\n    } catch (error) {\n      log(`Erro: ${error.message || JSON.stringify(error)}`);\n      return error;\n    }\n  }\n};\n\ntry {\n  log(`Iniciando processamento: ${JSON.stringify(query)}`);\n  \n  const operation = query.operation || 'create';\n  \n  const result = await operations[operation](query);\n  \n  return JSON.stringify({\n    success: true,\n    ...result,\n    logs: logs\n  });\n} catch (error) {\n  log(`Erro não tratado: ${error.message || JSON.stringify(error)}`);\n  return JSON.stringify({ \n    success: false, \n    message: `Erro não tratado: ${error.message || 'Erro desconhecido'}`,\n    logs \n  });\n}",
-        "specifyInputSchema": true,
-        "schemaType": "manual",
-        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"operation\": {\n      \"type\": \"string\",\n      \"description\": \"Operação a ser realizada: criar, listar, atualizar ou remover tarefas\",\n      \"enum\": [\"create\", \"list\", \"update\", \"delete\"],\n      \"default\": \"create\"\n    },\n    \"task_id\": {\n      \"type\": \"string\",\n      \"description\": \"ID da tarefa (obrigatório para atualizar ou remover)\"\n    },\n    \"title\": {\n      \"type\": \"string\",\n      \"description\": \"Título da tarefa (obrigatório para criar, opcional para atualizar)\"\n    },\n    \"description\": {\n      \"type\": \"string\",\n      \"description\": \"Descrição detalhada da tarefa (opcional)\"\n    },\n    \"due_date\": {\n      \"type\": \"string\",\n      \"description\": \"Data de vencimento no formato timestamp ou ISO 8601 (opcional)\"\n    },\n    \"priority\": {\n      \"type\": \"integer\",\n      \"description\": \"Prioridade da tarefa (1: Urgente, 2: Alta, 3: Normal, 4: Baixa) (opcional)\",\n      \"enum\": [1, 2, 3, 4]\n    },\n    \"status\": {\n      \"type\": \"string\",\n      \"description\": \"Status da tarefa (para atualizar ou filtrar na listagem)\"\n    },\n    \"assignees\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"integer\"\n      },\n      \"description\": \"Lista de IDs dos usuários atribuídos à tarefa (opcional)\"\n    },\n    \"assignee\": {\n      \"type\": \"integer\",\n      \"description\": \"Filtrar por ID do usuário atribuído (para listar)\"\n    },\n    \"due_date_gt\": {\n      \"type\": \"string\",\n      \"description\": \"Filtrar tarefas com data de vencimento posterior (para listar)\"\n    },\n    \"due_date_lt\": {\n      \"type\": \"string\",\n      \"description\": \"Filtrar tarefas com data de vencimento anterior (para listar)\"\n    },\n    \"page\": {\n      \"type\": \"integer\",\n      \"description\": \"Número da página para paginação (para listar)\",\n      \"default\": 0\n    },\n    \"limit\": {\n      \"type\": \"integer\",\n      \"description\": \"Número de tarefas por página (máximo 100, para listar)\",\n      \"default\": 20\n    }\n  },\n  \"required\": [\"operation\"],\n  \"dependencies\": {\n    \"operation\": {\n      \"oneOf\": [\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"create\"]\n            }\n          },\n          \"required\": [\"title\"]\n        },\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"list\"]\n            }\n          }\n        },\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"update\"]\n            }\n          },\n          \"required\": [\"task_id\"]\n        },\n        {\n          \"properties\": {\n            \"operation\": {\n              \"enum\": [\"delete\"]\n            }\n          },\n          \"required\": [\"task_id\"]\n        }\n      ]\n    }\n  }\n}"
-      },
-      "type": "@n8n/n8n-nodes-langchain.toolCode",
-      "typeVersion": 1.1,
-      "position": [
-        2080,
-        2160
-      ],
-      "id": "6a06dfcc-eb35-41cb-b35b-313783de7027",
-      "name": "Clickup",
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "name": "scheduling",
-        "description": "Chama agente de calendário como ferramenta para gerenciar agendamentos e compromissos do calendário através do n8n. Processa solicitações relacionadas a criação, atualização, consulta e cancelamento de eventos agendados. Sem parâmetros necessários.",
-        "jsCode": "// SchedulingAssistant tool for n8n\nconst axios = require('axios');\n\ntry {\n  // Acessar parâmetros e variáveis do mapeamento\n  const params = query;\n  const mapping = $('Mapping').first().json;\n\n  const user = mapping.chatwoot.contact_id;\n  const directus_token = mapping.system.directus_token;\n  const directus_service = mapping.system.directus_service;\n  const n8n_service = mapping.system.n8n_webhook_service;\n\n  // Corrigido: caminho correto para o webhook\n  const url = `${n8n_service}/webhook/calendar/agent`;\n\n  // Montar payload para envio\n  const payload = {\n    params,\n    directus_token,\n    directus_service,\n    user\n  };\n\n  // Chamar o webhook do outro fluxo\n  const response = await axios.post(url, payload);\n\n  // Retornar resposta como string para o n8n\n  return JSON.stringify(response.data);\n\n} catch (error) {\n  // Lançar erro para que o n8n registre corretamente\n  throw new Error(`Erro ao processar agendamento: ${error.message}`);\n}\n",
-        "specifyInputSchema": true,
-        "jsonSchemaExample": "{\n\t\"solicitacao\": \"Descreva a solicitação do usuario relativa a operacao do calendario com maximo de detalhes para o agente de calendário\"\n}"
-      },
-      "type": "@n8n/n8n-nodes-langchain.toolCode",
-      "typeVersion": 1.1,
-      "position": [
-        1960,
-        2160
-      ],
-      "id": "2b803416-dc79-40fb-8a61-e3f5f4959332",
-      "name": "Google Calendar",
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "toolDescription": "Chama agente de calendário como ferramenta para gerenciar agendamentos e compromissos do calendário através do n8n. Processa solicitações relacionadas a criação, atualização, consulta e cancelamento de eventos agendados. Sem parâmetros necessários.",
-        "method": "POST",
-        "url": "={{ $env.WEBHOOK_URL }}webhook/calendar/agent",
-        "sendHeaders": true,
-        "specifyHeaders": "json",
-        "jsonHeaders": "={\n  \"api-address\": \"http://{{ $('Main Agent1').first().json.body.mapping.parseJson().system.directus_service }}:8055\",\n  \"api-token\": \"{{ $('Main Agent1').first().json.body.mapping.parseJson().system.directus_token }}\",\n  \"last-workflow\": \"{{ $workflow.name }}\"\n}",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"solicitacao\": \"{{ $fromAI(\n    \"solicitacao\",\n    \"Descreva a solicitação do usuario relativa a operacao do calendario com maximo de detalhes para o agente de calendário\",\n    \"string\"\n  )}}\",\n  \"contact\": \"{{ $('Main Agent1').first().json.body.mapping.parseJson().chatwoot.contact_id }}\"\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequestTool",
-      "typeVersion": 4.2,
-      "position": [
-        2200,
-        2160
-      ],
-      "id": "534c19ed-9826-4afa-99a6-4fe7fc100d37",
-      "name": "Agent Calendar"
     },
     {
       "parameters": {
@@ -1394,13 +1609,13 @@
         },
         "options": {}
       },
-      "id": "cfc6ce74-572a-4f3e-8fba-5a9846898477",
+      "id": "1bd28b89-2800-4821-a8b9-2598144826e7",
       "name": "Envia Chatwoot Text",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1660,
-        1320
+        1160,
+        -160
       ]
     },
     {
@@ -1465,23 +1680,23 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        1460,
-        1420
+        960,
+        -60
       ],
-      "id": "d99d7fd1-ae84-4824-afa2-86e40be2c81e",
+      "id": "533ed03e-87bb-4c06-a4e1-56230b75dde1",
       "name": "Response Format"
     },
     {
       "parameters": {
         "options": {}
       },
-      "id": "b68a41dc-a942-407f-8646-b0d831b0c2bf",
+      "id": "7eb97728-c4e8-47b0-845d-7ae0b635e674",
       "name": "Loop Messages",
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        1060,
-        1300
+        560,
+        -180
       ]
     },
     {
@@ -1522,13 +1737,13 @@
         },
         "options": {}
       },
-      "id": "172debf4-0a4d-40ba-b2ee-2e1ad9949e73",
+      "id": "c95c9ae9-b2de-41e6-b127-9020c72b5946",
       "name": "Send Chatwoot Media",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2320,
-        1520
+        1820,
+        40
       ]
     },
     {
@@ -1538,10 +1753,10 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        1260,
-        1420
+        760,
+        -60
       ],
-      "id": "e1c93871-9415-49ab-9c6a-04a5aa9ceb15",
+      "id": "3017b8b8-73d4-4900-a819-6ac43a19c96c",
       "name": "Delay Before Message",
       "webhookId": "b77f8239-7758-41ad-b4ad-ad2207bc2c18",
       "notesInFlow": true,
@@ -1554,10 +1769,10 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        2520,
-        1420
+        2020,
+        -60
       ],
-      "id": "c3eaee09-a37a-4490-ba53-3216c3aaa956",
+      "id": "afbbe965-055c-4da1-9dd3-62d3bd24beb9",
       "name": "Delay After Message",
       "webhookId": "3696b807-1a5f-4264-b8c7-31858e152dd4",
       "notesInFlow": true,
@@ -1603,10 +1818,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1660,
-        1520
+        1160,
+        40
       ],
-      "id": "7b889405-9a23-49ce-b286-6bb52565c2f6",
+      "id": "16613d78-8c60-4d6c-baef-80e5238521f0",
       "name": "Text To Speech ElevenLabs"
     },
     {
@@ -1614,10 +1829,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        2320,
-        1320
+        1820,
+        -160
       ],
-      "id": "c8303c27-9510-4c7f-881b-50132e8dedcb",
+      "id": "c68c41aa-b4be-4ad1-aec0-98e78e8c648a",
       "name": "No Operation, do nothing"
     },
     {
@@ -1625,13 +1840,13 @@
         "schemaType": "manual",
         "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"messages\": {\n      \"description\": \"Array com as mensagens\",\n      \"type\": \"array\",\n      \"items\": {\n        \"description\": \"As mensagens segmentadas\",\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"required\": [\"messages\"]\n}"
       },
-      "id": "9638005d-1e58-466c-83ce-5ff0510ef893",
+      "id": "a5eb92dc-e8cb-48b3-862f-475af6f63ad1",
       "name": "OutputParser",
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
       "position": [
-        720,
-        1560
+        180,
+        40
       ]
     },
     {
@@ -1641,19 +1856,19 @@
           "destinationFieldName": "segment"
         }
       },
-      "id": "e6154c2c-5005-48e8-afc5-199c90d9bde3",
+      "id": "b5d0a664-9aff-42c2-b66a-e5e8bc2798c6",
       "name": "Split Messages",
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        860,
-        1300
+        360,
+        -180
       ]
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "={{ $('Execute Core').item.json.final.output }}",
+        "text": "={{ $('Call Agent Main').item.json.output }}",
         "hasOutputParser": true,
         "messages": {
           "messageValues": [
@@ -1663,13 +1878,13 @@
           ]
         }
       },
-      "id": "775a24fe-1699-49ea-98b8-d07ddb3e828f",
+      "id": "55e118bd-57cf-48c0-a0f7-0429f22b3a87",
       "name": "Message Segment Agent",
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.4,
       "position": [
-        500,
-        1300
+        0,
+        -180
       ],
       "retryOnFail": true,
       "maxTries": 5
@@ -1682,10 +1897,10 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        1880,
-        1520
+        1380,
+        40
       ],
-      "id": "61099941-a0c8-4ca5-b46a-40d776fb6e35",
+      "id": "6671575e-415b-4e2d-a785-0c4a880bdce3",
       "name": "Extract from File"
     },
     {
@@ -1697,10 +1912,10 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        2100,
-        1520
+        1600,
+        40
       ],
-      "id": "2ea2dc56-ec80-42b5-bb7e-e1eb61f6861c",
+      "id": "2f517986-d3f4-4967-9219-5409ea9e573f",
       "name": "Convert to File"
     },
     {
@@ -1712,10 +1927,10 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        1260,
-        1200
+        760,
+        -280
       ],
-      "id": "1a2755d2-4264-49d9-b59b-4efd495761f7",
+      "id": "3ff43c3e-8112-4e33-9f6d-ccfd6e26ef0a",
       "name": "Add Conversation Info",
       "credentials": {
         "postgres": {
@@ -1729,7 +1944,7 @@
         "dataToSave": {
           "values": [
             {
-              "key": "workflow",
+              "key": "lastWorkflow",
               "value": "[Anna] Consumer"
             }
           ]
@@ -1738,64 +1953,63 @@
       "type": "n8n-nodes-base.executionData",
       "typeVersion": 1,
       "position": [
-        -1100,
-        560
+        -1600,
+        -920
       ],
-      "id": "00e99c95-22bd-41f4-bd95-c7c9d3a91101",
+      "id": "5daf6a4c-f126-4c20-937b-43d2deaf4f1e",
       "name": "Execution Data"
     },
     {
       "parameters": {
-        "dataToSave": {
-          "values": [
+        "method": "POST",
+        "url": "=http://{{$('Mapping').first().json.system.n8n_webhook_service}}:5678/webhook/{{ $('Mapping').first().json.system.workflow_path }}",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
             {
-              "key": "workflow",
-              "value": "[Anna] Main Agent"
+              "name": "content",
+              "value": "={{ $json.content ?  $json.content :\n    $input.all()\n      .map(item => item.json?.content)\n      .filter(content => content)\n      .join('\\n\\n') || \"Sem contexto em texto.\"\n}}"
+            },
+            {
+              "name": "mapping",
+              "value": "={{JSON.stringify($('Mapping').first().json) }}"
+            },
+            {
+              "name": "files",
+              "value": "={{ $input.all().map(item => item.json.binaries) || [] }}"
             }
           ]
-        }
-      },
-      "type": "n8n-nodes-base.executionData",
-      "typeVersion": 1,
-      "position": [
-        1600,
-        1900
-      ],
-      "id": "b178feb7-cb6b-4385-9a5b-48dcb0428d7a",
-      "name": "Execution Data1"
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "main",
-        "responseMode": "lastNode",
+        },
         "options": {}
       },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
-        1380,
-        1900
+        -1200,
+        -380
       ],
-      "id": "a84bdb0a-c2f0-4ad2-919a-cd2a8f39c74b",
-      "name": "Main Agent1",
-      "webhookId": "d503e6f9-0989-42d5-a598-e268b20c3182"
+      "id": "5f447434-4d4f-4298-ab2e-863894400c91",
+      "name": "Call Agent Main",
+      "executeOnce": true,
+      "notesInFlow": true,
+      "notes": "Chama o agente principal"
     },
     {
       "parameters": {
-        "content": "# Modelos\nUsar o openRouter para testes de modelos e trocar o modelo em produção.",
-        "height": 300,
-        "width": 540,
-        "color": 3
+        "operation": "binaryToPropery",
+        "binaryPropertyName": "=data{{ $itemIndex }}",
+        "destinationKey": "binaries",
+        "options": {}
       },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        580,
-        1760
-      ],
+      "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
-      "id": "6d028b50-e3de-455a-916a-c2fb2b37f875",
-      "name": "Sticky Note4"
+      "position": [
+        -1400,
+        -380
+      ],
+      "id": "768beebb-cd4f-45f0-b9dd-f68e69f241e7",
+      "name": "Transform File In Text",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -1805,50 +2019,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1,
       "position": [
-        520,
-        1560
+        -1220,
+        980
       ],
-      "id": "1cb53a78-cd5c-49f5-9241-d761966c82ba",
-      "name": "Openai",
-      "credentials": {
-        "openAiApi": {
-          "id": "AhNlapeTC4e4mLvK",
-          "name": "brendha_mattos"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "model": "gemma2-9b-it",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
-      "typeVersion": 1,
-      "position": [
-        960,
-        1920
-      ],
-      "id": "34ca70be-bbfb-4636-a873-f951a976c0de",
-      "name": "Groq",
-      "credentials": {
-        "groqApi": {
-          "id": "KQvxBFUV0z48qAZh",
-          "name": "Groq Sy"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "model": "gpt-4.1-mini",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1,
-      "position": [
-        -900,
-        2460
-      ],
-      "id": "78d04346-073d-4b83-8b53-fab258cf6f51",
+      "id": "595c6503-e419-41df-8320-0c250b0659d3",
       "name": "Openai1",
       "credentials": {
         "openAiApi": {
@@ -1865,10 +2039,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1,
       "position": [
-        1480,
-        2160
+        20,
+        40
       ],
-      "id": "9644dfb7-c8cf-47f8-b3f6-13ed322b938e",
+      "id": "bb081717-dc21-44eb-a102-1cb703720223",
       "name": "Openai2",
       "credentials": {
         "openAiApi": {
@@ -1876,25 +2050,283 @@
           "name": "brendha_mattos"
         }
       }
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 1360,
+        "width": 4220,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1940,
+        -1120
+      ],
+      "typeVersion": 1,
+      "id": "336bc5d0-ccb5-41fb-acc8-172e65983d4d",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 300,
+        "width": 1300,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1920,
+        600
+      ],
+      "id": "d1bc35f1-563e-4c2d-b11a-8d09a3df9205",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 300,
+        "width": 700,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1920,
+        280
+      ],
+      "id": "95c8892f-bb44-40d7-9a13-0120e5662b39",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "dataToSave": {
+          "values": [
+            {
+              "key": "lastWorkflow",
+              "value": "[Anna] Main Agent"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executionData",
+      "typeVersion": 1,
+      "position": [
+        -1620,
+        700
+      ],
+      "id": "1a713d6b-de8c-434f-a8de-e71c29946b98",
+      "name": "Execution Data3"
     }
   ],
   "connections": {
-    "Memory": {
+    "Call Agent Rag": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Split Base64",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agents": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Call Agent Rag",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Base64": {
+      "main": [
+        [
+          {
+            "node": "Binary Exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Binary Exists?": {
+      "main": [
+        [
+          {
+            "node": "Convert",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge Binaries",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Binaries": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Binaries": {
+      "main": [
+        [
+          {
+            "node": "Merge Binaries",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert": {
+      "main": [
+        [
+          {
+            "node": "Binaries",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Openai3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memory1": {
       "ai_memory": [
         [
           {
-            "node": "Main Agent",
+            "node": "AI Agent",
             "type": "ai_memory",
             "index": 0
           }
         ]
       ]
     },
-    "Main Agent": {
+    "Restart History1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Timer1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clickup1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent Calendar1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execution Data2": {
       "main": [
         [
           {
-            "node": "No Operation 2",
+            "node": "Agents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Main Agent3": {
+      "main": [
+        [
+          {
+            "node": "Execution Data2",
             "type": "main",
             "index": 0
           }
@@ -1934,11 +2366,22 @@
         ]
       ]
     },
+    "Split Itens": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Loop": {
       "main": [
         [
           {
-            "node": "Execute Core",
+            "node": "Transform File In Text",
             "type": "main",
             "index": 0
           }
@@ -1946,17 +2389,6 @@
         [
           {
             "node": "Switch 2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Split Itens": {
-      "main": [
-        [
-          {
-            "node": "Loop",
             "type": "main",
             "index": 0
           }
@@ -2043,11 +2475,6 @@
         ]
       ]
     },
-    "No Operation 2": {
-      "main": [
-        []
-      ]
-    },
     "Consumer": {
       "main": [
         [
@@ -2075,11 +2502,6 @@
             "index": 0
           }
         ]
-      ]
-    },
-    "OpenRouter": {
-      "ai_languageModel": [
-        []
       ]
     },
     "Get Vars": {
@@ -2115,34 +2537,12 @@
         ]
       ]
     },
-    "Execute Core": {
-      "main": [
-        [
-          {
-            "node": "Get Final List 2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Clear History": {
       "main": [
         [
           {
             "node": "Parse JSON",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Restart History": {
-      "ai_tool": [
-        [
-          {
-            "node": "Main Agent",
-            "type": "ai_tool",
             "index": 0
           }
         ]
@@ -2163,8 +2563,7 @@
             "type": "main",
             "index": 0
           }
-        ],
-        []
+        ]
       ]
     },
     "Switch 1": {
@@ -2232,17 +2631,6 @@
         ]
       ]
     },
-    "Set Timer": {
-      "ai_tool": [
-        [
-          {
-            "node": "Main Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Knowledge Trigger": {
       "main": [
         [
@@ -2265,16 +2653,22 @@
         ]
       ]
     },
-    "Process Docs": {
-      "main": [
-        []
-      ]
-    },
     "Vector Trigger": {
       "main": [
         [
           {
             "node": "Parse JSON 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings": {
+      "main": [
+        [
+          {
+            "node": "Add Vectors",
             "type": "main",
             "index": 0
           }
@@ -2303,27 +2697,22 @@
         ]
       ]
     },
-    "Embeddings": {
+    "RAG Input": {
       "main": [
         [
           {
-            "node": "Add Vectors",
+            "node": "Execution Data3",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Add Vectors": {
-      "main": [
-        []
-      ]
-    },
-    "RAG Input": {
+    "RAG Agent": {
       "main": [
         [
           {
-            "node": "Get History",
+            "node": "No Operation 3",
             "type": "main",
             "index": 0
           }
@@ -2407,56 +2796,12 @@
         ]
       ]
     },
-    "RAG Agent": {
-      "main": [
-        [
-          {
-            "node": "No Operation 3",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Get History": {
       "main": [
         [
           {
             "node": "RAG Agent",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Clickup": {
-      "ai_tool": [
-        [
-          {
-            "node": "Main Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Google Calendar": {
-      "ai_tool": [
-        [
-          {
-            "node": "Main Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Agent Calendar": {
-      "ai_tool": [
-        [
-          {
-            "node": "Main Agent",
-            "type": "ai_tool",
             "index": 0
           }
         ]
@@ -2630,42 +2975,26 @@
         ]
       ]
     },
-    "Main Agent1": {
+    "Call Agent Main": {
       "main": [
         [
           {
-            "node": "Execution Data1",
+            "node": "Get Final List 2",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Execution Data1": {
+    "Transform File In Text": {
       "main": [
         [
           {
-            "node": "Main Agent",
+            "node": "Call Agent Main",
             "type": "main",
             "index": 0
           }
         ]
-      ]
-    },
-    "Openai": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Message Segment Agent",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Groq": {
-      "ai_languageModel": [
-        []
       ]
     },
     "Openai1": {
@@ -2683,8 +3012,19 @@
       "ai_languageModel": [
         [
           {
-            "node": "Main Agent",
+            "node": "Message Segment Agent",
             "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execution Data3": {
+      "main": [
+        [
+          {
+            "node": "Get History",
+            "type": "main",
             "index": 0
           }
         ]
@@ -2693,9 +3033,11 @@
   },
   "settings": {},
   "staticData": null,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {},
-  "versionId": "37530157-c1fa-48e5-9118-f589a335cf5c",
-  "triggerCount": 5,
+  "versionId": "b8b1654a-2625-43e9-8de1-01a2825c7c23",
+  "triggerCount": 6,
   "tags": []
 }
