@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-22T17:33:06.831Z",
-  "updatedAt": "2025-05-28T20:05:42.450Z",
+  "updatedAt": "2025-05-29T12:57:09.356Z",
   "id": "KmQFVLzk9PoaqCUa",
   "name": "[Maria] v2",
   "active": true,
@@ -28,8 +28,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        920,
-        460
+        1160,
+        440
       ],
       "id": "0a315bb3-8387-4ccc-a308-b74bc4b89941",
       "name": "Call Agent Rag",
@@ -48,8 +48,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        1100,
-        360
+        1340,
+        340
       ],
       "id": "727ff5ed-7257-46aa-a3bf-94d51edb4a40",
       "name": "Merge"
@@ -116,8 +116,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        720,
-        360
+        960,
+        340
       ],
       "id": "7796e594-3568-47f1-ab7d-68af8409cb1f",
       "name": "Agents"
@@ -133,8 +133,8 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        1340,
-        420
+        1580,
+        400
       ],
       "id": "3fa68fcc-a04a-4197-ae87-5414951b7d24",
       "name": "Split Base64",
@@ -364,7 +364,7 @@
       "typeVersion": 1,
       "position": [
         260,
-        240
+        260
       ],
       "id": "bfb86176-221f-48e1-b72d-c2e166579cd7",
       "name": "Sticky Note16"
@@ -475,8 +475,8 @@
       "type": "n8n-nodes-base.executionData",
       "typeVersion": 1,
       "position": [
-        520,
-        360
+        760,
+        340
       ],
       "id": "4de84884-f355-4686-9bf3-2d5cf2a3205d",
       "name": "Execution Data2"
@@ -493,8 +493,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        320,
-        360
+        560,
+        340
       ],
       "id": "2231780e-3e19-40d4-85e8-2c40279cd548",
       "name": "Main Agent3",
@@ -642,12 +642,12 @@
       "parameters": {
         "content": "",
         "height": 540,
-        "width": 3140,
+        "width": 3160,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -1900,
+        -1920,
         -1100
       ],
       "typeVersion": 1,
@@ -797,12 +797,12 @@
       "parameters": {
         "content": "",
         "height": 740,
-        "width": 4160,
+        "width": 4180,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -1900,
+        -1920,
         -520
       ],
       "typeVersion": 1,
@@ -937,7 +937,7 @@
       "typeVersion": 1,
       "position": [
         -1800,
-        -1140
+        -1120
       ],
       "id": "aeb41cb6-5852-4ad3-af4b-b5f5226475ff",
       "name": "Sticky Note13"
@@ -1846,7 +1846,7 @@
       "typeVersion": 1.2,
       "position": [
         180,
-        40
+        20
       ]
     },
     {
@@ -2039,8 +2039,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1,
       "position": [
-        20,
-        40
+        0,
+        20
       ],
       "id": "bb081717-dc21-44eb-a102-1cb703720223",
       "name": "Openai2",
@@ -3061,7 +3061,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "fcf0c58e-7241-4961-bf0d-79111eca9bb8",
+  "versionId": "491223fd-1073-459c-a8d0-e69dc9e27330",
   "triggerCount": 6,
   "tags": []
 }
