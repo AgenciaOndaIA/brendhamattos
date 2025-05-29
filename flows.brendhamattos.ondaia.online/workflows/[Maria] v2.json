@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-05-22T17:33:06.831Z",
-  "updatedAt": "2025-05-29T12:57:09.356Z",
+  "updatedAt": "2025-05-29T17:46:11.066Z",
   "id": "KmQFVLzk9PoaqCUa",
   "name": "[Maria] v2",
   "active": true,
@@ -443,7 +443,7 @@
       "parameters": {
         "toolDescription": "Chama agente de calendário como ferramenta para gerenciar agendamentos e compromissos do calendário através do n8n. Processa solicitações relacionadas a criação, atualização, consulta e cancelamento de eventos agendados. Sem parâmetros necessários.",
         "method": "POST",
-        "url": "={{ $env.WEBHOOK_URL }}webhook/calendar/agent",
+        "url": "={{ $env.WEBHOOK_URL }}/webhook/calendar/agent",
         "sendHeaders": true,
         "specifyHeaders": "json",
         "jsonHeaders": "={\n  \"api-address\": \"http://{{ $('Main Agent3').first().json.body.mapping.parseJson().system.directus_service }}:8055\",\n  \"api-token\": \"{{ $('Main Agent3').first().json.body.mapping.parseJson().system.directus_token }}\",\n  \"last-workflow\": \"{{ $workflow.name }}\"\n}",
@@ -3061,7 +3061,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "491223fd-1073-459c-a8d0-e69dc9e27330",
+  "versionId": "5f768f7e-e9df-4473-b3a3-733ddd97697f",
   "triggerCount": 6,
   "tags": []
 }
