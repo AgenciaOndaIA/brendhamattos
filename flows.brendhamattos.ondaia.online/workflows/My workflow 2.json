@@ -1,0 +1,35 @@
+{
+  "createdAt": "2025-06-06T18:06:46.753Z",
+  "updatedAt": "2025-06-06T18:06:46.753Z",
+  "id": "iY22fbZXdI1QZSnQ",
+  "name": "My workflow 2",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "hotmart_perpetuo_ervas",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2f192318-c392-4793-903a-b499a8b837a3",
+      "name": "Webhook",
+      "webhookId": "f4dda7e1-4472-40ce-a15f-2a3e55c3bda4"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "a59148d7-da4d-4838-a021-f0987616a67e",
+  "triggerCount": 0,
+  "tags": []
+}
