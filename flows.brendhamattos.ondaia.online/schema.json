@@ -1871,10 +1871,6 @@
               "value": "deepseek/deepseek-v3-base:free"
             },
             {
-              "text": "Typhoon2 8B Instruct",
-              "value": "scb10x/llama3.1-typhoon2-8b-instruct"
-            },
-            {
               "text": "Typhoon2 70B Instruct",
               "value": "scb10x/llama3.1-typhoon2-70b-instruct"
             },
@@ -3061,8 +3057,8 @@
               "value": "eleven_flash_v2"
             },
             {
-              "text": "Eleven English v1",
-              "value": "eleven_monolingual_v1"
+              "text": "Eleven Multilingual v1",
+              "value": "eleven_multilingual_v1"
             },
             {
               "text": "Eleven English v2",
@@ -3073,8 +3069,8 @@
               "value": "eleven_multilingual_sts_v2"
             },
             {
-              "text": "Eleven Multilingual v1",
-              "value": "eleven_multilingual_v1"
+              "text": "Eleven English v1",
+              "value": "eleven_monolingual_v1"
             }
           ]
         },
