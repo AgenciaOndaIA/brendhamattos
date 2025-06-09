@@ -1563,10 +1563,6 @@
               "value": "deepseek/deepseek-r1-0528-qwen3-8b"
             },
             {
-              "text": "Google: Gemma 1 2B",
-              "value": "google/gemma-2b-it"
-            },
-            {
               "text": "DeepSeek: R1 0528 (free)",
               "value": "deepseek/deepseek-r1-0528:free"
             },
@@ -3053,8 +3049,8 @@
               "value": "eleven_flash_v2"
             },
             {
-              "text": "Eleven Multilingual v1",
-              "value": "eleven_multilingual_v1"
+              "text": "Eleven English v2",
+              "value": "eleven_english_sts_v2"
             },
             {
               "text": "Eleven English v1",
@@ -3065,8 +3061,8 @@
               "value": "eleven_multilingual_sts_v2"
             },
             {
-              "text": "Eleven English v2",
-              "value": "eleven_english_sts_v2"
+              "text": "Eleven Multilingual v1",
+              "value": "eleven_multilingual_v1"
             }
           ]
         },
