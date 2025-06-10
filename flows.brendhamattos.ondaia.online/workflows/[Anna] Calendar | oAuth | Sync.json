@@ -1,10 +1,10 @@
 {
-  "createdAt": "2025-05-23T21:23:52.825Z",
-  "updatedAt": "2025-05-23T21:27:23.357Z",
-  "id": "YSq5TyjgOzbSHwED",
+  "createdAt": "2025-05-22T17:33:04.738Z",
+  "updatedAt": "2025-05-23T21:54:41.716Z",
+  "id": "8aHR4dporADwJ74h",
   "name": "[Anna] Calendar | oAuth | Sync",
-  "active": false,
-  "isArchived": true,
+  "active": true,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
@@ -37,8 +37,8 @@
       "name": "Set Redis",
       "credentials": {
         "redis": {
-          "id": "TbdCTNDGffvuZRjL",
-          "name": "Redis account"
+          "id": "1VL8GiWa4ifxJ1E5",
+          "name": "Brendha"
         }
       }
     },
@@ -61,8 +61,8 @@
       "executeOnce": true,
       "credentials": {
         "redis": {
-          "id": "TbdCTNDGffvuZRjL",
-          "name": "Redis account"
+          "id": "1VL8GiWa4ifxJ1E5",
+          "name": "Brendha"
         }
       }
     },
@@ -76,7 +76,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         -220,
-        20
+        0
       ],
       "typeVersion": 1,
       "id": "7e2234bd-0cff-4127-83f8-397c7d8672ad",
@@ -415,8 +415,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        0,
-        0
+        -200,
+        40
       ],
       "typeVersion": 1,
       "id": "91893d1c-9b54-4146-b33d-44c28e7723b4",
@@ -490,8 +490,8 @@
       "executeOnce": true,
       "credentials": {
         "postgres": {
-          "id": "QaUDiDcemy6udc5h",
-          "name": "Postgres account"
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
         }
       }
     },
@@ -680,8 +680,8 @@
       "executeOnce": true,
       "credentials": {
         "postgres": {
-          "id": "QaUDiDcemy6udc5h",
-          "name": "Postgres account"
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
         }
       }
     },
@@ -864,8 +864,8 @@
       "executeOnce": true,
       "credentials": {
         "postgres": {
-          "id": "QaUDiDcemy6udc5h",
-          "name": "Postgres account"
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
         }
       }
     },
@@ -955,8 +955,8 @@
       "name": "List Companies",
       "credentials": {
         "postgres": {
-          "id": "QaUDiDcemy6udc5h",
-          "name": "Postgres account"
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
         }
       }
     },
@@ -1209,8 +1209,8 @@
       "executeOnce": true,
       "credentials": {
         "postgres": {
-          "id": "QaUDiDcemy6udc5h",
-          "name": "Postgres account"
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
         }
       }
     },
@@ -1468,8 +1468,8 @@
   "settings": {},
   "staticData": null,
   "meta": null,
-  "pinData": null,
-  "versionId": "f95b76dc-a536-44c2-90f1-eaa89509dd4b",
-  "triggerCount": 0,
+  "pinData": {},
+  "versionId": "6cbc5eb6-11c2-49d4-9471-b58a6e6ce99c",
+  "triggerCount": 1,
   "tags": []
 }
