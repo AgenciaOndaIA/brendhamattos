@@ -1,10 +1,10 @@
 {
-  "createdAt": "2025-05-22T17:33:03.685Z",
-  "updatedAt": "2025-05-23T15:17:56.742Z",
-  "id": "0GArUBrtkPQYX0Ok",
+  "createdAt": "2025-05-23T21:19:35.233Z",
+  "updatedAt": "2025-05-23T21:27:23.357Z",
+  "id": "H9KaETgYJTjjo52q",
   "name": "[Anna] Calendar | oAuth | Refresh Token",
-  "active": true,
-  "isArchived": false,
+  "active": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -634,7 +634,7 @@
   "staticData": null,
   "meta": null,
   "pinData": null,
-  "versionId": "7ae0588f-438d-4fdc-8e85-fa5973ccc3c7",
-  "triggerCount": 1,
+  "versionId": "b8b0b408-49ae-47e6-8476-8f54f7c99aeb",
+  "triggerCount": 0,
   "tags": []
 }
