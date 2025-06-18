@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-11T13:53:08.663Z",
-  "updatedAt": "2025-06-18T17:57:10.122Z",
+  "updatedAt": "2025-06-18T18:03:13.127Z",
   "id": "m8rJeEO0pVwV6vMa",
   "name": "01 - [Maria] Tools v2",
   "active": true,
@@ -16,7 +16,7 @@
       "typeVersion": 2,
       "position": [
         2320,
-        180
+        120
       ],
       "id": "e0f222ee-97bc-4f58-aab7-7a375bf93b3f",
       "name": "Chatwoot Input",
@@ -806,7 +806,8 @@
         -180
       ],
       "id": "7a8f901b-bd05-412e-807e-278c4f379468",
-      "name": "Sticky Note20"
+      "name": "Sticky Note20",
+      "disabled": true
     },
     {
       "parameters": {
@@ -1472,6 +1473,22 @@
       "notesInFlow": true,
       "retryOnFail": true,
       "executeOnce": true
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "zaptor_brendhamattos",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        2320,
+        320
+      ],
+      "id": "a041922d-e65e-4a1e-a638-1fbe0d82cb45",
+      "name": "Webhook",
+      "webhookId": "259bf093-c310-4d9e-ba6b-cbd792f4db30"
     }
   ],
   "connections": {
@@ -1885,6 +1902,17 @@
           }
         ]
       ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Execution Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {},
@@ -1900,26 +1928,106 @@
   },
   "meta": null,
   "pinData": {
-    "1H Schedule Trigger": [
+    "Update Elevenlabs Models": [
       {
         "json": {
-          "timestamp": "2025-06-18T14:00:41.008-03:00",
-          "Readable date": "June 18th 2025, 2:00:41 pm",
-          "Readable time": "2:00:41 pm",
-          "Day of week": "Wednesday",
-          "Year": "2025",
-          "Month": "June",
-          "Day of month": "18",
-          "Hour": "14",
-          "Minute": "00",
-          "Second": "41",
-          "Timezone": "America/Sao_Paulo (UTC-03:00)"
+          "data": {
+            "collection": "ai_agents",
+            "field": "elevenlabs_model",
+            "type": "string",
+            "meta": {
+              "id": 27,
+              "collection": "ai_agents",
+              "field": "elevenlabs_model",
+              "special": null,
+              "interface": "select-dropdown",
+              "options": {
+                "choices": [
+                  {
+                    "text": "Eleven Multilingual v2",
+                    "value": "eleven_multilingual_v2"
+                  },
+                  {
+                    "text": "Eleven Flash v2.5",
+                    "value": "eleven_flash_v2_5"
+                  },
+                  {
+                    "text": "Eleven Turbo v2.5",
+                    "value": "eleven_turbo_v2_5"
+                  },
+                  {
+                    "text": "Eleven Turbo v2",
+                    "value": "eleven_turbo_v2"
+                  },
+                  {
+                    "text": "Eleven Flash v2",
+                    "value": "eleven_flash_v2"
+                  },
+                  {
+                    "text": "Eleven English v2",
+                    "value": "eleven_english_sts_v2"
+                  },
+                  {
+                    "text": "Eleven Multilingual v2",
+                    "value": "eleven_multilingual_sts_v2"
+                  },
+                  {
+                    "text": "Eleven English v1",
+                    "value": "eleven_monolingual_v1"
+                  },
+                  {
+                    "text": "Eleven Multilingual v1",
+                    "value": "eleven_multilingual_v1"
+                  }
+                ],
+                "allowOther": false
+              },
+              "display": null,
+              "display_options": null,
+              "readonly": false,
+              "hidden": false,
+              "sort": 1,
+              "width": "half",
+              "translations": [
+                {
+                  "language": "en-US",
+                  "translation": "Model"
+                }
+              ],
+              "note": "Modelos de fala do ElevenLabs.",
+              "conditions": null,
+              "required": false,
+              "group": "elevenlabs",
+              "validation": null,
+              "validation_message": null
+            },
+            "schema": {
+              "name": "elevenlabs_model",
+              "table": "ai_agents",
+              "data_type": "character varying",
+              "default_value": null,
+              "generation_expression": null,
+              "max_length": 255,
+              "numeric_precision": null,
+              "numeric_scale": null,
+              "is_generated": false,
+              "is_nullable": true,
+              "is_unique": false,
+              "is_indexed": false,
+              "is_primary_key": false,
+              "has_auto_increment": false,
+              "foreign_key_schema": null,
+              "foreign_key_table": null,
+              "foreign_key_column": null,
+              "comment": null
+            }
+          }
         }
       }
     ]
   },
-  "versionId": "b5a8f95b-157e-4846-a99c-8379e8d5fdd3",
-  "triggerCount": 6,
+  "versionId": "d16e5549-7f75-4238-9d81-c3a28fae94aa",
+  "triggerCount": 7,
   "tags": [
     {
       "createdAt": "2025-06-11T13:53:10.328Z",
