@@ -1,0 +1,282 @@
+{
+  "createdAt": "2025-06-18T02:23:16.717Z",
+  "updatedAt": "2025-06-18T17:54:46.767Z",
+  "id": "YxV8y5fuI8in7NH1",
+  "name": "Busca Pinecone",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"message\": \"{{ $json.error.name + \" - \" + $json.error?.message?.split(\" - \")[1]?.parseJson().parseJson().errors.map(item => item.message) || $json.error.message }}\",\n  \"code\": \"{{ $json.error.code || \"\" }}\",\n  \"execution\": \"{{ $json.error?.message?.split(\" - \")[1]?.parseJson().parseJson().errors.map(item => item.extensions.code) || $execution.id }}\"\n}",
+        "options": {
+          "responseCode": "={{ $json.error.status }}"
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        900,
+        420
+      ],
+      "id": "b9488b7b-733a-4041-81cc-c36aad8c3c58",
+      "name": "Error"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"message\": \"Nao acessou pinecone\",\n  \"execution\": \"{{ $execution.id }}\",\n  \"data\": {{ $json.matches.toJsonString() || null }} \n} ",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        900,
+        100
+      ],
+      "id": "e44788d5-9a25-40c7-a538-8450b5be91ae",
+      "name": "Success"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "/knowledge/search",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        100,
+        400
+      ],
+      "id": "3fff2d0d-8854-4468-8baa-ded2eb0496cc",
+      "name": "Webhook1",
+      "webhookId": "cc938035-c3ac-4e4c-8ad4-a50cc28e81c9"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.headers[\"directus-address\"] }}/items/knowledge/{{ $json.body.knowledge }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "fields",
+              "value": "id, pinecone_host_id.value, name_id.value"
+            },
+            {
+              "name": "meta",
+              "value": "filter_count"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.headers[\"directus-token\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        300,
+        400
+      ],
+      "id": "495ea95b-9518-4283-b1ad-c584f762bcd5",
+      "name": "[Directus] Query",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('[Directus] Query').first().json.data.pinecone_host_id.value }}/query",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Key",
+              "value": "={{ $('Webhook1').item.json.body.tokens.pinecone }}"
+            },
+            {
+              "name": "X-Pinecone-API-Version",
+              "value": "2024-10"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"namespace\": \"{{ $('[Directus] Query').item.json.data.name_id.value }}\",\n  \"topK\": 3,\n  \"includeValues\": false,\n  \"includeMetadata\": true,\n  \"vector\": {{ $json.data[0].embedding.toJsonString() }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        700,
+        200
+      ],
+      "id": "b924e63c-9482-4006-8c59-d4483b8a3a7d",
+      "name": "[Pinecone] Query",
+      "notesInFlow": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/embeddings",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Webhook1').item.json.body.tokens.openai }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "input",
+              "value": "={{ $('Webhook1').item.json.body.query }}"
+            },
+            {
+              "name": "model",
+              "value": "text-embedding-3-large"
+            },
+            {
+              "name": "dimensions",
+              "value": "={{ 3072 }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        500,
+        300
+      ],
+      "id": "62474e72-72fc-4cad-a1a0-e7e1f1c16134",
+      "name": "[OpenAi] Create Embeddings",
+      "notesInFlow": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "content": "# Agente Busca no pinecone",
+        "height": 600,
+        "width": 1100,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "4965e122-d19b-493e-8340-0a2167dc6c7c",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 500,
+        "width": 1060,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        20,
+        80
+      ],
+      "typeVersion": 1,
+      "id": "e85a996c-f995-4ac9-89db-3adf219beffe",
+      "name": "Sticky Note16"
+    }
+  ],
+  "connections": {
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "[Directus] Query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[Directus] Query": {
+      "main": [
+        [
+          {
+            "node": "[OpenAi] Create Embeddings",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[Pinecone] Query": {
+      "main": [
+        [
+          {
+            "node": "Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[OpenAi] Create Embeddings": {
+      "main": [
+        [
+          {
+            "node": "[Pinecone] Query",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "808aede1-2804-44ca-b2ba-2cc8cc43c8a9",
+  "triggerCount": 1,
+  "tags": []
+}
