@@ -1,10 +1,10 @@
 {
-  "createdAt": "2025-06-11T13:53:08.593Z",
-  "updatedAt": "2025-06-11T14:09:43.185Z",
-  "id": "OUr281zELztP1GjI",
+  "createdAt": "2025-06-11T12:03:02.399Z",
+  "updatedAt": "2025-06-11T13:33:11.086Z",
+  "id": "ZSbYjS6iZgLugvTQ",
   "name": "[Maria] Vector | Update | Disable | Create Manual",
-  "active": true,
-  "isArchived": false,
+  "active": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -963,20 +963,10 @@
     }
   },
   "settings": {},
-  "staticData": {
-    "lastId": "GIrgP4HoYVMGIYrq",
-    "newId": "OUr281zELztP1GjI"
-  },
+  "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "7efab9b0-304e-4f7a-a1c5-17fe8123663c",
-  "triggerCount": 2,
-  "tags": [
-    {
-      "createdAt": "2025-06-11T13:53:10.328Z",
-      "updatedAt": "2025-06-11T13:53:10.328Z",
-      "id": "bkJceYqRkNSZhKSO",
-      "name": "v2.1-09/06/25"
-    }
-  ]
+  "versionId": "6b6cf6e8-4531-4743-b361-74a87e6a4972",
+  "triggerCount": 0,
+  "tags": []
 }
