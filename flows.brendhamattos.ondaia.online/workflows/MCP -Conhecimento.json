@@ -1,10 +1,10 @@
 {
   "createdAt": "2025-05-28T20:03:42.966Z",
-  "updatedAt": "2025-05-28T20:04:58.535Z",
+  "updatedAt": "2025-06-11T13:35:16.117Z",
   "id": "BECJvEZ8HunY478J",
   "name": "MCP -Conhecimento",
-  "active": true,
-  "isArchived": false,
+  "active": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -102,7 +102,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "d4ae993d-1eaf-49ba-8424-ced124a8256b",
+  "versionId": "7834ed48-a7b5-4c10-a2f2-5045a6165139",
   "triggerCount": 1,
   "tags": []
 }
