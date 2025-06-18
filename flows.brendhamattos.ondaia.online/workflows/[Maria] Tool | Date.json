@@ -1,10 +1,10 @@
 {
-  "createdAt": "2025-05-22T11:45:50.057Z",
-  "updatedAt": "2025-05-22T14:55:29.914Z",
-  "id": "DBDm6FEIACGdqQhs",
+  "createdAt": "2025-06-11T13:53:08.590Z",
+  "updatedAt": "2025-06-11T14:06:26.931Z",
+  "id": "5rSqYWNBycAtnBgG",
   "name": "[Maria] Tool | Date",
-  "active": false,
-  "isArchived": true,
+  "active": true,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
@@ -135,10 +135,20 @@
     }
   },
   "settings": {},
-  "staticData": null,
+  "staticData": {
+    "lastId": "ROREWzQ15fdqwtqR",
+    "newId": "5rSqYWNBycAtnBgG"
+  },
   "meta": null,
   "pinData": {},
-  "versionId": "0e398bbd-16b4-401e-baef-6d90131074c1",
-  "triggerCount": 0,
-  "tags": []
+  "versionId": "d3dd7b17-def3-46c9-b787-ddc7348982db",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2025-06-11T13:53:10.328Z",
+      "updatedAt": "2025-06-11T13:53:10.328Z",
+      "id": "bkJceYqRkNSZhKSO",
+      "name": "v2.1-09/06/25"
+    }
+  ]
 }
