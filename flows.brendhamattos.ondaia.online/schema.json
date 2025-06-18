@@ -21,7 +21,7 @@
         "note": "AI Agents Configuration",
         "preview_url": null,
         "singleton": false,
-        "sort": 1,
+        "sort": 2,
         "sort_field": null,
         "translations": null,
         "unarchive_value": null,
@@ -49,7 +49,7 @@
         "note": null,
         "preview_url": null,
         "singleton": false,
-        "sort": 7,
+        "sort": 3,
         "sort_field": "sort",
         "translations": [
           {
@@ -64,34 +64,6 @@
       },
       "schema": {
         "name": "calendars"
-      }
-    },
-    {
-      "collection": "chat_histories",
-      "meta": {
-        "accountability": "all",
-        "archive_app_filter": true,
-        "archive_field": null,
-        "archive_value": null,
-        "collapse": "open",
-        "collection": "chat_histories",
-        "color": null,
-        "display_template": null,
-        "group": null,
-        "hidden": false,
-        "icon": null,
-        "item_duplication_fields": null,
-        "note": null,
-        "preview_url": null,
-        "singleton": false,
-        "sort": null,
-        "sort_field": null,
-        "translations": null,
-        "unarchive_value": null,
-        "versioning": false
-      },
-      "schema": {
-        "name": "chat_histories"
       }
     },
     {
@@ -280,7 +252,7 @@
         "note": null,
         "preview_url": null,
         "singleton": false,
-        "sort": 4,
+        "sort": 5,
         "sort_field": null,
         "translations": null,
         "unarchive_value": null,
@@ -448,7 +420,7 @@
         "note": "System Users",
         "preview_url": null,
         "singleton": false,
-        "sort": 2,
+        "sort": 4,
         "sort_field": null,
         "translations": [
           {
@@ -711,7 +683,7 @@
         "group": "identity",
         "hidden": false,
         "interface": "file-image",
-        "note": null,
+        "note": "Imagem da sua IA",
         "options": {
           "crop": false,
           "letterbox": true
@@ -764,7 +736,7 @@
         "group": "identity",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Nome da sua IA",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -812,9 +784,10 @@
         "group": "identity",
         "hidden": false,
         "interface": "input-code",
-        "note": null,
+        "note": "Prompt da sua AI.",
         "options": {
           "language": "xml",
+          "lineWrapping": true,
           "placeholder": "Digite seu prompt para o assistente de IA aqui...",
           "template": "<!-- Qualificação de lead -->\n<prompt id=\"qualificacao_lead\">\n  <papel>\n      Você é um Anna especializada em técnicas de venda e persuasão, respondendo clientes por WhatsApp, com foco em entender rapidamente o interesse dos potenciais clientes.\n  </papel>\n  <requisicao>\n    Durante a conversa, faça perguntas estratégicas para entender se o lead realmente demonstra interesse pelo produto \"Chatbot de Inteligência Artificial\". Se perceber que há uma oportunidade, já sugira o agendamento de uma reunião para aprofundar a conversa.\n\n    Ao seguir com o papo, procure adaptar suas próximas perguntas com base nas respostas que for recebendo, aproveitando para esclarecer e explorar pontos importantes. Assim que tiver todas as informações necessárias, faça um breve resumo do perfil do lead, destacando os detalhes obtidos para ajudar você ou sua equipe na preparação da próxima reunião.\n  </requisicao>\n  <explicacao>\n    As perguntas devem descobrir o nível de interesse, o tipo de uso pretendido pelo lead e seu orçamento disponível para contratar a solução.\n    A fonte do lead é facebook_ads e veio do anuncio \"A revolucao do antendimento de clientes, chatbots de ia\"\t\n  </explicacao>\n  <parametros>\n  \t<apresentação>\n      Quando o cliente começar a conversa, aproveite para se apresentar de maneira simpática e educada. Você pode usar a mensagem inicial dele como ponto de partida para sua apresentação, mostrando que está atento ao que ele trouxe. Não esqueça de finalizar com uma pergunta simples, para manter a conversa fluindo e incentivar uma interação mais natural.\n\t\t\t- \"Oi {{ NomeCliente }}, me conta, o que você vende?\"\n\t\t\t- \"{{ NomeCliente }}, me conta! O que impede você de escalar sua operação hoje?\"\n\t\t\t- \"{{ NomeCliente }}, o que chamou sua atenção no anúncio?\"\n    </apresentação>\n      Ao conversar com o lead, procure variar a maneira como você fala para evitar um tom mecânico ou repetitivo. Tente criar uma conexão genuína, utilizando técnicas de vendas que demonstrem interesse real pela situação dele, para compreender exatamente em que momento ele se encontra. Mantenha sempre um tom amigável e direto, fazendo as perguntas de forma clara, objetiva e seguindo a ordem numérica proposta. Assim, você mantém uma conversa natural e consegue engajar o lead de maneira mais eficiente.\n      <pegunta number=\"1\" tool_call=\"guardar_resposta_lead\" para>\n        Solicite o nome do usuario, que nesse momento é um Lead.\n      </pegunta>\n      <pegunta number=\"2\">\n        Depois diga, ah que legal {userName}, deixa eu te perguntar mais uma coisa, vocês possuem um site? Se sim, qual é?\n      </pegunta>\n      <pegunta number=\"3\">\n        Continuando o mapeamento de lead, pergunte se o cliente possui processo comercial.\n      </pegunta>\n      <pegunta number=\"4\">\n        Agora pergunte se o cliente já possui alguma automação de atendimento.\n      </pegunta>\n      <agendamento_reuniao>\n        - \"Vamos agendar uma conversa para entender melhor o seu cenário e ver como podemos ajudar?\"\n        - Pergunte ao lead sobre a disponibilidade:\n        - \"Qual é o melhor dia e horário para você?\"\n        - \"Quando seria um bom momento para marcarmos nossa reunião?\"\n        - Após o cliente sugerir uma data e horário, confirme:\n        - \"Ótimo, vou verificar a disponibilidade e já confirmo.\"\n        - Se houver disponibilidade, finalize:\n        - \"Perfeito, temos esse horário disponível! Qual é o seu e-mail para eu enviar o convite?\"\n        - O título da reunião deve seguir o formato: \"[Análise de Funil - {Nome do cliente}]\".\n\t\t</agendamento_reuniao>\n    \t<manejo_de_objeções>\n          - Princípios Gerais:\n          - Ouça a objeção até o final, faça uma pausa e demonstre compreensão.\n          - Concorde com parte da objeção antes de oferecer uma perspectiva diferente.\n          - Evite confrontar diretamente; busque pontos de concordância.\n\t</manejo_de_objeções>\n  <limitações>\n      Se o cliente fizer alguma pergunta que não tenha relação direta com seu atendimento, não tente responder algo que esteja fora do seu alcance. Em vez disso, explique educadamente que aquele assunto não faz parte do que você atende, oferecendo alternativas. Você pode dizer algo como: \"Essa questão está fora do nosso escopo aqui, mas posso ajudar você com [serviço relevante] ou indicar quem seria a pessoa certa para te auxiliar nisso.\" e faca uma chamada de funcao 'transferir_atendimento' com o parametro time 'suporte'.\n\t</limitações>\n  </parametros>\n</prompt>"
         },
@@ -980,7 +953,7 @@
         "group": "chatwoot_connection",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Token do Agent Bot do Chatwoot.",
         "options": {
           "masked": true,
           "placeholder": "Chatwoot Agent Bot Token",
@@ -1027,7 +1000,7 @@
         "group": "chatwoot_connection",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Token do seu usuário (conta) do Chatwoot.",
         "options": {
           "masked": true,
           "placeholder": "Chatwoot Agent Bot Token",
@@ -1076,7 +1049,7 @@
         "group": "chatwoot_connection",
         "hidden": false,
         "interface": "tags",
-        "note": null,
+        "note": "Os ids das caixas de entrada da conta que a AI deve responder.",
         "options": {
           "alphabetize": true,
           "iconRight": "inbox",
@@ -1136,7 +1109,7 @@
         "group": "chatwoot_connection",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "O id da conta do Chatwoot que a AI deve responder.",
         "options": {
           "min": 1,
           "placeholder": "Chatwoot account id where AI Agent is enabled"
@@ -1182,7 +1155,7 @@
         "group": "settings",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "PATH do Webhook do Fluxo [Anna] Producer - Esse fluxo starta a Anna",
         "options": {
           "placeholder": "Agent AI Core Workflow Webhook Path"
         },
@@ -1227,7 +1200,7 @@
         "group": "settings",
         "hidden": false,
         "interface": "slider",
-        "note": null,
+        "note": "Tempo que a IA aguarda entre as interações antes de responder à entrada do usuário.",
         "options": {
           "maxValue": 20,
           "minValue": 0,
@@ -1274,7 +1247,7 @@
         "group": "settings",
         "hidden": false,
         "interface": "slider",
-        "note": null,
+        "note": "Quantidade de interações (histórico) anteriores incluídas no prompt.",
         "options": {
           "maxValue": 120,
           "minValue": 1,
@@ -1321,7 +1294,7 @@
         "group": "settings",
         "hidden": false,
         "interface": "select-dropdown",
-        "note": null,
+        "note": "Condição que a IA irá ativar para responder o usuário.",
         "options": {
           "choices": [
             {
@@ -1379,7 +1352,7 @@
         "group": "settings",
         "hidden": false,
         "interface": "select-dropdown",
-        "note": null,
+        "note": "Permite que IA interaja em grupos do WhatsApp web.",
         "options": {
           "choices": [
             {
@@ -1437,7 +1410,7 @@
         "group": "settings",
         "hidden": false,
         "interface": "boolean",
-        "note": null,
+        "note": "Permite que um humano interrompa a conversa e altere o status da conversa.",
         "options": {
           "iconOff": "radio_button_unchecked",
           "iconOn": "radio_button_checked"
@@ -1490,7 +1463,7 @@
         "group": "settings",
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "Contato da sua AI (saber quando ela for mencionada em um grupo).",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -1538,1305 +1511,325 @@
         "group": "settings",
         "hidden": false,
         "interface": "select-dropdown",
-        "note": null,
+        "note": "Escolha o modelo de LLM da sua IA (OpenAI)",
         "options": {
           "allowOther": false,
           "choices": [
             {
-              "text": "OpenAI: o3 Pro",
-              "value": "openai/o3-pro"
+              "text": "gpt-4-0613",
+              "value": "gpt-4-0613"
             },
             {
-              "text": "Mistral: Magistral Small 2506",
-              "value": "mistralai/magistral-small-2506"
+              "text": "gpt-4",
+              "value": "gpt-4"
             },
             {
-              "text": "Mistral: Magistral Medium 2506",
-              "value": "mistralai/magistral-medium-2506"
+              "text": "gpt-3.5-turbo",
+              "value": "gpt-3.5-turbo"
             },
             {
-              "text": "Mistral: Magistral Medium 2506 (thinking)",
-              "value": "mistralai/magistral-medium-2506:thinking"
+              "text": "o3-pro-2025-06-10",
+              "value": "o3-pro-2025-06-10"
             },
             {
-              "text": "Google: Gemini 2.5 Pro Preview 06-05",
-              "value": "google/gemini-2.5-pro-preview"
+              "text": "codex-mini-latest",
+              "value": "codex-mini-latest"
             },
             {
-              "text": "SentientAGI: Dobby Mini Plus Llama 3.1 8B",
-              "value": "sentientagi/dobby-mini-unhinged-plus-llama-3.1-8b"
+              "text": "o3-pro",
+              "value": "o3-pro"
             },
             {
-              "text": "DeepSeek: R1 Distill Qwen 7B",
-              "value": "deepseek/deepseek-r1-distill-qwen-7b"
+              "text": "gpt-4o-realtime-preview-2025-06-03",
+              "value": "gpt-4o-realtime-preview-2025-06-03"
             },
             {
-              "text": "DeepSeek: Deepseek R1 0528 Qwen3 8B (free)",
-              "value": "deepseek/deepseek-r1-0528-qwen3-8b:free"
+              "text": "gpt-4o-audio-preview-2025-06-03",
+              "value": "gpt-4o-audio-preview-2025-06-03"
             },
             {
-              "text": "DeepSeek: Deepseek R1 0528 Qwen3 8B",
-              "value": "deepseek/deepseek-r1-0528-qwen3-8b"
+              "text": "davinci-002",
+              "value": "davinci-002"
             },
             {
-              "text": "DeepSeek: R1 0528 (free)",
-              "value": "deepseek/deepseek-r1-0528:free"
+              "text": "babbage-002",
+              "value": "babbage-002"
             },
             {
-              "text": "DeepSeek: R1 0528",
-              "value": "deepseek/deepseek-r1-0528"
+              "text": "gpt-3.5-turbo-instruct",
+              "value": "gpt-3.5-turbo-instruct"
             },
             {
-              "text": "Sarvam AI: Sarvam-M (free)",
-              "value": "sarvamai/sarvam-m:free"
+              "text": "gpt-3.5-turbo-instruct-0914",
+              "value": "gpt-3.5-turbo-instruct-0914"
             },
             {
-              "text": "TheDrummer: Valkyrie 49B V1",
-              "value": "thedrummer/valkyrie-49b-v1"
+              "text": "dall-e-3",
+              "value": "dall-e-3"
             },
             {
-              "text": "Anthropic: Claude Opus 4",
-              "value": "anthropic/claude-opus-4"
+              "text": "dall-e-2",
+              "value": "dall-e-2"
             },
             {
-              "text": "Anthropic: Claude Sonnet 4",
-              "value": "anthropic/claude-sonnet-4"
+              "text": "gpt-4-1106-preview",
+              "value": "gpt-4-1106-preview"
             },
             {
-              "text": "Mistral: Devstral Small (free)",
-              "value": "mistralai/devstral-small:free"
+              "text": "gpt-3.5-turbo-1106",
+              "value": "gpt-3.5-turbo-1106"
             },
             {
-              "text": "Mistral: Devstral Small",
-              "value": "mistralai/devstral-small"
+              "text": "tts-1-hd",
+              "value": "tts-1-hd"
             },
             {
-              "text": "Google: Gemma 3n 4B (free)",
-              "value": "google/gemma-3n-e4b-it:free"
+              "text": "tts-1-1106",
+              "value": "tts-1-1106"
             },
             {
-              "text": "Google: Gemini 2.5 Flash Preview 05-20",
-              "value": "google/gemini-2.5-flash-preview-05-20"
+              "text": "tts-1-hd-1106",
+              "value": "tts-1-hd-1106"
             },
             {
-              "text": "Google: Gemini 2.5 Flash Preview 05-20 (thinking)",
-              "value": "google/gemini-2.5-flash-preview-05-20:thinking"
+              "text": "text-embedding-3-small",
+              "value": "text-embedding-3-small"
             },
             {
-              "text": "OpenAI: Codex Mini",
-              "value": "openai/codex-mini"
+              "text": "text-embedding-3-large",
+              "value": "text-embedding-3-large"
             },
             {
-              "text": "Meta: Llama 3.3 8B Instruct (free)",
-              "value": "meta-llama/llama-3.3-8b-instruct:free"
+              "text": "gpt-4-0125-preview",
+              "value": "gpt-4-0125-preview"
             },
             {
-              "text": "Nous: DeepHermes 3 Mistral 24B Preview (free)",
-              "value": "nousresearch/deephermes-3-mistral-24b-preview:free"
+              "text": "gpt-4-turbo-preview",
+              "value": "gpt-4-turbo-preview"
             },
             {
-              "text": "Mistral: Mistral Medium 3",
-              "value": "mistralai/mistral-medium-3"
+              "text": "gpt-3.5-turbo-0125",
+              "value": "gpt-3.5-turbo-0125"
             },
             {
-              "text": "Google: Gemini 2.5 Pro Preview 05-06",
-              "value": "google/gemini-2.5-pro-preview-05-06"
+              "text": "gpt-4-turbo",
+              "value": "gpt-4-turbo"
             },
             {
-              "text": "Arcee AI: Caller Large",
-              "value": "arcee-ai/caller-large"
+              "text": "gpt-4-turbo-2024-04-09",
+              "value": "gpt-4-turbo-2024-04-09"
             },
             {
-              "text": "Arcee AI: Spotlight",
-              "value": "arcee-ai/spotlight"
+              "text": "gpt-4o",
+              "value": "gpt-4o"
             },
             {
-              "text": "Arcee AI: Maestro Reasoning",
-              "value": "arcee-ai/maestro-reasoning"
+              "text": "gpt-4o-2024-05-13",
+              "value": "gpt-4o-2024-05-13"
             },
             {
-              "text": "Arcee AI: Virtuoso Large",
-              "value": "arcee-ai/virtuoso-large"
+              "text": "gpt-4o-mini-2024-07-18",
+              "value": "gpt-4o-mini-2024-07-18"
             },
             {
-              "text": "Arcee AI: Coder Large",
-              "value": "arcee-ai/coder-large"
+              "text": "gpt-4o-mini",
+              "value": "gpt-4o-mini"
             },
             {
-              "text": "Arcee AI: Virtuoso Medium V2",
-              "value": "arcee-ai/virtuoso-medium-v2"
+              "text": "gpt-4o-2024-08-06",
+              "value": "gpt-4o-2024-08-06"
             },
             {
-              "text": "Arcee AI: Arcee Blitz",
-              "value": "arcee-ai/arcee-blitz"
+              "text": "chatgpt-4o-latest",
+              "value": "chatgpt-4o-latest"
             },
             {
-              "text": "Microsoft: Phi 4 Reasoning Plus (free)",
-              "value": "microsoft/phi-4-reasoning-plus:free"
+              "text": "o1-preview-2024-09-12",
+              "value": "o1-preview-2024-09-12"
             },
             {
-              "text": "Microsoft: Phi 4 Reasoning Plus",
-              "value": "microsoft/phi-4-reasoning-plus"
+              "text": "o1-preview",
+              "value": "o1-preview"
             },
             {
-              "text": "Microsoft: Phi 4 Reasoning (free)",
-              "value": "microsoft/phi-4-reasoning:free"
+              "text": "o1-mini-2024-09-12",
+              "value": "o1-mini-2024-09-12"
             },
             {
-              "text": "Inception: Mercury Coder Small Beta",
-              "value": "inception/mercury-coder-small-beta"
+              "text": "o1-mini",
+              "value": "o1-mini"
             },
             {
-              "text": "OpenGVLab: InternVL3 14B (free)",
-              "value": "opengvlab/internvl3-14b:free"
+              "text": "gpt-4o-realtime-preview-2024-10-01",
+              "value": "gpt-4o-realtime-preview-2024-10-01"
             },
             {
-              "text": "OpenGVLab: InternVL3 2B (free)",
-              "value": "opengvlab/internvl3-2b:free"
+              "text": "gpt-4o-audio-preview-2024-10-01",
+              "value": "gpt-4o-audio-preview-2024-10-01"
             },
             {
-              "text": "DeepSeek: DeepSeek Prover V2 (free)",
-              "value": "deepseek/deepseek-prover-v2:free"
+              "text": "gpt-4o-audio-preview",
+              "value": "gpt-4o-audio-preview"
             },
             {
-              "text": "DeepSeek: DeepSeek Prover V2",
-              "value": "deepseek/deepseek-prover-v2"
+              "text": "gpt-4o-realtime-preview",
+              "value": "gpt-4o-realtime-preview"
             },
             {
-              "text": "Meta: Llama Guard 4 12B",
-              "value": "meta-llama/llama-guard-4-12b"
+              "text": "omni-moderation-latest",
+              "value": "omni-moderation-latest"
             },
             {
-              "text": "Qwen: Qwen3 30B A3B (free)",
-              "value": "qwen/qwen3-30b-a3b:free"
+              "text": "omni-moderation-2024-09-26",
+              "value": "omni-moderation-2024-09-26"
             },
             {
-              "text": "Qwen: Qwen3 30B A3B",
-              "value": "qwen/qwen3-30b-a3b"
+              "text": "gpt-4o-realtime-preview-2024-12-17",
+              "value": "gpt-4o-realtime-preview-2024-12-17"
             },
             {
-              "text": "Qwen: Qwen3 8B (free)",
-              "value": "qwen/qwen3-8b:free"
+              "text": "gpt-4o-audio-preview-2024-12-17",
+              "value": "gpt-4o-audio-preview-2024-12-17"
             },
             {
-              "text": "Qwen: Qwen3 8B",
-              "value": "qwen/qwen3-8b"
+              "text": "gpt-4o-mini-realtime-preview-2024-12-17",
+              "value": "gpt-4o-mini-realtime-preview-2024-12-17"
             },
             {
-              "text": "Qwen: Qwen3 14B (free)",
-              "value": "qwen/qwen3-14b:free"
+              "text": "gpt-4o-mini-audio-preview-2024-12-17",
+              "value": "gpt-4o-mini-audio-preview-2024-12-17"
             },
             {
-              "text": "Qwen: Qwen3 14B",
-              "value": "qwen/qwen3-14b"
+              "text": "o1-2024-12-17",
+              "value": "o1-2024-12-17"
             },
             {
-              "text": "Qwen: Qwen3 32B (free)",
-              "value": "qwen/qwen3-32b:free"
+              "text": "o1",
+              "value": "o1"
             },
             {
-              "text": "Qwen: Qwen3 32B",
-              "value": "qwen/qwen3-32b"
+              "text": "gpt-4o-mini-realtime-preview",
+              "value": "gpt-4o-mini-realtime-preview"
             },
             {
-              "text": "Qwen: Qwen3 235B A22B (free)",
-              "value": "qwen/qwen3-235b-a22b:free"
+              "text": "gpt-4o-mini-audio-preview",
+              "value": "gpt-4o-mini-audio-preview"
             },
             {
-              "text": "Qwen: Qwen3 235B A22B",
-              "value": "qwen/qwen3-235b-a22b"
+              "text": "o3-mini",
+              "value": "o3-mini"
             },
             {
-              "text": "TNG: DeepSeek R1T Chimera (free)",
-              "value": "tngtech/deepseek-r1t-chimera:free"
+              "text": "o3-mini-2025-01-31",
+              "value": "o3-mini-2025-01-31"
             },
             {
-              "text": "THUDM: GLM Z1 Rumination 32B ",
-              "value": "thudm/glm-z1-rumination-32b"
+              "text": "gpt-4o-2024-11-20",
+              "value": "gpt-4o-2024-11-20"
             },
             {
-              "text": "Microsoft: MAI DS R1 (free)",
-              "value": "microsoft/mai-ds-r1:free"
+              "text": "gpt-4.5-preview",
+              "value": "gpt-4.5-preview"
             },
             {
-              "text": "THUDM: GLM Z1 32B (free)",
-              "value": "thudm/glm-z1-32b:free"
+              "text": "gpt-4.5-preview-2025-02-27",
+              "value": "gpt-4.5-preview-2025-02-27"
             },
             {
-              "text": "THUDM: GLM Z1 32B",
-              "value": "thudm/glm-z1-32b"
+              "text": "gpt-4o-search-preview-2025-03-11",
+              "value": "gpt-4o-search-preview-2025-03-11"
             },
             {
-              "text": "THUDM: GLM 4 32B (free)",
-              "value": "thudm/glm-4-32b:free"
+              "text": "gpt-4o-search-preview",
+              "value": "gpt-4o-search-preview"
             },
             {
-              "text": "THUDM: GLM 4 32B",
-              "value": "thudm/glm-4-32b"
+              "text": "gpt-4o-mini-search-preview-2025-03-11",
+              "value": "gpt-4o-mini-search-preview-2025-03-11"
             },
             {
-              "text": "Google: Gemini 2.5 Flash Preview 04-17",
-              "value": "google/gemini-2.5-flash-preview"
+              "text": "gpt-4o-mini-search-preview",
+              "value": "gpt-4o-mini-search-preview"
             },
             {
-              "text": "Google: Gemini 2.5 Flash Preview 04-17 (thinking)",
-              "value": "google/gemini-2.5-flash-preview:thinking"
+              "text": "gpt-4o-transcribe",
+              "value": "gpt-4o-transcribe"
             },
             {
-              "text": "OpenAI: o4 Mini High",
-              "value": "openai/o4-mini-high"
+              "text": "gpt-4o-mini-transcribe",
+              "value": "gpt-4o-mini-transcribe"
             },
             {
-              "text": "OpenAI: o3",
-              "value": "openai/o3"
+              "text": "o1-pro-2025-03-19",
+              "value": "o1-pro-2025-03-19"
             },
             {
-              "text": "OpenAI: o4 Mini",
-              "value": "openai/o4-mini"
+              "text": "o1-pro",
+              "value": "o1-pro"
             },
             {
-              "text": "Shisa AI: Shisa V2 Llama 3.3 70B  (free)",
-              "value": "shisa-ai/shisa-v2-llama3.3-70b:free"
+              "text": "gpt-4o-mini-tts",
+              "value": "gpt-4o-mini-tts"
             },
             {
-              "text": "OpenAI: GPT-4.1",
-              "value": "openai/gpt-4.1"
+              "text": "o3-2025-04-16",
+              "value": "o3-2025-04-16"
             },
             {
-              "text": "OpenAI: GPT-4.1 Mini",
-              "value": "openai/gpt-4.1-mini"
+              "text": "o4-mini-2025-04-16",
+              "value": "o4-mini-2025-04-16"
             },
             {
-              "text": "OpenAI: GPT-4.1 Nano",
-              "value": "openai/gpt-4.1-nano"
+              "text": "o3",
+              "value": "o3"
             },
             {
-              "text": "EleutherAI: Llemma 7b",
-              "value": "eleutherai/llemma_7b"
+              "text": "o4-mini",
+              "value": "o4-mini"
             },
             {
-              "text": "AlfredPros: CodeLLaMa 7B Instruct Solidity",
-              "value": "alfredpros/codellama-7b-instruct-solidity"
+              "text": "gpt-4.1-2025-04-14",
+              "value": "gpt-4.1-2025-04-14"
             },
             {
-              "text": "ArliAI: QwQ 32B RpR v1 (free)",
-              "value": "arliai/qwq-32b-arliai-rpr-v1:free"
+              "text": "gpt-4.1",
+              "value": "gpt-4.1"
             },
             {
-              "text": "Agentica: Deepcoder 14B Preview (free)",
-              "value": "agentica-org/deepcoder-14b-preview:free"
+              "text": "gpt-4.1-mini-2025-04-14",
+              "value": "gpt-4.1-mini-2025-04-14"
             },
             {
-              "text": "Moonshot AI: Kimi VL A3B Thinking (free)",
-              "value": "moonshotai/kimi-vl-a3b-thinking:free"
+              "text": "gpt-4.1-mini",
+              "value": "gpt-4.1-mini"
             },
             {
-              "text": "xAI: Grok 3 Mini Beta",
-              "value": "x-ai/grok-3-mini-beta"
+              "text": "gpt-4.1-nano-2025-04-14",
+              "value": "gpt-4.1-nano-2025-04-14"
             },
             {
-              "text": "xAI: Grok 3 Beta",
-              "value": "x-ai/grok-3-beta"
+              "text": "gpt-4.1-nano",
+              "value": "gpt-4.1-nano"
             },
             {
-              "text": "NVIDIA: Llama 3.3 Nemotron Super 49B v1 (free)",
-              "value": "nvidia/llama-3.3-nemotron-super-49b-v1:free"
+              "text": "gpt-image-1",
+              "value": "gpt-image-1"
             },
             {
-              "text": "NVIDIA: Llama 3.3 Nemotron Super 49B v1",
-              "value": "nvidia/llama-3.3-nemotron-super-49b-v1"
+              "text": "gpt-3.5-turbo-16k",
+              "value": "gpt-3.5-turbo-16k"
             },
             {
-              "text": "NVIDIA: Llama 3.1 Nemotron Ultra 253B v1 (free)",
-              "value": "nvidia/llama-3.1-nemotron-ultra-253b-v1:free"
+              "text": "tts-1",
+              "value": "tts-1"
             },
             {
-              "text": "NVIDIA: Llama 3.1 Nemotron Ultra 253B v1",
-              "value": "nvidia/llama-3.1-nemotron-ultra-253b-v1"
+              "text": "whisper-1",
+              "value": "whisper-1"
             },
             {
-              "text": "Meta: Llama 4 Maverick (free)",
-              "value": "meta-llama/llama-4-maverick:free"
-            },
-            {
-              "text": "Meta: Llama 4 Maverick",
-              "value": "meta-llama/llama-4-maverick"
-            },
-            {
-              "text": "Meta: Llama 4 Scout (free)",
-              "value": "meta-llama/llama-4-scout:free"
-            },
-            {
-              "text": "Meta: Llama 4 Scout",
-              "value": "meta-llama/llama-4-scout"
-            },
-            {
-              "text": "OpenHands LM 32B V0.1",
-              "value": "all-hands/openhands-lm-32b-v0.1"
-            },
-            {
-              "text": "DeepSeek: DeepSeek V3 Base (free)",
-              "value": "deepseek/deepseek-v3-base:free"
-            },
-            {
-              "text": "Typhoon2 70B Instruct",
-              "value": "scb10x/llama3.1-typhoon2-70b-instruct"
-            },
-            {
-              "text": "Qwen: Qwen2.5 VL 3B Instruct (free)",
-              "value": "qwen/qwen2.5-vl-3b-instruct:free"
-            },
-            {
-              "text": "Google: Gemini 2.5 Pro Experimental",
-              "value": "google/gemini-2.5-pro-exp-03-25"
-            },
-            {
-              "text": "Qwen: Qwen2.5 VL 32B Instruct (free)",
-              "value": "qwen/qwen2.5-vl-32b-instruct:free"
-            },
-            {
-              "text": "Qwen: Qwen2.5 VL 32B Instruct",
-              "value": "qwen/qwen2.5-vl-32b-instruct"
-            },
-            {
-              "text": "DeepSeek: DeepSeek V3 0324 (free)",
-              "value": "deepseek/deepseek-chat-v3-0324:free"
-            },
-            {
-              "text": "DeepSeek: DeepSeek V3 0324",
-              "value": "deepseek/deepseek-chat-v3-0324"
-            },
-            {
-              "text": "Qwerky 72B (free)",
-              "value": "featherless/qwerky-72b:free"
-            },
-            {
-              "text": "OpenAI: o1-pro",
-              "value": "openai/o1-pro"
-            },
-            {
-              "text": "Mistral: Mistral Small 3.1 24B (free)",
-              "value": "mistralai/mistral-small-3.1-24b-instruct:free"
-            },
-            {
-              "text": "Mistral: Mistral Small 3.1 24B",
-              "value": "mistralai/mistral-small-3.1-24b-instruct"
-            },
-            {
-              "text": "OlympicCoder 32B (free)",
-              "value": "open-r1/olympiccoder-32b:free"
-            },
-            {
-              "text": "Google: Gemma 3 1B (free)",
-              "value": "google/gemma-3-1b-it:free"
-            },
-            {
-              "text": "Google: Gemma 3 4B (free)",
-              "value": "google/gemma-3-4b-it:free"
-            },
-            {
-              "text": "Google: Gemma 3 4B",
-              "value": "google/gemma-3-4b-it"
-            },
-            {
-              "text": "AI21: Jamba 1.6 Large",
-              "value": "ai21/jamba-1.6-large"
-            },
-            {
-              "text": "AI21: Jamba Mini 1.6",
-              "value": "ai21/jamba-1.6-mini"
-            },
-            {
-              "text": "Google: Gemma 3 12B (free)",
-              "value": "google/gemma-3-12b-it:free"
-            },
-            {
-              "text": "Google: Gemma 3 12B",
-              "value": "google/gemma-3-12b-it"
-            },
-            {
-              "text": "Cohere: Command A",
-              "value": "cohere/command-a"
-            },
-            {
-              "text": "OpenAI: GPT-4o-mini Search Preview",
-              "value": "openai/gpt-4o-mini-search-preview"
-            },
-            {
-              "text": "OpenAI: GPT-4o Search Preview",
-              "value": "openai/gpt-4o-search-preview"
-            },
-            {
-              "text": "Reka: Flash 3 (free)",
-              "value": "rekaai/reka-flash-3:free"
-            },
-            {
-              "text": "Google: Gemma 3 27B (free)",
-              "value": "google/gemma-3-27b-it:free"
-            },
-            {
-              "text": "Google: Gemma 3 27B",
-              "value": "google/gemma-3-27b-it"
-            },
-            {
-              "text": "TheDrummer: Anubis Pro 105B V1",
-              "value": "thedrummer/anubis-pro-105b-v1"
-            },
-            {
-              "text": "TheDrummer: Skyfall 36B V2",
-              "value": "thedrummer/skyfall-36b-v2"
-            },
-            {
-              "text": "Microsoft: Phi 4 Multimodal Instruct",
-              "value": "microsoft/phi-4-multimodal-instruct"
-            },
-            {
-              "text": "Perplexity: Sonar Reasoning Pro",
-              "value": "perplexity/sonar-reasoning-pro"
-            },
-            {
-              "text": "Perplexity: Sonar Pro",
-              "value": "perplexity/sonar-pro"
-            },
-            {
-              "text": "Perplexity: Sonar Deep Research",
-              "value": "perplexity/sonar-deep-research"
-            },
-            {
-              "text": "DeepSeek: DeepSeek R1 Zero (free)",
-              "value": "deepseek/deepseek-r1-zero:free"
-            },
-            {
-              "text": "Qwen: QwQ 32B (free)",
-              "value": "qwen/qwq-32b:free"
-            },
-            {
-              "text": "Qwen: QwQ 32B",
-              "value": "qwen/qwq-32b"
-            },
-            {
-              "text": "Moonshot AI: Moonlight 16B A3B Instruct (free)",
-              "value": "moonshotai/moonlight-16b-a3b-instruct:free"
-            },
-            {
-              "text": "Nous: DeepHermes 3 Llama 3 8B Preview (free)",
-              "value": "nousresearch/deephermes-3-llama-3-8b-preview:free"
-            },
-            {
-              "text": "OpenAI: GPT-4.5 (Preview)",
-              "value": "openai/gpt-4.5-preview"
-            },
-            {
-              "text": "Google: Gemini 2.0 Flash Lite",
-              "value": "google/gemini-2.0-flash-lite-001"
-            },
-            {
-              "text": "Anthropic: Claude 3.7 Sonnet",
-              "value": "anthropic/claude-3.7-sonnet"
-            },
-            {
-              "text": "Anthropic: Claude 3.7 Sonnet (self-moderated)",
-              "value": "anthropic/claude-3.7-sonnet:beta"
-            },
-            {
-              "text": "Anthropic: Claude 3.7 Sonnet (thinking)",
-              "value": "anthropic/claude-3.7-sonnet:thinking"
-            },
-            {
-              "text": "Perplexity: R1 1776",
-              "value": "perplexity/r1-1776"
-            },
-            {
-              "text": "Mistral: Saba",
-              "value": "mistralai/mistral-saba"
-            },
-            {
-              "text": "Dolphin3.0 R1 Mistral 24B (free)",
-              "value": "cognitivecomputations/dolphin3.0-r1-mistral-24b:free"
-            },
-            {
-              "text": "Dolphin3.0 Mistral 24B (free)",
-              "value": "cognitivecomputations/dolphin3.0-mistral-24b:free"
-            },
-            {
-              "text": "Llama Guard 3 8B",
-              "value": "meta-llama/llama-guard-3-8b"
-            },
-            {
-              "text": "OpenAI: o3 Mini High",
-              "value": "openai/o3-mini-high"
-            },
-            {
-              "text": "DeepSeek: R1 Distill Llama 8B",
-              "value": "deepseek/deepseek-r1-distill-llama-8b"
-            },
-            {
-              "text": "Google: Gemini 2.0 Flash",
-              "value": "google/gemini-2.0-flash-001"
-            },
-            {
-              "text": "Qwen: Qwen VL Plus",
-              "value": "qwen/qwen-vl-plus"
-            },
-            {
-              "text": "AionLabs: Aion-1.0",
-              "value": "aion-labs/aion-1.0"
-            },
-            {
-              "text": "AionLabs: Aion-1.0-Mini",
-              "value": "aion-labs/aion-1.0-mini"
-            },
-            {
-              "text": "AionLabs: Aion-RP 1.0 (8B)",
-              "value": "aion-labs/aion-rp-llama-3.1-8b"
-            },
-            {
-              "text": "Qwen: Qwen VL Max",
-              "value": "qwen/qwen-vl-max"
-            },
-            {
-              "text": "Qwen: Qwen-Turbo",
-              "value": "qwen/qwen-turbo"
-            },
-            {
-              "text": "Qwen: Qwen2.5 VL 72B Instruct (free)",
-              "value": "qwen/qwen2.5-vl-72b-instruct:free"
-            },
-            {
-              "text": "Qwen: Qwen2.5 VL 72B Instruct",
-              "value": "qwen/qwen2.5-vl-72b-instruct"
-            },
-            {
-              "text": "Qwen: Qwen-Plus",
-              "value": "qwen/qwen-plus"
-            },
-            {
-              "text": "Qwen: Qwen-Max ",
-              "value": "qwen/qwen-max"
-            },
-            {
-              "text": "OpenAI: o3 Mini",
-              "value": "openai/o3-mini"
-            },
-            {
-              "text": "DeepSeek: R1 Distill Qwen 1.5B",
-              "value": "deepseek/deepseek-r1-distill-qwen-1.5b"
-            },
-            {
-              "text": "Mistral: Mistral Small 3 (free)",
-              "value": "mistralai/mistral-small-24b-instruct-2501:free"
-            },
-            {
-              "text": "Mistral: Mistral Small 3",
-              "value": "mistralai/mistral-small-24b-instruct-2501"
-            },
-            {
-              "text": "DeepSeek: R1 Distill Qwen 32B (free)",
-              "value": "deepseek/deepseek-r1-distill-qwen-32b:free"
-            },
-            {
-              "text": "DeepSeek: R1 Distill Qwen 32B",
-              "value": "deepseek/deepseek-r1-distill-qwen-32b"
-            },
-            {
-              "text": "DeepSeek: R1 Distill Qwen 14B (free)",
-              "value": "deepseek/deepseek-r1-distill-qwen-14b:free"
-            },
-            {
-              "text": "DeepSeek: R1 Distill Qwen 14B",
-              "value": "deepseek/deepseek-r1-distill-qwen-14b"
-            },
-            {
-              "text": "Perplexity: Sonar Reasoning",
-              "value": "perplexity/sonar-reasoning"
-            },
-            {
-              "text": "Perplexity: Sonar",
-              "value": "perplexity/sonar"
-            },
-            {
-              "text": "Liquid: LFM 7B",
-              "value": "liquid/lfm-7b"
-            },
-            {
-              "text": "Liquid: LFM 3B",
-              "value": "liquid/lfm-3b"
-            },
-            {
-              "text": "DeepSeek: R1 Distill Llama 70B (free)",
-              "value": "deepseek/deepseek-r1-distill-llama-70b:free"
-            },
-            {
-              "text": "DeepSeek: R1 Distill Llama 70B",
-              "value": "deepseek/deepseek-r1-distill-llama-70b"
-            },
-            {
-              "text": "DeepSeek: R1 (free)",
-              "value": "deepseek/deepseek-r1:free"
-            },
-            {
-              "text": "DeepSeek: R1",
-              "value": "deepseek/deepseek-r1"
-            },
-            {
-              "text": "MiniMax: MiniMax-01",
-              "value": "minimax/minimax-01"
-            },
-            {
-              "text": "Mistral: Codestral 2501",
-              "value": "mistralai/codestral-2501"
-            },
-            {
-              "text": "Microsoft: Phi 4",
-              "value": "microsoft/phi-4"
-            },
-            {
-              "text": "DeepSeek: DeepSeek V3 (free)",
-              "value": "deepseek/deepseek-chat:free"
-            },
-            {
-              "text": "DeepSeek: DeepSeek V3",
-              "value": "deepseek/deepseek-chat"
-            },
-            {
-              "text": "Sao10K: Llama 3.3 Euryale 70B",
-              "value": "sao10k/l3.3-euryale-70b"
-            },
-            {
-              "text": "OpenAI: o1",
-              "value": "openai/o1"
-            },
-            {
-              "text": "EVA Llama 3.33 70B",
-              "value": "eva-unit-01/eva-llama-3.33-70b"
-            },
-            {
-              "text": "xAI: Grok 2 Vision 1212",
-              "value": "x-ai/grok-2-vision-1212"
-            },
-            {
-              "text": "xAI: Grok 2 1212",
-              "value": "x-ai/grok-2-1212"
-            },
-            {
-              "text": "Cohere: Command R7B (12-2024)",
-              "value": "cohere/command-r7b-12-2024"
-            },
-            {
-              "text": "Google: Gemini 2.0 Flash Experimental (free)",
-              "value": "google/gemini-2.0-flash-exp:free"
-            },
-            {
-              "text": "Meta: Llama 3.3 70B Instruct (free)",
-              "value": "meta-llama/llama-3.3-70b-instruct:free"
-            },
-            {
-              "text": "Meta: Llama 3.3 70B Instruct",
-              "value": "meta-llama/llama-3.3-70b-instruct"
-            },
-            {
-              "text": "Amazon: Nova Lite 1.0",
-              "value": "amazon/nova-lite-v1"
-            },
-            {
-              "text": "Amazon: Nova Micro 1.0",
-              "value": "amazon/nova-micro-v1"
-            },
-            {
-              "text": "Amazon: Nova Pro 1.0",
-              "value": "amazon/nova-pro-v1"
-            },
-            {
-              "text": "Qwen: QwQ 32B Preview",
-              "value": "qwen/qwq-32b-preview"
-            },
-            {
-              "text": "EVA Qwen2.5 72B",
-              "value": "eva-unit-01/eva-qwen-2.5-72b"
-            },
-            {
-              "text": "OpenAI: GPT-4o (2024-11-20)",
-              "value": "openai/gpt-4o-2024-11-20"
-            },
-            {
-              "text": "Mistral Large 2411",
-              "value": "mistralai/mistral-large-2411"
-            },
-            {
-              "text": "Mistral Large 2407",
-              "value": "mistralai/mistral-large-2407"
-            },
-            {
-              "text": "Mistral: Pixtral Large 2411",
-              "value": "mistralai/pixtral-large-2411"
-            },
-            {
-              "text": "xAI: Grok Vision Beta",
-              "value": "x-ai/grok-vision-beta"
-            },
-            {
-              "text": "Infermatic: Mistral Nemo Inferor 12B",
-              "value": "infermatic/mn-inferor-12b"
-            },
-            {
-              "text": "Qwen2.5 Coder 32B Instruct (free)",
-              "value": "qwen/qwen-2.5-coder-32b-instruct:free"
-            },
-            {
-              "text": "Qwen2.5 Coder 32B Instruct",
-              "value": "qwen/qwen-2.5-coder-32b-instruct"
-            },
-            {
-              "text": "SorcererLM 8x22B",
-              "value": "raifle/sorcererlm-8x22b"
-            },
-            {
-              "text": "EVA Qwen2.5 32B",
-              "value": "eva-unit-01/eva-qwen-2.5-32b"
-            },
-            {
-              "text": "TheDrummer: UnslopNemo 12B",
-              "value": "thedrummer/unslopnemo-12b"
-            },
-            {
-              "text": "Anthropic: Claude 3.5 Haiku (self-moderated)",
-              "value": "anthropic/claude-3.5-haiku:beta"
-            },
-            {
-              "text": "Anthropic: Claude 3.5 Haiku",
-              "value": "anthropic/claude-3.5-haiku"
-            },
-            {
-              "text": "Anthropic: Claude 3.5 Haiku (2024-10-22) (self-moderated)",
-              "value": "anthropic/claude-3.5-haiku-20241022:beta"
-            },
-            {
-              "text": "Anthropic: Claude 3.5 Haiku (2024-10-22)",
-              "value": "anthropic/claude-3.5-haiku-20241022"
-            },
-            {
-              "text": "NeverSleep: Lumimaid v0.2 70B",
-              "value": "neversleep/llama-3.1-lumimaid-70b"
-            },
-            {
-              "text": "Magnum v4 72B",
-              "value": "anthracite-org/magnum-v4-72b"
-            },
-            {
-              "text": "Anthropic: Claude 3.5 Sonnet (self-moderated)",
-              "value": "anthropic/claude-3.5-sonnet:beta"
-            },
-            {
-              "text": "Anthropic: Claude 3.5 Sonnet",
-              "value": "anthropic/claude-3.5-sonnet"
-            },
-            {
-              "text": "xAI: Grok Beta",
-              "value": "x-ai/grok-beta"
-            },
-            {
-              "text": "Mistral: Ministral 8B",
-              "value": "mistralai/ministral-8b"
-            },
-            {
-              "text": "Mistral: Ministral 3B",
-              "value": "mistralai/ministral-3b"
-            },
-            {
-              "text": "Qwen2.5 7B Instruct (free)",
-              "value": "qwen/qwen-2.5-7b-instruct:free"
-            },
-            {
-              "text": "Qwen2.5 7B Instruct",
-              "value": "qwen/qwen-2.5-7b-instruct"
-            },
-            {
-              "text": "NVIDIA: Llama 3.1 Nemotron 70B Instruct",
-              "value": "nvidia/llama-3.1-nemotron-70b-instruct"
-            },
-            {
-              "text": "Inflection: Inflection 3 Productivity",
-              "value": "inflection/inflection-3-productivity"
-            },
-            {
-              "text": "Inflection: Inflection 3 Pi",
-              "value": "inflection/inflection-3-pi"
-            },
-            {
-              "text": "Google: Gemini 1.5 Flash 8B",
-              "value": "google/gemini-flash-1.5-8b"
-            },
-            {
-              "text": "TheDrummer: Rocinante 12B",
-              "value": "thedrummer/rocinante-12b"
-            },
-            {
-              "text": "Magnum v2 72B",
-              "value": "anthracite-org/magnum-v2-72b"
-            },
-            {
-              "text": "Liquid: LFM 40B MoE",
-              "value": "liquid/lfm-40b"
-            },
-            {
-              "text": "Meta: Llama 3.2 3B Instruct (free)",
-              "value": "meta-llama/llama-3.2-3b-instruct:free"
-            },
-            {
-              "text": "Meta: Llama 3.2 3B Instruct",
-              "value": "meta-llama/llama-3.2-3b-instruct"
-            },
-            {
-              "text": "Meta: Llama 3.2 1B Instruct (free)",
-              "value": "meta-llama/llama-3.2-1b-instruct:free"
-            },
-            {
-              "text": "Meta: Llama 3.2 1B Instruct",
-              "value": "meta-llama/llama-3.2-1b-instruct"
-            },
-            {
-              "text": "Meta: Llama 3.2 90B Vision Instruct",
-              "value": "meta-llama/llama-3.2-90b-vision-instruct"
-            },
-            {
-              "text": "Meta: Llama 3.2 11B Vision Instruct (free)",
-              "value": "meta-llama/llama-3.2-11b-vision-instruct:free"
-            },
-            {
-              "text": "Meta: Llama 3.2 11B Vision Instruct",
-              "value": "meta-llama/llama-3.2-11b-vision-instruct"
-            },
-            {
-              "text": "Qwen2.5 72B Instruct (free)",
-              "value": "qwen/qwen-2.5-72b-instruct:free"
-            },
-            {
-              "text": "Qwen2.5 72B Instruct",
-              "value": "qwen/qwen-2.5-72b-instruct"
-            },
-            {
-              "text": "NeverSleep: Lumimaid v0.2 8B",
-              "value": "neversleep/llama-3.1-lumimaid-8b"
-            },
-            {
-              "text": "OpenAI: o1-preview",
-              "value": "openai/o1-preview"
-            },
-            {
-              "text": "OpenAI: o1-preview (2024-09-12)",
-              "value": "openai/o1-preview-2024-09-12"
-            },
-            {
-              "text": "OpenAI: o1-mini",
-              "value": "openai/o1-mini"
-            },
-            {
-              "text": "OpenAI: o1-mini (2024-09-12)",
-              "value": "openai/o1-mini-2024-09-12"
-            },
-            {
-              "text": "Mistral: Pixtral 12B",
-              "value": "mistralai/pixtral-12b"
-            },
-            {
-              "text": "Cohere: Command R+ (08-2024)",
-              "value": "cohere/command-r-plus-08-2024"
-            },
-            {
-              "text": "Cohere: Command R (08-2024)",
-              "value": "cohere/command-r-08-2024"
-            },
-            {
-              "text": "Qwen: Qwen2.5-VL 7B Instruct (free)",
-              "value": "qwen/qwen-2.5-vl-7b-instruct:free"
-            },
-            {
-              "text": "Qwen: Qwen2.5-VL 7B Instruct",
-              "value": "qwen/qwen-2.5-vl-7b-instruct"
-            },
-            {
-              "text": "Sao10K: Llama 3.1 Euryale 70B v2.2",
-              "value": "sao10k/l3.1-euryale-70b"
-            },
-            {
-              "text": "Microsoft: Phi-3.5 Mini 128K Instruct",
-              "value": "microsoft/phi-3.5-mini-128k-instruct"
-            },
-            {
-              "text": "Nous: Hermes 3 70B Instruct",
-              "value": "nousresearch/hermes-3-llama-3.1-70b"
-            },
-            {
-              "text": "Nous: Hermes 3 405B Instruct",
-              "value": "nousresearch/hermes-3-llama-3.1-405b"
-            },
-            {
-              "text": "OpenAI: ChatGPT-4o",
-              "value": "openai/chatgpt-4o-latest"
-            },
-            {
-              "text": "Sao10K: Llama 3 8B Lunaris",
-              "value": "sao10k/l3-lunaris-8b"
-            },
-            {
-              "text": "Aetherwiing: Starcannon 12B",
-              "value": "aetherwiing/mn-starcannon-12b"
-            },
-            {
-              "text": "OpenAI: GPT-4o (2024-08-06)",
-              "value": "openai/gpt-4o-2024-08-06"
-            },
-            {
-              "text": "Meta: Llama 3.1 405B (base) (free)",
-              "value": "meta-llama/llama-3.1-405b:free"
-            },
-            {
-              "text": "Meta: Llama 3.1 405B (base)",
-              "value": "meta-llama/llama-3.1-405b"
-            },
-            {
-              "text": "Mistral Nemo 12B Celeste",
-              "value": "nothingiisreal/mn-celeste-12b"
-            },
-            {
-              "text": "Perplexity: Llama 3.1 Sonar 8B Online",
-              "value": "perplexity/llama-3.1-sonar-small-128k-online"
-            },
-            {
-              "text": "Perplexity: Llama 3.1 Sonar 70B Online",
-              "value": "perplexity/llama-3.1-sonar-large-128k-online"
-            },
-            {
-              "text": "Meta: Llama 3.1 8B Instruct (free)",
-              "value": "meta-llama/llama-3.1-8b-instruct:free"
-            },
-            {
-              "text": "Meta: Llama 3.1 8B Instruct",
-              "value": "meta-llama/llama-3.1-8b-instruct"
-            },
-            {
-              "text": "Meta: Llama 3.1 405B Instruct",
-              "value": "meta-llama/llama-3.1-405b-instruct"
-            },
-            {
-              "text": "Meta: Llama 3.1 70B Instruct",
-              "value": "meta-llama/llama-3.1-70b-instruct"
-            },
-            {
-              "text": "Mistral: Mistral Nemo (free)",
-              "value": "mistralai/mistral-nemo:free"
-            },
-            {
-              "text": "Mistral: Mistral Nemo",
-              "value": "mistralai/mistral-nemo"
-            },
-            {
-              "text": "OpenAI: GPT-4o-mini",
-              "value": "openai/gpt-4o-mini"
-            },
-            {
-              "text": "OpenAI: GPT-4o-mini (2024-07-18)",
-              "value": "openai/gpt-4o-mini-2024-07-18"
-            },
-            {
-              "text": "Google: Gemma 2 27B",
-              "value": "google/gemma-2-27b-it"
-            },
-            {
-              "text": "Magnum 72B",
-              "value": "alpindale/magnum-72b"
-            },
-            {
-              "text": "Google: Gemma 2 9B (free)",
-              "value": "google/gemma-2-9b-it:free"
-            },
-            {
-              "text": "Google: Gemma 2 9B",
-              "value": "google/gemma-2-9b-it"
-            },
-            {
-              "text": "01.AI: Yi Large",
-              "value": "01-ai/yi-large"
-            },
-            {
-              "text": "Anthropic: Claude 3.5 Sonnet (2024-06-20) (self-moderated)",
-              "value": "anthropic/claude-3.5-sonnet-20240620:beta"
-            },
-            {
-              "text": "Anthropic: Claude 3.5 Sonnet (2024-06-20)",
-              "value": "anthropic/claude-3.5-sonnet-20240620"
-            },
-            {
-              "text": "Sao10k: Llama 3 Euryale 70B v2.1",
-              "value": "sao10k/l3-euryale-70b"
-            },
-            {
-              "text": "Dolphin 2.9.2 Mixtral 8x22B 🐬",
-              "value": "cognitivecomputations/dolphin-mixtral-8x22b"
-            },
-            {
-              "text": "Qwen 2 72B Instruct",
-              "value": "qwen/qwen-2-72b-instruct"
-            },
-            {
-              "text": "Mistral: Mistral 7B Instruct (free)",
-              "value": "mistralai/mistral-7b-instruct:free"
-            },
-            {
-              "text": "Mistral: Mistral 7B Instruct",
-              "value": "mistralai/mistral-7b-instruct"
-            },
-            {
-              "text": "NousResearch: Hermes 2 Pro - Llama-3 8B",
-              "value": "nousresearch/hermes-2-pro-llama-3-8b"
-            },
-            {
-              "text": "Mistral: Mistral 7B Instruct v0.3",
-              "value": "mistralai/mistral-7b-instruct-v0.3"
-            },
-            {
-              "text": "Microsoft: Phi-3 Mini 128K Instruct",
-              "value": "microsoft/phi-3-mini-128k-instruct"
-            },
-            {
-              "text": "Microsoft: Phi-3 Medium 128K Instruct",
-              "value": "microsoft/phi-3-medium-128k-instruct"
-            },
-            {
-              "text": "NeverSleep: Llama 3 Lumimaid 70B",
-              "value": "neversleep/llama-3-lumimaid-70b"
-            },
-            {
-              "text": "Google: Gemini 1.5 Flash ",
-              "value": "google/gemini-flash-1.5"
-            },
-            {
-              "text": "OpenAI: GPT-4o",
-              "value": "openai/gpt-4o"
-            },
-            {
-              "text": "OpenAI: GPT-4o (extended)",
-              "value": "openai/gpt-4o:extended"
-            },
-            {
-              "text": "Meta: LlamaGuard 2 8B",
-              "value": "meta-llama/llama-guard-2-8b"
-            },
-            {
-              "text": "OpenAI: GPT-4o (2024-05-13)",
-              "value": "openai/gpt-4o-2024-05-13"
-            },
-            {
-              "text": "NeverSleep: Llama 3 Lumimaid 8B",
-              "value": "neversleep/llama-3-lumimaid-8b"
-            },
-            {
-              "text": "Fimbulvetr 11B v2",
-              "value": "sao10k/fimbulvetr-11b-v2"
-            },
-            {
-              "text": "Meta: Llama 3 8B Instruct",
-              "value": "meta-llama/llama-3-8b-instruct"
-            },
-            {
-              "text": "Meta: Llama 3 70B Instruct",
-              "value": "meta-llama/llama-3-70b-instruct"
-            },
-            {
-              "text": "Mistral: Mixtral 8x22B Instruct",
-              "value": "mistralai/mixtral-8x22b-instruct"
-            },
-            {
-              "text": "WizardLM-2 8x22B",
-              "value": "microsoft/wizardlm-2-8x22b"
-            },
-            {
-              "text": "Google: Gemini 1.5 Pro",
-              "value": "google/gemini-pro-1.5"
-            },
-            {
-              "text": "OpenAI: GPT-4 Turbo",
-              "value": "openai/gpt-4-turbo"
-            },
-            {
-              "text": "Cohere: Command R+",
-              "value": "cohere/command-r-plus"
-            },
-            {
-              "text": "Cohere: Command R+ (04-2024)",
-              "value": "cohere/command-r-plus-04-2024"
-            },
-            {
-              "text": "Midnight Rose 70B",
-              "value": "sophosympatheia/midnight-rose-70b"
-            },
-            {
-              "text": "Cohere: Command",
-              "value": "cohere/command"
-            },
-            {
-              "text": "Cohere: Command R",
-              "value": "cohere/command-r"
-            },
-            {
-              "text": "Anthropic: Claude 3 Haiku (self-moderated)",
-              "value": "anthropic/claude-3-haiku:beta"
-            },
-            {
-              "text": "Anthropic: Claude 3 Haiku",
-              "value": "anthropic/claude-3-haiku"
-            },
-            {
-              "text": "Anthropic: Claude 3 Opus (self-moderated)",
-              "value": "anthropic/claude-3-opus:beta"
-            },
-            {
-              "text": "Anthropic: Claude 3 Opus",
-              "value": "anthropic/claude-3-opus"
-            },
-            {
-              "text": "Anthropic: Claude 3 Sonnet (self-moderated)",
-              "value": "anthropic/claude-3-sonnet:beta"
-            },
-            {
-              "text": "Anthropic: Claude 3 Sonnet",
-              "value": "anthropic/claude-3-sonnet"
-            },
-            {
-              "text": "Cohere: Command R (03-2024)",
-              "value": "cohere/command-r-03-2024"
-            },
-            {
-              "text": "Mistral Large",
-              "value": "mistralai/mistral-large"
-            },
-            {
-              "text": "OpenAI: GPT-3.5 Turbo (older v0613)",
-              "value": "openai/gpt-3.5-turbo-0613"
-            },
-            {
-              "text": "OpenAI: GPT-4 Turbo Preview",
-              "value": "openai/gpt-4-turbo-preview"
-            },
-            {
-              "text": "Nous: Hermes 2 Mixtral 8x7B DPO",
-              "value": "nousresearch/nous-hermes-2-mixtral-8x7b-dpo"
-            },
-            {
-              "text": "Mistral Medium",
-              "value": "mistralai/mistral-medium"
-            },
-            {
-              "text": "Mistral Small",
-              "value": "mistralai/mistral-small"
-            },
-            {
-              "text": "Mistral Tiny",
-              "value": "mistralai/mistral-tiny"
-            },
-            {
-              "text": "Mistral: Mistral 7B Instruct v0.2",
-              "value": "mistralai/mistral-7b-instruct-v0.2"
-            },
-            {
-              "text": "Mistral: Mixtral 8x7B Instruct",
-              "value": "mistralai/mixtral-8x7b-instruct"
-            },
-            {
-              "text": "Noromaid 20B",
-              "value": "neversleep/noromaid-20b"
-            },
-            {
-              "text": "Anthropic: Claude v2.1 (self-moderated)",
-              "value": "anthropic/claude-2.1:beta"
-            },
-            {
-              "text": "Anthropic: Claude v2.1",
-              "value": "anthropic/claude-2.1"
-            },
-            {
-              "text": "Anthropic: Claude v2 (self-moderated)",
-              "value": "anthropic/claude-2:beta"
-            },
-            {
-              "text": "Anthropic: Claude v2",
-              "value": "anthropic/claude-2"
-            },
-            {
-              "text": "Toppy M 7B",
-              "value": "undi95/toppy-m-7b"
-            },
-            {
-              "text": "Goliath 120B",
-              "value": "alpindale/goliath-120b"
-            },
-            {
-              "text": "Auto Router",
-              "value": "openrouter/auto"
-            },
-            {
-              "text": "OpenAI: GPT-3.5 Turbo 16k (older v1106)",
-              "value": "openai/gpt-3.5-turbo-1106"
-            },
-            {
-              "text": "OpenAI: GPT-4 Turbo (older v1106)",
-              "value": "openai/gpt-4-1106-preview"
-            },
-            {
-              "text": "OpenAI: GPT-3.5 Turbo Instruct",
-              "value": "openai/gpt-3.5-turbo-instruct"
-            },
-            {
-              "text": "Mistral: Mistral 7B Instruct v0.1",
-              "value": "mistralai/mistral-7b-instruct-v0.1"
-            },
-            {
-              "text": "Pygmalion: Mythalion 13B",
-              "value": "pygmalionai/mythalion-13b"
-            },
-            {
-              "text": "OpenAI: GPT-3.5 Turbo 16k",
-              "value": "openai/gpt-3.5-turbo-16k"
-            },
-            {
-              "text": "Mancer: Weaver (alpha)",
-              "value": "mancer/weaver"
-            },
-            {
-              "text": "Anthropic: Claude v2.0 (self-moderated)",
-              "value": "anthropic/claude-2.0:beta"
-            },
-            {
-              "text": "Anthropic: Claude v2.0",
-              "value": "anthropic/claude-2.0"
-            },
-            {
-              "text": "ReMM SLERP 13B",
-              "value": "undi95/remm-slerp-l2-13b"
-            },
-            {
-              "text": "MythoMax 13B",
-              "value": "gryphe/mythomax-l2-13b"
-            },
-            {
-              "text": "Meta: Llama 2 70B Chat",
-              "value": "meta-llama/llama-2-70b-chat"
-            },
-            {
-              "text": "OpenAI: GPT-3.5 Turbo",
-              "value": "openai/gpt-3.5-turbo"
-            },
-            {
-              "text": "OpenAI: GPT-3.5 Turbo 16k",
-              "value": "openai/gpt-3.5-turbo-0125"
-            },
-            {
-              "text": "OpenAI: GPT-4",
-              "value": "openai/gpt-4"
-            },
-            {
-              "text": "OpenAI: GPT-4 (older v0314)",
-              "value": "openai/gpt-4-0314"
+              "text": "text-embedding-ada-002",
+              "value": "text-embedding-ada-002"
             }
           ]
         },
@@ -2881,7 +1874,7 @@
         "group": "settings",
         "hidden": false,
         "interface": "select-dropdown",
-        "note": null,
+        "note": "Formato de resposta da IA.",
         "options": {
           "allowOther": false,
           "choices": [
@@ -2940,7 +1933,7 @@
         "group": "settings",
         "hidden": false,
         "interface": "boolean",
-        "note": null,
+        "note": "Habilita e desabilita o RAG.",
         "options": {
           "iconOff": "radio_button_unchecked",
           "iconOn": "radio_button_checked"
@@ -2995,7 +1988,7 @@
         "group": "settings",
         "hidden": false,
         "interface": "datetime",
-        "note": null,
+        "note": "Determina o tempo de inatividade limite do lead. E automaticamente a conversa voltar a ficar pendente.",
         "options": {
           "includeSeconds": true
         },
@@ -3040,7 +2033,7 @@
         "group": "elevenlabs",
         "hidden": false,
         "interface": "select-dropdown",
-        "note": null,
+        "note": "Modelos de fala do ElevenLabs.",
         "options": {
           "allowOther": false,
           "choices": [
@@ -3069,16 +2062,16 @@
               "value": "eleven_multilingual_sts_v2"
             },
             {
+              "text": "Eleven English v2",
+              "value": "eleven_english_sts_v2"
+            },
+            {
               "text": "Eleven English v1",
               "value": "eleven_monolingual_v1"
             },
             {
               "text": "Eleven Multilingual v1",
               "value": "eleven_multilingual_v1"
-            },
-            {
-              "text": "Eleven English v2",
-              "value": "eleven_english_sts_v2"
             }
           ]
         },
@@ -3128,7 +2121,7 @@
         "group": "elevenlabs",
         "hidden": false,
         "interface": "select-dropdown",
-        "note": null,
+        "note": "Modelos de sons das opções de vozes.",
         "options": {
           "allowOther": false,
           "choices": [
@@ -3560,7 +2553,7 @@
         "group": null,
         "hidden": false,
         "interface": "select-dropdown-m2o",
-        "note": null,
+        "note": "Calendário(s) que pertence a esse Agente.",
         "options": null,
         "readonly": false,
         "required": false,
@@ -3632,7 +2625,7 @@
         "group": null,
         "hidden": false,
         "interface": "input",
-        "note": null,
+        "note": "E-mail que está vinculado.",
         "options": null,
         "readonly": false,
         "required": false,
@@ -3675,7 +2668,7 @@
         "group": null,
         "hidden": false,
         "interface": "datetime",
-        "note": null,
+        "note": "Tempo que o Token irá expirar.",
         "options": {
           "relative": true,
           "round": "floor",
@@ -3812,7 +2805,7 @@
         },
         "readonly": false,
         "required": false,
-        "sort": 5,
+        "sort": 6,
         "special": [
           "alias",
           "no-data"
@@ -3830,13 +2823,13 @@
       "meta": {
         "collection": "calendars",
         "conditions": null,
-        "display": null,
+        "display": "formatted-value",
         "display_options": null,
         "field": "prompt",
         "group": null,
         "hidden": false,
         "interface": "input-code",
-        "note": null,
+        "note": "Prompt do Agente de Agendamento.",
         "options": {
           "language": "xml",
           "lineWrapping": true,
@@ -3844,7 +2837,7 @@
         },
         "readonly": false,
         "required": false,
-        "sort": 6,
+        "sort": 7,
         "special": null,
         "translations": null,
         "validation": null,
@@ -3885,7 +2878,7 @@
         "group": null,
         "hidden": false,
         "interface": "select-radio",
-        "note": null,
+        "note": "Exibi ou Esconde os dados da autenticação com o Google.",
         "options": {
           "choices": [
             {
@@ -3902,7 +2895,7 @@
         },
         "readonly": false,
         "required": false,
-        "sort": 7,
+        "sort": 8,
         "special": null,
         "translations": null,
         "validation": null,
@@ -3960,7 +2953,7 @@
         "options": null,
         "readonly": false,
         "required": false,
-        "sort": 8,
+        "sort": 9,
         "special": [
           "alias",
           "no-data",
@@ -3985,7 +2978,7 @@
         "group": null,
         "hidden": false,
         "interface": "list-o2m",
-        "note": null,
+        "note": "Agente(s) vinculados",
         "options": {
           "enableLink": true,
           "sort": null,
@@ -3993,7 +2986,7 @@
         },
         "readonly": false,
         "required": false,
-        "sort": 9,
+        "sort": 5,
         "special": [
           "o2m"
         ],
@@ -4578,180 +3571,6 @@
       }
     },
     {
-      "collection": "chat_histories",
-      "field": "created_at",
-      "type": "dateTime",
-      "meta": {
-        "collection": "chat_histories",
-        "conditions": null,
-        "display": null,
-        "display_options": null,
-        "field": "created_at",
-        "group": null,
-        "hidden": false,
-        "interface": null,
-        "note": null,
-        "options": null,
-        "readonly": false,
-        "required": false,
-        "sort": null,
-        "special": null,
-        "translations": null,
-        "validation": null,
-        "validation_message": null,
-        "width": "full"
-      },
-      "schema": {
-        "name": "created_at",
-        "table": "chat_histories",
-        "data_type": "timestamp without time zone",
-        "default_value": "CURRENT_TIMESTAMP",
-        "max_length": null,
-        "numeric_precision": null,
-        "numeric_scale": null,
-        "is_nullable": false,
-        "is_unique": false,
-        "is_indexed": false,
-        "is_primary_key": false,
-        "is_generated": false,
-        "generation_expression": null,
-        "has_auto_increment": false,
-        "foreign_key_table": null,
-        "foreign_key_column": null
-      }
-    },
-    {
-      "collection": "chat_histories",
-      "field": "conversation_id",
-      "type": "integer",
-      "meta": {
-        "collection": "chat_histories",
-        "conditions": null,
-        "display": null,
-        "display_options": null,
-        "field": "conversation_id",
-        "group": null,
-        "hidden": false,
-        "interface": null,
-        "note": null,
-        "options": null,
-        "readonly": false,
-        "required": false,
-        "sort": null,
-        "special": null,
-        "translations": null,
-        "validation": null,
-        "validation_message": null,
-        "width": "full"
-      },
-      "schema": {
-        "name": "conversation_id",
-        "table": "chat_histories",
-        "data_type": "integer",
-        "default_value": null,
-        "max_length": null,
-        "numeric_precision": 32,
-        "numeric_scale": 0,
-        "is_nullable": false,
-        "is_unique": false,
-        "is_indexed": false,
-        "is_primary_key": false,
-        "is_generated": false,
-        "generation_expression": null,
-        "has_auto_increment": false,
-        "foreign_key_table": null,
-        "foreign_key_column": null
-      }
-    },
-    {
-      "collection": "chat_histories",
-      "field": "message",
-      "type": "json",
-      "meta": {
-        "collection": "chat_histories",
-        "conditions": null,
-        "display": null,
-        "display_options": null,
-        "field": "message",
-        "group": null,
-        "hidden": false,
-        "interface": null,
-        "note": null,
-        "options": null,
-        "readonly": false,
-        "required": false,
-        "sort": null,
-        "special": [
-          "cast-json"
-        ],
-        "translations": null,
-        "validation": null,
-        "validation_message": null,
-        "width": "full"
-      },
-      "schema": {
-        "name": "message",
-        "table": "chat_histories",
-        "data_type": "json",
-        "default_value": null,
-        "max_length": null,
-        "numeric_precision": null,
-        "numeric_scale": null,
-        "is_nullable": false,
-        "is_unique": false,
-        "is_indexed": false,
-        "is_primary_key": false,
-        "is_generated": false,
-        "generation_expression": null,
-        "has_auto_increment": false,
-        "foreign_key_table": null,
-        "foreign_key_column": null
-      }
-    },
-    {
-      "collection": "chat_histories",
-      "field": "id",
-      "type": "integer",
-      "meta": {
-        "collection": "chat_histories",
-        "conditions": null,
-        "display": null,
-        "display_options": null,
-        "field": "id",
-        "group": null,
-        "hidden": false,
-        "interface": null,
-        "note": null,
-        "options": null,
-        "readonly": false,
-        "required": false,
-        "sort": null,
-        "special": null,
-        "translations": null,
-        "validation": null,
-        "validation_message": null,
-        "width": "full"
-      },
-      "schema": {
-        "name": "id",
-        "table": "chat_histories",
-        "data_type": "integer",
-        "default_value": "nextval('chat_histories_id_seq'::regclass)",
-        "max_length": null,
-        "numeric_precision": 32,
-        "numeric_scale": 0,
-        "is_nullable": false,
-        "is_unique": true,
-        "is_indexed": false,
-        "is_primary_key": true,
-        "is_generated": false,
-        "generation_expression": null,
-        "has_auto_increment": true,
-        "foreign_key_table": null,
-        "foreign_key_column": null
-      }
-    },
-    {
       "collection": "conversations",
       "field": "id",
       "type": "uuid",
@@ -4932,8 +3751,8 @@
         "is_generated": false,
         "generation_expression": null,
         "has_auto_increment": false,
-        "foreign_key_table": "users",
-        "foreign_key_column": "id"
+        "foreign_key_table": null,
+        "foreign_key_column": null
       }
     },
     {
@@ -5206,7 +4025,7 @@
         "display_options": null,
         "field": "vector_id",
         "group": null,
-        "hidden": true,
+        "hidden": false,
         "interface": "select-dropdown-m2o",
         "note": null,
         "options": {
@@ -6007,7 +4826,7 @@
     {
       "collection": "event_history_user",
       "field": "user_id",
-      "type": "integer",
+      "type": "text",
       "meta": {
         "collection": "event_history_user",
         "conditions": null,
@@ -6031,11 +4850,11 @@
       "schema": {
         "name": "user_id",
         "table": "event_history_user",
-        "data_type": "integer",
+        "data_type": "text",
         "default_value": null,
         "max_length": null,
-        "numeric_precision": 32,
-        "numeric_scale": 0,
+        "numeric_precision": null,
+        "numeric_scale": null,
         "is_nullable": true,
         "is_unique": false,
         "is_indexed": false,
@@ -6043,8 +4862,8 @@
         "is_generated": false,
         "generation_expression": null,
         "has_auto_increment": false,
-        "foreign_key_table": "users",
-        "foreign_key_column": "id"
+        "foreign_key_table": null,
+        "foreign_key_column": null
       }
     },
     {
@@ -6172,10 +4991,11 @@
         "field": "group",
         "group": null,
         "hidden": false,
-        "interface": "group-accordion",
+        "interface": "group-tabs",
         "note": null,
         "options": {
           "accordionMode": false,
+          "fillWidth": true,
           "start": "first"
         },
         "readonly": false,
@@ -6202,7 +5022,7 @@
         "display": null,
         "display_options": null,
         "field": "stirling_pdf_key",
-        "group": "group",
+        "group": "miscelaneous",
         "hidden": false,
         "interface": "input",
         "note": "Chave de API da sua conta (Login -> Configurações -> Configurações da Conta -> Sua chave de API).",
@@ -6249,7 +5069,7 @@
         "display": null,
         "display_options": null,
         "field": "directus_token",
-        "group": "group",
+        "group": "channels",
         "hidden": false,
         "interface": "input",
         "note": "Token da sua conta (Login -> Admin User -> Token).",
@@ -6260,7 +5080,7 @@
         },
         "readonly": false,
         "required": false,
-        "sort": 3,
+        "sort": 1,
         "special": null,
         "translations": null,
         "validation": null,
@@ -6296,7 +5116,7 @@
         "display": null,
         "display_options": null,
         "field": "openrouter_key",
-        "group": "group",
+        "group": "ai",
         "hidden": false,
         "interface": "input",
         "note": "API Key da sua conta - https://openrouter.ai/settings/keys.",
@@ -6307,7 +5127,7 @@
         },
         "readonly": false,
         "required": false,
-        "sort": 4,
+        "sort": 2,
         "special": null,
         "translations": [
           {
@@ -6348,14 +5168,14 @@
         "display": null,
         "display_options": null,
         "field": "github",
-        "group": "group",
+        "group": "miscelaneous",
         "hidden": false,
         "interface": "group-raw",
         "note": null,
         "options": null,
         "readonly": false,
         "required": false,
-        "sort": 5,
+        "sort": 3,
         "special": [
           "alias",
           "no-data",
@@ -6377,14 +5197,14 @@
         "display": null,
         "display_options": null,
         "field": "portainer",
-        "group": "group",
+        "group": "miscelaneous",
         "hidden": false,
         "interface": "group-raw",
         "note": null,
         "options": null,
         "readonly": false,
         "required": false,
-        "sort": 6,
+        "sort": 4,
         "special": [
           "alias",
           "no-data",
@@ -6406,7 +5226,7 @@
         "display": null,
         "display_options": null,
         "field": "openai_key",
-        "group": "group",
+        "group": "ai",
         "hidden": false,
         "interface": "input",
         "note": "API Key da sua conta - https://platform.openai.com/settings/organization/api-keys",
@@ -6417,7 +5237,7 @@
         },
         "readonly": false,
         "required": true,
-        "sort": 2,
+        "sort": 1,
         "special": null,
         "translations": null,
         "validation": null,
@@ -6453,7 +5273,7 @@
         "display": null,
         "display_options": null,
         "field": "elevenlabs_key",
-        "group": "group",
+        "group": "miscelaneous",
         "hidden": false,
         "interface": "input",
         "note": "API Key da sua conta -https://elevenlabs.io/app/settings/api-keys",
@@ -6464,7 +5284,7 @@
         },
         "readonly": false,
         "required": false,
-        "sort": 7,
+        "sort": 2,
         "special": null,
         "translations": null,
         "validation": null,
@@ -6500,7 +5320,7 @@
         "display": null,
         "display_options": null,
         "field": "jina_ai_token",
-        "group": "group",
+        "group": "vectorization",
         "hidden": false,
         "interface": "input",
         "note": "Token da sua conta -https://jina.ai",
@@ -6511,7 +5331,7 @@
         },
         "readonly": false,
         "required": false,
-        "sort": 8,
+        "sort": 2,
         "special": null,
         "translations": null,
         "validation": null,
@@ -6539,37 +5359,6 @@
     },
     {
       "collection": "global_vars",
-      "field": "advanced",
-      "type": "alias",
-      "meta": {
-        "collection": "global_vars",
-        "conditions": null,
-        "display": null,
-        "display_options": null,
-        "field": "advanced",
-        "group": "group",
-        "hidden": false,
-        "interface": "group-accordion",
-        "note": null,
-        "options": {
-          "start": "closed"
-        },
-        "readonly": false,
-        "required": false,
-        "sort": 11,
-        "special": [
-          "alias",
-          "no-data",
-          "group"
-        ],
-        "translations": null,
-        "validation": null,
-        "validation_message": null,
-        "width": "full"
-      }
-    },
-    {
-      "collection": "global_vars",
       "field": "s3_url",
       "type": "string",
       "meta": {
@@ -6583,7 +5372,7 @@
           "icon": "avg_pace"
         },
         "field": "s3_url",
-        "group": "group",
+        "group": "storage",
         "hidden": false,
         "interface": "input",
         "note": "SERVER URL. Ex: https://s3.seusite.com.br",
@@ -6595,7 +5384,7 @@
         },
         "readonly": false,
         "required": false,
-        "sort": 10,
+        "sort": 1,
         "special": null,
         "translations": null,
         "validation": null,
@@ -6631,7 +5420,7 @@
         "display": null,
         "display_options": null,
         "field": "pinecone_key",
-        "group": "group",
+        "group": "vectorization",
         "hidden": false,
         "interface": "input",
         "note": "API Key da sua conta -https://www.pinecone.io",
@@ -6642,7 +5431,7 @@
         },
         "readonly": false,
         "required": false,
-        "sort": 9,
+        "sort": 1,
         "special": null,
         "translations": null,
         "validation": null,
@@ -6892,7 +5681,7 @@
         "group": "stacks",
         "hidden": false,
         "interface": "input",
-        "note": "Endereço interno ou URL do App. Ex: http://chatwoot:3000 ou https://app.seusite.com.br",
+        "note": "URL do App. Ex: http://chatwoot:3000 ou https://app.seusite.com.br",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -6945,7 +5734,7 @@
         "group": "stacks",
         "hidden": false,
         "interface": "input",
-        "note": "Endereço interno ou URL do App. Ex: http://n8n_webhook:5678/webhook ou https://webhook.seusite.com.br/webhook",
+        "note": "URL do App. Ex: http://n8n_webhook:5678/webhook ou https://webhook.seusite.com.br/webhook",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -7003,7 +5792,7 @@
         "group": "stacks",
         "hidden": false,
         "interface": "input",
-        "note": "Endereço interno ou URL do App. Ex: http://stirling-pdf:8080 ou https://pdf.seusite.com.br",
+        "note": "URL do App. Ex: http://stirling-pdf:8080 ou https://pdf.seusite.com.br",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -7056,7 +5845,7 @@
         "group": "stacks",
         "hidden": false,
         "interface": "input",
-        "note": "Endereço interno ou URL do App. Ex: http://directus:8055 ou https://directus.seusite.com.br",
+        "note": "URL do App. Ex: http://directus:8055 ou https://directus.seusite.com.br",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -7109,7 +5898,7 @@
         "group": "stacks",
         "hidden": false,
         "interface": "input",
-        "note": "Endereço interno ou URL do App. Ex: http://n8n_editor:5678 ou https://flows.seusite.com.br",
+        "note": "URL do App. Ex: http://n8n_editor:5678 ou https://flows.seusite.com.br",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -7187,7 +5976,7 @@
         "name": "n8n_worker_service",
         "table": "global_vars",
         "data_type": "character varying",
-        "default_value": "Endereço interno: http://n8n_worker:5678",
+        "default_value": "http://n8n_worker:5678",
         "max_length": 255,
         "numeric_precision": null,
         "numeric_scale": null,
@@ -7220,7 +6009,7 @@
         "group": "stacks",
         "hidden": false,
         "interface": "input",
-        "note": "Endereço interno ou URL do App. Ex: http://portainer:9000 ou https://portainer.seusite.com.br",
+        "note": "URL do App. Ex: http://portainer:9000 ou https://portainer.seusite.com.br",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -7273,7 +6062,7 @@
         "group": "stacks",
         "hidden": false,
         "interface": "input",
-        "note": "Endereço interno ou URL do App. Ex: http://minio:9000 ou https://minio.seusite.com.br",
+        "note": "URL do App. Ex: http://minio:9000 ou https://minio.seusite.com.br",
         "options": {
           "iconLeft": null,
           "iconRight": null,
@@ -7323,16 +6112,16 @@
         "display": null,
         "display_options": null,
         "field": "stacks",
-        "group": "advanced",
+        "group": "group",
         "hidden": false,
-        "interface": "group-detail",
+        "interface": "group-raw",
         "note": "Adicione o endereço do serviço, pode ser o endereço interno ou URL do serviço. Ex: https://app.chatwoot.com ou http://chatwoot:3000",
         "options": {
           "headerIcon": "deployed_code"
         },
         "readonly": false,
         "required": false,
-        "sort": 2,
+        "sort": 6,
         "special": [
           "alias",
           "no-data",
@@ -7346,15 +6135,15 @@
     },
     {
       "collection": "global_vars",
-      "field": "google_oauth",
+      "field": "ai",
       "type": "alias",
       "meta": {
         "collection": "global_vars",
         "conditions": null,
         "display": null,
         "display_options": null,
-        "field": "google_oauth",
-        "group": "advanced",
+        "field": "ai",
+        "group": "group",
         "hidden": false,
         "interface": "group-raw",
         "note": null,
@@ -7375,79 +6164,135 @@
     },
     {
       "collection": "global_vars",
-      "field": "clientId",
-      "type": "string",
+      "field": "vectorization",
+      "type": "alias",
       "meta": {
         "collection": "global_vars",
         "conditions": null,
-        "display": "raw",
-        "display_options": {
-          "background": "#2ECDA7",
-          "border": true,
-          "color": "#E35169",
-          "icon": "avg_pace"
-        },
-        "field": "clientId",
-        "group": "google_oauth",
+        "display": null,
+        "display_options": null,
+        "field": "vectorization",
+        "group": "group",
         "hidden": false,
-        "interface": "input",
-        "note": "Client ID - App do Google Cloud console - https://console.cloud.google.com/apis/credentials",
-        "options": {
-          "iconLeft": null,
-          "iconRight": null,
-          "placeholder": null,
-          "trim": true
-        },
+        "interface": "group-raw",
+        "note": null,
+        "options": null,
         "readonly": false,
         "required": false,
-        "sort": 1,
-        "special": null,
+        "sort": 2,
+        "special": [
+          "alias",
+          "no-data",
+          "group"
+        ],
         "translations": null,
         "validation": null,
         "validation_message": null,
         "width": "full"
-      },
-      "schema": {
-        "name": "clientId",
-        "table": "global_vars",
-        "data_type": "character varying",
-        "default_value": null,
-        "max_length": 255,
-        "numeric_precision": null,
-        "numeric_scale": null,
-        "is_nullable": true,
-        "is_unique": false,
-        "is_indexed": false,
-        "is_primary_key": false,
-        "is_generated": false,
-        "generation_expression": null,
-        "has_auto_increment": false,
-        "foreign_key_table": null,
-        "foreign_key_column": null
       }
     },
     {
       "collection": "global_vars",
-      "field": "clientSecret",
+      "field": "storage",
+      "type": "alias",
+      "meta": {
+        "collection": "global_vars",
+        "conditions": null,
+        "display": null,
+        "display_options": null,
+        "field": "storage",
+        "group": "group",
+        "hidden": false,
+        "interface": "group-raw",
+        "note": null,
+        "options": null,
+        "readonly": false,
+        "required": false,
+        "sort": 3,
+        "special": [
+          "alias",
+          "no-data",
+          "group"
+        ],
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      }
+    },
+    {
+      "collection": "global_vars",
+      "field": "channels",
+      "type": "alias",
+      "meta": {
+        "collection": "global_vars",
+        "conditions": null,
+        "display": null,
+        "display_options": null,
+        "field": "channels",
+        "group": "group",
+        "hidden": false,
+        "interface": "group-raw",
+        "note": null,
+        "options": null,
+        "readonly": false,
+        "required": false,
+        "sort": 4,
+        "special": [
+          "alias",
+          "no-data",
+          "group"
+        ],
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      }
+    },
+    {
+      "collection": "global_vars",
+      "field": "miscelaneous",
+      "type": "alias",
+      "meta": {
+        "collection": "global_vars",
+        "conditions": null,
+        "display": null,
+        "display_options": null,
+        "field": "miscelaneous",
+        "group": "group",
+        "hidden": false,
+        "interface": "group-raw",
+        "note": null,
+        "options": null,
+        "readonly": false,
+        "required": false,
+        "sort": 5,
+        "special": [
+          "alias",
+          "no-data",
+          "group"
+        ],
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      }
+    },
+    {
+      "collection": "global_vars",
+      "field": "bucket",
       "type": "string",
       "meta": {
         "collection": "global_vars",
         "conditions": null,
-        "display": "raw",
-        "display_options": {
-          "background": "#2ECDA7",
-          "border": true,
-          "color": "#E35169",
-          "icon": "avg_pace"
-        },
-        "field": "clientSecret",
-        "group": "google_oauth",
+        "display": null,
+        "display_options": null,
+        "field": "bucket",
+        "group": "storage",
         "hidden": false,
         "interface": "input",
-        "note": "Client Secret - App do Google Cloud console - https://console.cloud.google.com/apis/credentials",
+        "note": "Nome do bucket s3 do Directus",
         "options": {
-          "iconLeft": null,
-          "iconRight": null,
           "placeholder": null,
           "trim": true
         },
@@ -7461,116 +6306,10 @@
         "width": "full"
       },
       "schema": {
-        "name": "clientSecret",
+        "name": "bucket",
         "table": "global_vars",
         "data_type": "character varying",
-        "default_value": null,
-        "max_length": 255,
-        "numeric_precision": null,
-        "numeric_scale": null,
-        "is_nullable": true,
-        "is_unique": false,
-        "is_indexed": false,
-        "is_primary_key": false,
-        "is_generated": false,
-        "generation_expression": null,
-        "has_auto_increment": false,
-        "foreign_key_table": null,
-        "foreign_key_column": null
-      }
-    },
-    {
-      "collection": "global_vars",
-      "field": "refreshToken",
-      "type": "string",
-      "meta": {
-        "collection": "global_vars",
-        "conditions": null,
-        "display": "raw",
-        "display_options": {
-          "background": "#2ECDA7",
-          "border": true,
-          "color": "#E35169",
-          "icon": "avg_pace"
-        },
-        "field": "refreshToken",
-        "group": "google_oauth",
-        "hidden": false,
-        "interface": "input",
-        "note": "Token que permite obter um novo Access Token quando o atual expira.",
-        "options": {
-          "iconLeft": null,
-          "iconRight": null,
-          "placeholder": null,
-          "trim": true
-        },
-        "readonly": false,
-        "required": false,
-        "sort": 3,
-        "special": null,
-        "translations": null,
-        "validation": null,
-        "validation_message": null,
-        "width": "full"
-      },
-      "schema": {
-        "name": "refreshToken",
-        "table": "global_vars",
-        "data_type": "character varying",
-        "default_value": null,
-        "max_length": 255,
-        "numeric_precision": null,
-        "numeric_scale": null,
-        "is_nullable": true,
-        "is_unique": false,
-        "is_indexed": false,
-        "is_primary_key": false,
-        "is_generated": false,
-        "generation_expression": null,
-        "has_auto_increment": false,
-        "foreign_key_table": null,
-        "foreign_key_column": null
-      }
-    },
-    {
-      "collection": "global_vars",
-      "field": "accessToken",
-      "type": "string",
-      "meta": {
-        "collection": "global_vars",
-        "conditions": null,
-        "display": "raw",
-        "display_options": {
-          "background": "#2ECDA7",
-          "border": true,
-          "color": "#E35169",
-          "icon": "avg_pace"
-        },
-        "field": "accessToken",
-        "group": "google_oauth",
-        "hidden": false,
-        "interface": "input",
-        "note": "Token de acesso que concede permissão para acessar recursos do Google em nome do usuário autenticado.  Expira de hora em hora.",
-        "options": {
-          "iconLeft": null,
-          "iconRight": null,
-          "placeholder": null,
-          "trim": true
-        },
-        "readonly": false,
-        "required": false,
-        "sort": 4,
-        "special": null,
-        "translations": null,
-        "validation": null,
-        "validation_message": null,
-        "width": "full"
-      },
-      "schema": {
-        "name": "accessToken",
-        "table": "global_vars",
-        "data_type": "character varying",
-        "default_value": null,
+        "default_value": "directus",
         "max_length": 255,
         "numeric_precision": null,
         "numeric_scale": null,
@@ -7734,10 +6473,11 @@
         "field": "group",
         "group": null,
         "hidden": false,
-        "interface": "group-accordion",
+        "interface": "group-tabs",
         "note": null,
         "options": {
           "accordionMode": false,
+          "fillWidth": true,
           "start": "first"
         },
         "readonly": false,
@@ -7767,7 +6507,7 @@
         "group": "documents",
         "hidden": false,
         "interface": "files",
-        "note": null,
+        "note": "Opção de anexar arquivos.",
         "options": null,
         "readonly": false,
         "required": false,
@@ -7794,7 +6534,7 @@
         "group": "documents",
         "hidden": false,
         "interface": "list-o2m",
-        "note": null,
+        "note": "Opção de anexar url.",
         "options": {
           "template": "{{url}}"
         },
@@ -7823,7 +6563,7 @@
         "group": "pinecone_connection",
         "hidden": false,
         "interface": "select-dropdown-m2o",
-        "note": null,
+        "note": "Host do index que criou no Pinecone.",
         "options": {
           "template": "{{value}}"
         },
@@ -7875,7 +6615,7 @@
         "group": "pinecone_connection",
         "hidden": false,
         "interface": "select-dropdown-m2o",
-        "note": null,
+        "note": "Coloque o nome que você quer especificar no namespaces do pinecone.",
         "options": {
           "template": "{{value}}"
         },
@@ -8014,7 +6754,7 @@
         "group": "group",
         "hidden": false,
         "interface": "list-o2m",
-        "note": null,
+        "note": "Vetores criados.",
         "options": {
           "enableCreate": false,
           "enableSelect": false,
@@ -8046,7 +6786,7 @@
         "group": "group",
         "hidden": false,
         "interface": "list-m2m",
-        "note": null,
+        "note": "Selecione o Agent AI que será responsável pelo RAG.",
         "options": {
           "template": "{{ai_agents_id.name}}"
         },
@@ -8080,7 +6820,7 @@
         "group": "settings",
         "hidden": false,
         "interface": "slider",
-        "note": null,
+        "note": "O comprimento do chunk para IA especificar o número máximo de caracteres de texto.",
         "options": {
           "maxValue": 10000,
           "minValue": 100,
@@ -8127,7 +6867,7 @@
         "group": "settings",
         "hidden": false,
         "interface": "slider",
-        "note": null,
+        "note": "Capacidade da AI reconhecer e analisar sobreposições em dados de diferentes fontes.",
         "options": {
           "maxValue": 100,
           "minValue": 0,
@@ -8174,7 +6914,7 @@
         "group": "settings",
         "hidden": false,
         "interface": "input-multiline",
-        "note": null,
+        "note": "Aqui irá aparecer uma descrição baseada no arquivo/url que colocou em Documents. ",
         "options": {
           "trim": true
         },
@@ -8880,7 +7620,7 @@
         "group": null,
         "hidden": true,
         "interface": "input",
-        "note": null,
+        "note": "Imagem do Usuário",
         "options": {
           "trim": true
         },
@@ -9570,14 +8310,21 @@
       "meta": {
         "collection": "vectors",
         "conditions": null,
-        "display": null,
-        "display_options": null,
+        "display": "boolean",
+        "display_options": {
+          "colorOff": "#E35169",
+          "colorOn": "#2ECDA7",
+          "labelOff": null,
+          "labelOn": null
+        },
         "field": "enabled",
         "group": null,
         "hidden": false,
         "interface": "boolean",
         "note": null,
         "options": {
+          "colorOff": "#E35169",
+          "colorOn": "#2ECDA7",
           "iconOff": "radio_button_unchecked",
           "iconOn": "radio_button_checked"
         },
@@ -9968,7 +8715,7 @@
         "group": "metadata",
         "hidden": false,
         "interface": "select-multiple-checkbox",
-        "note": null,
+        "note": "$t:similar_questions",
         "options": {
           "allowOther": true
         },
@@ -9985,6 +8732,51 @@
       },
       "schema": {
         "name": "similar_questions",
+        "table": "vectors",
+        "data_type": "text",
+        "default_value": null,
+        "max_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "is_nullable": true,
+        "is_unique": false,
+        "is_indexed": false,
+        "is_primary_key": false,
+        "is_generated": false,
+        "generation_expression": null,
+        "has_auto_increment": false,
+        "foreign_key_table": null,
+        "foreign_key_column": null
+      }
+    },
+    {
+      "collection": "vectors",
+      "field": "tags",
+      "type": "text",
+      "meta": {
+        "collection": "vectors",
+        "conditions": null,
+        "display": null,
+        "display_options": null,
+        "field": "tags",
+        "group": "metadata",
+        "hidden": false,
+        "interface": "input",
+        "note": null,
+        "options": {
+          "trim": true
+        },
+        "readonly": false,
+        "required": false,
+        "sort": 5,
+        "special": null,
+        "translations": null,
+        "validation": null,
+        "validation_message": null,
+        "width": "full"
+      },
+      "schema": {
+        "name": "tags",
         "table": "vectors",
         "data_type": "text",
         "default_value": null,
@@ -10262,15 +9054,6 @@
         "one_deselect_action": "nullify",
         "one_field": "conversations",
         "sort_field": null
-      },
-      "schema": {
-        "table": "conversations",
-        "column": "user_id",
-        "foreign_key_table": "users",
-        "foreign_key_column": "id",
-        "constraint_name": "conversations_user_id_foreign",
-        "on_update": "NO ACTION",
-        "on_delete": "CASCADE"
       }
     },
     {
@@ -10320,7 +9103,7 @@
         "foreign_key_column": "id",
         "constraint_name": "dimensions_vector_id_foreign",
         "on_update": "NO ACTION",
-        "on_delete": "SET NULL"
+        "on_delete": "CASCADE"
       }
     },
     {
@@ -10362,15 +9145,6 @@
         "one_deselect_action": "nullify",
         "one_field": "scheduling",
         "sort_field": null
-      },
-      "schema": {
-        "table": "event_history_user",
-        "column": "user_id",
-        "foreign_key_table": "users",
-        "foreign_key_column": "id",
-        "constraint_name": "event_history_user_user_id_foreign",
-        "on_update": "NO ACTION",
-        "on_delete": "SET NULL"
       }
     },
     {
@@ -10620,7 +9394,7 @@
         "foreign_key_column": "id",
         "constraint_name": "vectors_knowledge_id_foreign",
         "on_update": "NO ACTION",
-        "on_delete": "SET NULL"
+        "on_delete": "CASCADE"
       }
     },
     {
