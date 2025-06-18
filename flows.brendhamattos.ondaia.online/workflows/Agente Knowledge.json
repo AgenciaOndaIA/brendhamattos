@@ -1,0 +1,341 @@
+{
+  "createdAt": "2025-06-18T02:24:29.737Z",
+  "updatedAt": "2025-06-18T17:54:50.304Z",
+  "id": "GUPRNzV1dQNrzW9W",
+  "name": "Agente Knowledge",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "model": "={{ $json.body.mapping.parseJson().system.model }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        20,
+        500
+      ],
+      "id": "60046081-2ce0-428e-a82f-1b640e2d9411",
+      "name": "OpenRouter"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "/agent/knowledge",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        140
+      ],
+      "id": "e950c96c-27a4-48d6-afcb-2844b71e9cb7",
+      "name": "RAG Input",
+      "webhookId": "d503e6f9-0989-42d5-a598-e268b20c3182"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Por favor, analise a entrada do usuário e o histórico recente. \n\nEntrada do usuário: \n<user_input>{{ $('RAG Input').first().json.body.content }}</user_input>\n\nHistórico das últimas 10 mensagens: \n<conversation_history>{{ $('Get History').first().json.chat_histories.map(item => item.message).slice(-10).toJsonString() }}</conversation_history>",
+        "options": {
+          "systemMessage": "=Você é um agente especializado em realizar buscas no banco vetorial para fornecer contexto adicional à inteligência artificial principal.\n\nObjetivo:\nAnalisar a entrada do usuário e o histórico recente de mensagens para decidir se deve invocar a tool 'retriever' e, caso necessário, realizar buscas eficientes.\n\nDiretrizes:\nBusca desnecessária: Se a entrada do usuário não contiver perguntas relevantes ou específicas (ex.: saudações, mensagens genéricas ou irrelevantes), retorne: \"Busca desnecessária.\"\nNenhuma informação encontrada: Se, ao usar a tool 'retriever', nenhuma informação relevante for encontrada, retorne: \"Nenhuma informação relevante encontrada.\"\nForneça respostas precisas: Se encontrar informações no banco vetorial, forneça apenas o conteúdo necessário para responder à solicitação do usuário, de forma objetiva e sem interpretações adicionais.\nRegras para invocar a tool 'retriever':\nAnalise cuidadosamente a entrada do usuário e as descrições dos conhecimentos disponíveis para identificar qualquer possibilidade de relação com os temas abordados nos conhecimentos.\nConsidere como relevante qualquer pergunta do usuário que possa estar relacionada aos documentos descritos nos conhecimentos disponíveis. Se houver uma chance de associação, a busca deve ser realizada.\nUse as descrições dos conhecimentos disponíveis para identificar o knowledge_id mais adequado:\n\n<knowledge_metadata>{{ \n$('Get History').first().json.knowledge \n  ? $('Get History').first().json.knowledge.map(item => ({ knowledge_id: item.id, description: item.description })).toJsonString() \n  : \"Não ha base de conhecimento criada para esse agente.\" }}</knowledge_metadata>\n\nUse múltiplas queries, se necessário: Se a solicitação do usuário for ampla ou ambígua, faça buscas utilizando palavras-chave diferentes para cobrir todas as possibilidades.\nCombine os resultados de forma precisa e concisa, retornando apenas o contexto essencial à AI principal.\nInstruções adicionais:\nSe houver qualquer relação potencial entre a solicitação do usuário e os conhecimentos disponíveis, realize a busca imediatamente.\nAo invocar a tool 'retriever', faça perguntas claras e precisas, alinhadas ao contexto da entrada do usuário e aos temas descritos nos conhecimentos disponíveis.\nO foco é fornecer contexto relevante e direto para a AI principal.",
+          "passthroughBinaryImages": true
+        }
+      },
+      "id": "7707e29f-ce61-428b-87a9-5553cfc68cb5",
+      "name": "RAG Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        640,
+        140
+      ],
+      "retryOnFail": false,
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 660,
+        "width": 1340,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -80,
+        20
+      ],
+      "typeVersion": 1,
+      "id": "0c40dc4e-b429-406b-b295-3d988efe1344",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 300,
+        "width": 1280,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        40
+      ],
+      "id": "b17376fe-8ff5-4f6b-a56f-b02a472ab8cc",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "### Busca RAG",
+        "height": 240,
+        "width": 170,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        520,
+        400
+      ],
+      "typeVersion": 1,
+      "id": "b7bb804f-0129-4a89-80ee-783565a51496",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        140
+      ],
+      "id": "ce5b6555-7b2a-4531-997f-0f638bd69671",
+      "name": "No Operation 3"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "WITH knowledge_descriptions AS (\n  SELECT json_agg(\n    json_build_object(\n      'id', k.id,\n      'description', k.description,\n      'pinecone_host', ph.value,\n      'namespace', ns.value\n    )\n  ) AS knowledge_data\n  FROM knowledge_ai_agents kaa\n  JOIN knowledge k ON k.id = kaa.knowledge_id\n  LEFT JOIN pinecone_host ph ON ph.id = k.pinecone_host_id\n  LEFT JOIN namespace ns ON ns.id = k.name_id\n  WHERE kaa.ai_agents_id = $1\n),\nchat_histories AS (\n  SELECT json_agg(ch.*) AS chat_items\n  FROM core_chat_histories ch\n  WHERE ch.session_id = $2\n)\nSELECT\n  (SELECT knowledge_data FROM knowledge_descriptions) AS knowledge,\n  (SELECT chat_items FROM chat_histories) AS chat_histories;\n",
+        "options": {
+          "queryReplacement": "={{ $('RAG Input').item.json.body.mapping.parseJson().system.ai_agent_id }}, '{{ $('RAG Input').item.json.body.mapping.parseJson().system.conversations_id }}'",
+          "treatQueryParametersInSingleQuotesAsText": false
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        480,
+        140
+      ],
+      "id": "a21b0410-5965-4260-becc-770a13a5d3bb",
+      "name": "Get History",
+      "credentials": {
+        "postgres": {
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Modelos\nUsar o openRouter para testes de modelos e trocar o modelo em produção.",
+        "height": 300,
+        "width": 540,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -40,
+        360
+      ],
+      "typeVersion": 1,
+      "id": "0b7a07e5-b448-4cf1-bb3d-4bb7239de11b",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4.1-mini",
+        "options": {
+          "baseURL": "https://api.openai.com/v1"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        180,
+        500
+      ],
+      "id": "50c15ab3-2080-4227-ab85-ac313a201fc0",
+      "name": "Openai",
+      "credentials": {
+        "openAiApi": {
+          "id": "AhNlapeTC4e4mLvK",
+          "name": "brendha_mattos"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gemma2-9b-it",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        340,
+        500
+      ],
+      "id": "fa6f96bb-a8f7-4133-8c9f-1e321f2c65bf",
+      "name": "Groq"
+    },
+    {
+      "parameters": {
+        "dataToSave": {
+          "values": [
+            {
+              "key": "lastWorkflow",
+              "value": "[Anna] Main Agent"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executionData",
+      "typeVersion": 1,
+      "position": [
+        220,
+        140
+      ],
+      "id": "0096f2d0-b7c6-4169-97c2-a18bc3a841f6",
+      "name": "Execution Data2"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Retira do vector store informações relevantes.",
+        "method": "POST",
+        "url": "={{ $env.WEBHOOK_URL }}webhook/knowledge/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "directus-address",
+              "value": "={{\n  (\n    $('RAG Input').item.json.body.mapping.parseJson().system.directus_service.startsWith('directus')\n      ? \"http://\"\n        + \"chatwoot\"\n        + \":8055\"\n      : $('RAG Input').item.json.body.mapping.parseJson().system.directus_service\n  ).trim()\n}}"
+            },
+            {
+              "name": "directus-token",
+              "value": "={{ $('RAG Input').item.json.body.mapping.parseJson().system.directus_token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"query\": \"{{ $fromAI(\"query\", \"Texto a ser pesquisado no banco vetorial\", \"string\" )}}\",\n  \"knowledge\": \"{{ $fromAI(\"knowledge_id\", \"ID da base de conhecimento a ser consultada\", \"string\") }}\",\n  \"tokens\": {\n    \"pinecone\": \"{{ $('RAG Input').item.json.body.mapping.parseJson().system.pinecone_key }}\",\n    \"openai\": \"{{  $('RAG Input').item.json.body.mapping.parseJson().system.openai_key }}\"\n  }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        560,
+        480
+      ],
+      "id": "41cef7e1-2038-43b1-8cd7-baee8490e244",
+      "name": "Request Retriever"
+    },
+    {
+      "parameters": {
+        "content": "### Agente Knowledge\nResponsável por fazer consultas no banco de dados vetorial.",
+        "height": 100,
+        "width": 360,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "aee97988-cd28-4c3f-ad38-625bb4c9fb63",
+      "name": "Sticky Note19"
+    }
+  ],
+  "connections": {
+    "RAG Input": {
+      "main": [
+        [
+          {
+            "node": "Execution Data2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RAG Agent": {
+      "main": [
+        [
+          {
+            "node": "No Operation 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get History": {
+      "main": [
+        [
+          {
+            "node": "RAG Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Openai": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "RAG Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execution Data2": {
+      "main": [
+        [
+          {
+            "node": "Get History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Request Retriever": {
+      "ai_tool": [
+        [
+          {
+            "node": "RAG Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "c340b15c-c5be-4d93-98f4-da36e13d0802",
+  "triggerCount": 1,
+  "tags": []
+}
