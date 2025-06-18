@@ -1,0 +1,930 @@
+{
+  "createdAt": "2025-06-15T21:59:45.580Z",
+  "updatedAt": "2025-06-15T22:02:05.099Z",
+  "id": "YhgK7jEfHyRL8haR",
+  "name": "Venda_Workshop",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "closer_workshop",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        580,
+        -100
+      ],
+      "id": "9d00a5dc-f9b6-45c3-b102-50c025d48011",
+      "name": "Webhook",
+      "webhookId": "9be77094-4d9d-4172-bef1-270c1fd7fcaf"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Main Agent1').first().json.body.mapping.parseJson().system.conversations_id }}",
+        "tableName": "core_chat_histories",
+        "contextWindowLength": "={{ $('Main Agent1').first().json.body.mapping.parseJson().system.context_window }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        2320,
+        260
+      ],
+      "id": "836d9025-0b76-4ea4-be55-978b5316c9ea",
+      "name": "Memory",
+      "credentials": {
+        "postgres": {
+          "id": "ppYhvJxK7mITa7Mb",
+          "name": "Postgres BrendhaMattos"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 180,
+        "width": 2780,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        520,
+        220
+      ],
+      "typeVersion": 1,
+      "id": "c3935fc3-b7ce-4856-8145-1030aad3ca38",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 420,
+        "width": 2780,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        520,
+        -240
+      ],
+      "id": "fe6cae75-8fca-4878-b8d1-53390be3277f",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 660,
+        "width": 2860,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        500,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "a7dd7c8e-8805-4238-8126-eb76574284c5",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "#### Fluxo Core\nResponsável pelo processamento da AI, no geral copie um por nicho de cliente.",
+        "height": 100,
+        "width": 360,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        540,
+        -240
+      ],
+      "id": "517913c3-6cd2-4064-9a79-667affaf9915",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "name": "restart_history",
+        "description": "=Invoque essa tool para iniciar uma nova conversa para o user, assim ignorando o histórico passado. Apenas quando o user solicitar.",
+        "jsCode": "const axios = require('axios');\n\n// Converte o mapeamento recebido em JSON\nconst mapping = JSON.parse($('Core Input').item.json.body.mapping);\n\n// Verifica se o usuário é admin; caso contrário, retorna erro\nif (mapping.system.user_type !== 'admin') {\n  return JSON.stringify({ success: false, error: \"Acesso negado: usuário não autorizado.\" });\n}\n\n/**\n * Função que espera pelo tempo especificado.\n * @param {number} ms - Milissegundos a aguardar.\n * @returns {Promise<void>}\n */\nconst delay = ms => new Promise(resolve => setTimeout(resolve, ms));\n\n/**\n * Função para enviar a requisição para criar uma conversa no Directus.\n * Tenta até 3 vezes em caso de falha, com delay de 1 segundo entre as tentativas.\n * @returns {Promise<object>} - Objeto com sucesso ou erro.\n */\nasync function sendRequest() {\n  const url = `${mapping.system.directus_service}/items/conversations`;\n  const data = {\n    user_id: mapping.chatwoot.contact_id,\n    date_created: new Date().toISOString()\n  };\n  const headers = {\n    Authorization: `Bearer ${mapping.system.directus_token}`,\n    'Content-Type': 'application/json'\n  };\n\n  let attempt = 0;\n  let lastError = null;\n\n  while (attempt < 3) {\n    try {\n      const response = await axios.post(url, data, { headers });\n      console.log(`Requisição realizada com sucesso na tentativa ${attempt + 1}.`);\n      return { success: true, data: response.data };\n    } catch (error) {\n      attempt++;\n      lastError = error;\n      console.error(`Tentativa ${attempt} falhou:`, error.response ? error.response.data : error.message);\n      if (attempt < 3) {\n        console.log(\"Aguardando 1 segundo antes da nova tentativa...\");\n        await delay(1000);\n      }\n    }\n  }\n  \n  return { success: false, error: lastError.response ? lastError.response.data : lastError.message };\n}\n\nreturn sendRequest().then(result => JSON.stringify(result));"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        2520,
+        260
+      ],
+      "id": "50267691-23fc-4e77-9840-9871345db712",
+      "name": "Restart History"
+    },
+    {
+      "parameters": {
+        "name": "set_timer",
+        "description": "Invoque essa tool para configurar um timer que iniciará uma ação após o tempo especificado. Apenas usuários admin podem usar essa tool. O tempo deve ser informado com valor e unidade (s, m, h). Apenas quando o user solicitar.",
+        "jsCode": "const axios = require('axios');\nconst dayjs = require('dayjs');\nconst duration = require('dayjs/plugin/duration');\ndayjs.extend(duration);\n\n/**\n * Esta tool configura um timer via webhook.\n * Ela envia, para o endpoint, todo o objeto mapping (obtido em Core Input)\n * e o tempo em segundos calculado a partir dos parâmetros \"timer_value\" e \"timer_unit\".\n * Apenas usuários admin podem utilizar esta tool.\n */\n\n// Converte o mapping recebido em JSON\nconst mapping = JSON.parse($('Core Input').item.json.body.mapping);\n\n// Verifica se o usuário é admin\nif (mapping.system.user_type !== 'admin') {\n  return JSON.stringify({ success: false, error: \"Acesso negado: usuário não autorizado.\" });\n}\n\n// Obtém os parâmetros do timer a partir do input (query)\nconst timerValue = query.timer_value;  // Número (ex: 30)\nconst timerUnit = query.timer_unit;      // \"s\", \"m\" ou \"h\"\n\n// Calcula o tempo em segundos usando dayjs.duration\nconst timerSeconds = dayjs.duration(timerValue, timerUnit).asSeconds();\n\n// Prepara o payload para o webhook\nconst payload = {\n  mapping: mapping,\n  timer_seconds: timerSeconds\n};\n\n// URL do webhook substituindo 'n8n_webhook' pelo valor da variável no mapping\nconst url = `${mapping.system.n8n_webhook_service}/timer`;\n\n/**\n * Função para enviar a requisição ao webhook.\n * Tenta enviar uma única vez e retorna o resultado.\n */\nasync function sendTimerRequest() {\n  try {\n    console.log(`Enviando requisição para configurar o timer para ${timerSeconds} segundos...`);\n    const response = await axios.post(url, payload, {\n      headers: { 'Content-Type': 'application/json' }\n    });\n    console.log(\"Timer configurado com sucesso.\");\n    return { success: true, message: `Timer configurado com sucesso. Ele será acionado em ${timerSeconds} segundos.` };\n  } catch (error) {\n    console.error(\"Erro ao configurar o timer:\", error.response ? error.response.data : error.message);\n    return { success: false, error: error.response ? error.response.data : error.message };\n  }\n}\n\nreturn sendTimerRequest().then(result => JSON.stringify(result));",
+        "specifyInputSchema": true,
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"timer_value\": {\n      \"type\": \"number\",\n      \"description\": \"Valor do timer. Exemplo: 30\"\n    },\n    \"timer_unit\": {\n      \"type\": \"string\",\n      \"description\": \"Unidade de tempo para o timer: 's' para segundos, 'm' para minutos, 'h' para horas.\",\n      \"enum\": [\"s\", \"m\", \"h\"]\n    }\n  },\n  \"required\": [\"timer_value\", \"timer_unit\"]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        2680,
+        260
+      ],
+      "id": "249da70b-64bc-42f0-a17f-707032115222",
+      "name": "Set Timer"
+    },
+    {
+      "parameters": {
+        "dataToSave": {
+          "values": [
+            {
+              "key": "lastWorkflow",
+              "value": "[Anna] Main Agent"
+            },
+            {
+              "key": "thisWorkglow"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executionData",
+      "typeVersion": 1,
+      "position": [
+        780,
+        -100
+      ],
+      "id": "f692cc69-f2d3-4f4e-bd2c-a8ee8da5444d",
+      "name": "Execution Data1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://webhook.brendhamattos.ondaia.online/webhook/agent/knowledge",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "={{ $('Main Agent1').first().json.body.mapping.parseJson().chatwoot.content ?? $input.all()\n        .map(item => item.json.content)\n        .filter(content => content)\n        .join('\\n\\n') }}"
+            },
+            {
+              "name": "mapping",
+              "value": "={{ $('Main Agent1').first().json.body.mapping }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1180,
+        -40
+      ],
+      "id": "7d96ba4e-2e7a-41f1-a089-2a15e88b8462",
+      "name": "Call Agent Rag",
+      "executeOnce": true,
+      "notesInFlow": true,
+      "notes": "Chama o agente principal"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {
+          "includeUnpaired": true
+        }
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        1380,
+        -100
+      ],
+      "id": "c3d20283-f795-4483-8010-f94138d1df5d",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "main",
+                    "rightValue": "main",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "b746f04a-ab1b-44de-bde2-6eae85e7b6cf"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "main"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2f483833-145f-43e4-a8bd-99f55eb0b523",
+                    "leftValue": "={{ $('Main Agent1').item.json.body.mapping.parseJson().system.enabled_rag  }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "rag"
+            }
+          ]
+        },
+        "options": {
+          "allMatchingOutputs": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        980,
+        -100
+      ],
+      "id": "84e1e40c-c9bf-460d-8772-aefd45d2f4d6",
+      "name": "Agents"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "body.files",
+        "options": {
+          "destinationFieldName": "binary",
+          "includeBinary": false
+        }
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1580,
+        -100
+      ],
+      "id": "5213a1ab-0bdc-484d-9309-b6344208d06c",
+      "name": "Split Base64",
+      "executeOnce": false,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a699652f-1f2d-4be5-b011-87f0f640faed",
+              "leftValue": "={{ $('Main Agent1').item.json.body.files }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1800,
+        -100
+      ],
+      "id": "8cb21f01-9864-4d93-8243-22dba63e3029",
+      "name": "Binary Exists?"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        2400,
+        -100
+      ],
+      "id": "fd3f01ee-0f11-4f7d-8305-7ab010956203",
+      "name": "Merge Binaries",
+      "alwaysOutputData": true,
+      "notesInFlow": true,
+      "executeOnce": true,
+      "notes": "Junta os binarios"
+    },
+    {
+      "parameters": {
+        "jsCode": "const mergedItem = { binary: {}};\n\n// Coleta todos os binários de todos os itens sem manipulação\n$input.all().forEach((inputItem) => {\n  if (inputItem.binary) {\n    Object.assign(mergedItem.binary, inputItem.binary);\n  }\n});\n\n// Retorna um único item com todos os binários\nreturn [mergedItem];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        -200
+      ],
+      "id": "f6892cc4-5ade-4a5b-8ec5-86ff0bdcde09",
+      "name": "Binaries"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "binary",
+        "binaryPropertyName": "=data{{ $itemIndex }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        2000,
+        -200
+      ],
+      "id": "d7bd2e6c-3b3f-4890-8526-916e1ee4da95",
+      "name": "Convert",
+      "notesInFlow": true,
+      "notes": "Converte texto em binário"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Main Agent1').first().json.body.content || \"Erro: nenhum conteudo de texto na mensagem, pode ser uma midia, se nao houver nenhuma midia responda que nao entendeu.\"  }}",
+        "options": {
+          "systemMessage": "=Nunca use hiperlinks\n\n<chatwoot-info>\n  Name: {{ $('Main Agent1').first().json.body.mapping.parseJson().chatwoot.user_name || null }}\n  Phone: {{ $('Main Agent1').first().json.body.mapping.parseJson().chatwoot.phone_number || null }}\n  Email: {{ $('Main Agent1').first().json.body.mapping.parseJson().chatwoot.email || null }}  \n  Se o nome do usuario não for um nome comum de pessoa, pode ser um nome automatico do chatwoot, peça seu nome de forma natural nesse caso.\n</chatwoot-info>\n\n<tool_usage>\nSempre que receber um e-mail ou nome, use a ferramenta 'Email' para atualizar e validar os dados do contato no banco. Uma vez atualizado com sucesso via 'Email', o e-mail é considerado validado para a sessão e não deve ser solicitado novamente, a menos que o usuário o altere.\n</tool_usage>\n\n<system_information>\n1. Data e hora atuais: {{ $now.format(\"EEE, MMM dd, yyyy, HH:mm\") }}\n</system_information>\n\n<retrieval_augmented_generation_result>\n{{ \n  $('Call Agent Rag').isExecuted\n      ? $('Call Agent Rag').first().json.output\n      : \"Rag desativado\" \n}}\n</retrieval_augmented_generation_result>\n\n<prompt>\n{{ $('Main Agent1').first().json.body.mapping.parseJson().system.system_message || \"Você é um assistente util, diga que o usuário precisa configurar seu prompt na dashboard da Anna em todas as suas respostas\" }}\n</prompt>",
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        2600,
+        -100
+      ],
+      "id": "ca4b42dc-4f11-433a-9a94-bf27a793f4a6",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        2960,
+        -100
+      ],
+      "id": "f966da61-3d35-4579-9ed3-e7fac21a298d",
+      "name": "Respond "
+    },
+    {
+      "parameters": {
+        "toolDescription": "Chama o agente de conhecimento e retira do vector store informações relevantes.",
+        "method": "POST",
+        "url": "=https://webhook.agencia.ondaia.online/webhook/agent/knowledge",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"content\": \"{{ $('Main Agent1').last().json.body.content }}\",\n  \"mapping\": {{ $('Main Agent1').last().json.body.mapping }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        3000,
+        260
+      ],
+      "id": "d6f37e6d-072f-481e-ac53-de8e5d424f7e",
+      "name": "Agent Knowledge"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Você irá gerenciar a atualização de e-mail e nome de usuários no banco de dados. Após a atualização, ela integra essa informação com o agente de agendamento, garantindo que os agendamentos no calendário sejam realizados com o e-mail mais recente do usuário.",
+        "operation": "update",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Main Agent1').first().json.body.mapping.parseJson().chatwoot.contact_id }}",
+            "email": "={{ $fromAI('email', `E-mail do contato.`, 'string') }}",
+            "username": "={{ $fromAI('username', `Nome do contato`, 'string') }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "date_created",
+              "displayName": "date_created",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "date_updated",
+              "displayName": "date_updated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "picture_url",
+              "displayName": "picture_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "picture",
+              "displayName": "picture",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "username",
+              "displayName": "username",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ai_agent",
+              "displayName": "ai_agent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        3160,
+        260
+      ],
+      "id": "48d87034-a329-4a6b-8c5e-2b3a77ad181e",
+      "name": "Email"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$('Mapping').first().json.system.n8n_webhook_service}}/{{ $('Mapping').first().json.system.workflow_path }}",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "={{ $json.content ?  $json.content :\n    $input.all()\n      .map(item => item.json?.content)\n      .filter(content => content)\n      .join('\\n\\n') || \"Sem contexto em texto.\"\n}}"
+            },
+            {
+              "name": "mapping",
+              "value": "={{JSON.stringify($('Mapping').first().json) }}"
+            },
+            {
+              "name": "files",
+              "value": "={{ $input.all().flatMap(loops => loops.json.binaries) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        220
+      ],
+      "id": "a59ded10-0d3f-490a-a8f5-675cddcc1246",
+      "name": "Call Agent Main1",
+      "executeOnce": true,
+      "notesInFlow": true,
+      "disabled": true,
+      "notes": "Chama o agente principal"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Main Agent1').first().json.body.mapping.parseJson().system.n8n_webhook_service}}/agent/knowledge",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "={{ $('Main Agent1').first().json.body.mapping.parseJson().chatwoot.content ?? $input.all()\n        .map(item => item.json.content)\n        .filter(content => content)\n        .join('\\n\\n') }}"
+            },
+            {
+              "name": "mapping",
+              "value": "={{ $('Main Agent1').first().json.body.mapping }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        220
+      ],
+      "id": "8a354924-d49c-4643-9e25-0c62fb5a2bdf",
+      "name": "Call Agent Rag1",
+      "executeOnce": true,
+      "notesInFlow": true,
+      "disabled": true,
+      "notes": "Chama o agente principal"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4.1-mini",
+        "options": {
+          "baseURL": "https://api.openai.com/v1"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        2180,
+        260
+      ],
+      "id": "2c4935b4-2097-4354-af01-1cf9ea2fcf87",
+      "name": "Openai2",
+      "credentials": {
+        "openAiApi": {
+          "id": "AhNlapeTC4e4mLvK",
+          "name": "brendha_mattos"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### Reserva",
+        "height": 180,
+        "width": 790,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        520,
+        220
+      ],
+      "typeVersion": 1,
+      "id": "cee5c799-41fd-4471-bb8e-00029fa6b247",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "sseEndpoint": "https://webhook.agencia.ondaia.online/mcp/69f7582d-9695-440e-8f50-ef9050adf9f4/sse"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        2040,
+        260
+      ],
+      "id": "effc8127-cf75-40f8-b66c-2db9be09599b",
+      "name": "MCP Client"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Chama agente de calendário como ferramenta para gerenciar agendamentos e compromissos do calendário através do n8n. Processa solicitações relacionadas a criação, atualização, consulta e cancelamento de eventos agendados. Sem parâmetros necessários.",
+        "method": "POST",
+        "url": "={{ $env.WEBHOOK_URL }}webhook/calendar/agent",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={\n  \"api-address\": \"{{ $('Main Agent1').first().json.body.mapping.parseJson().system.directus_service }}\",\n  \"api-token\": \"{{ $('Main Agent1').first().json.body.mapping.parseJson().system.directus_token }}\",\n  \"last-workflow\": \"{{ $workflow.name }}\"\n}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"solicitacao\": \"{{ $fromAI(\n    \"solicitacao\",\n    \"Descreva a solicitação do usuario relativa a operacao do calendario com maximo de detalhes para o agente de calendário\",\n    \"string\"\n  )}}\",\n  \"contact\": \"{{ $('Main Agent1').first().json.body.mapping.parseJson().chatwoot.contact_id }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        2840,
+        260
+      ],
+      "id": "ea58ad42-50d2-4462-81a0-cf72214089f2",
+      "name": "Agent Calendar"
+    }
+  ],
+  "connections": {
+    "Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restart History": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Timer": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execution Data1": {
+      "main": [
+        [
+          {
+            "node": "Agents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call Agent Rag": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Split Base64",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agents": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Call Agent Rag",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Base64": {
+      "main": [
+        [
+          {
+            "node": "Binary Exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Binary Exists?": {
+      "main": [
+        [
+          {
+            "node": "Convert",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge Binaries",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Binaries": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Binaries": {
+      "main": [
+        [
+          {
+            "node": "Merge Binaries",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert": {
+      "main": [
+        [
+          {
+            "node": "Binaries",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent Knowledge": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Openai2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "74a680fb-d573-479d-915f-b045fd4f3571",
+  "triggerCount": 0,
+  "tags": []
+}
