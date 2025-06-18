@@ -1,0 +1,571 @@
+{
+  "createdAt": "2025-06-15T17:42:33.647Z",
+  "updatedAt": "2025-06-15T21:53:37.516Z",
+  "id": "Zkplt7L6LWzBhIUK",
+  "name": "Carrinho_Abandonado",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "brendha_mattos_bobgrow",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -2460,
+        -120
+      ],
+      "id": "2e6202aa-09ab-4728-a5d1-02e8d94230c9",
+      "name": "Webhook",
+      "webhookId": "fbcd29d9-5b8f-47aa-a121-dc391c4bdd1d"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.event }}",
+                    "rightValue": "PURCHASE_PROTEST",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "0aed72a0-e290-42f4-87a7-5c8f5aa867ea"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "PROTESTO_DE_COMPRA"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "70995190-b39a-43d5-b5fe-e3421f917365",
+                    "leftValue": "={{ $json.body.event }}",
+                    "rightValue": "PURCHASE_BILLET_PRINTED",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "COMPROVANTE DE COMPRA IMPRESSO"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e0e9ea93-5ff8-416e-961e-49f43f08d9d8",
+                    "leftValue": "={{ $json.body.event }}",
+                    "rightValue": "CLUB_MODULE_COMPLETED",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "MÓDULO_CLUBE_CONCLUÍDO"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b64354c0-bf9f-4eb9-8b18-d6564c69dde8",
+                    "leftValue": "={{ $json.body.event }}",
+                    "rightValue": "UPDATE_SUBSCRIPTION_CHARGE_DATE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ATUALIZAÇÃO_DATA_DE_COBRANÇA_DA_ASSINATURA"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8d12c8e6-d573-4be3-a0b3-b951f11bacde",
+                    "leftValue": "={{ $json.body.event }}",
+                    "rightValue": "SWITCH_PLAN",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "MUDANÇA DE PLANO"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e69739c3-9161-4d91-bdba-7bcbb18fe89a",
+                    "leftValue": "={{ $json.body.event }}",
+                    "rightValue": "PURCHASE_COMPLETE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "PAGAMENTO COMPLETO"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1492e2c3-3d37-463f-9df1-2c22179d878d",
+                    "leftValue": "={{ $json.body.event }}",
+                    "rightValue": "CLUB_FIRST_ACCESS",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "CLUBE_PRIMEIRO_ACESSO"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ed218f31-c661-4874-8e2c-a97c8d0e82b4",
+                    "leftValue": "={{ $json.body.event }}",
+                    "rightValue": "PURCHASE_CHARGEBACK",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ESTORNO_DE_COMPRA"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "068c0b5f-31a5-45b4-bb36-61989e3faf5a",
+                    "leftValue": "={{ $json.body.event }}",
+                    "rightValue": "PURCHASE_APPROVED",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "COMPRA APROVADA"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "93499cb8-da28-4244-8a67-6dca3ccf41ad",
+                    "leftValue": "={{ $json.body.event }}",
+                    "rightValue": "PURCHASE_OUT_OF_SHOPPING_CART",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "CARRINHO ABANDONADO"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "645ce2ca-582d-4f47-9c7c-68eb51c324a1",
+                    "leftValue": "={{ $json.body.event }}",
+                    "rightValue": "SUBSCRIPTION_CANCELLATION",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "CANCELOU ASSINATURA"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "be39cc26-50a6-4734-ab0d-c74f90bad049",
+                    "leftValue": "={{ $json.body.event }}",
+                    "rightValue": "PURCHASE_DELAYED",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "COMPRA_ATRASADA"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1aef5941-48c9-4970-9685-c71d3b78f14c",
+                    "leftValue": "={{ $json.body.event }}",
+                    "rightValue": "PURCHASE_REFUNDED",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "COMPRA_REEMBOLSADA"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "35157e23-4637-4419-bfab-d0b3dcb7be88",
+                    "leftValue": "={{ $json.body.event }}",
+                    "rightValue": "PURCHASE_CANCELED",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "COMPRA_CANCELADA"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "dbe23570-802a-45e3-82cc-73c9cae49aea",
+                    "leftValue": "={{ $json.body.event }}",
+                    "rightValue": "PURCHASE_EXPIRED",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "COMPRA_EXPIRADA"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -1800,
+        -360
+      ],
+      "id": "2854b928-05d6-4995-b936-7d90d60cae7e",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "filters": {
+          "query": "={{ $json.body.data.buyer.email }}"
+        },
+        "options": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.highLevel",
+      "typeVersion": 2,
+      "position": [
+        -1060,
+        -40
+      ],
+      "id": "c59bb019-d841-43cc-8c92-223f1acafe17",
+      "name": "HighLevel",
+      "alwaysOutputData": true,
+      "credentials": {
+        "highLevelOAuth2Api": {
+          "id": "k3RZ1pJzMNgKyUis",
+          "name": "BrendhaMattos"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "email": "={{ $('Webhook').item.json.body.data.buyer.email }}",
+        "phone": "={{ $('Webhook').item.json.body.data.buyer.phone }}",
+        "additionalFields": {
+          "name": "={{ $('Webhook').item.json.body.data.buyer.name }}",
+          "tags": "carrinho_abandonado"
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.highLevel",
+      "typeVersion": 2,
+      "position": [
+        -840,
+        80
+      ],
+      "id": "d7291360-09ee-4650-a562-93ace9b74d69",
+      "name": "HighLevel1",
+      "credentials": {
+        "highLevelOAuth2Api": {
+          "id": "k3RZ1pJzMNgKyUis",
+          "name": "BrendhaMattos"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -620,
+        -20
+      ],
+      "id": "48635ae9-be14-4604-9cc1-c7d3181c3bed",
+      "name": "Merge"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        -20
+      ],
+      "id": "9f46c145-bda3-4952-b672-c0cd15b1f820",
+      "name": "No Operation, do nothing"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [
+          {
+            "node": "HighLevel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HighLevel": {
+      "main": [
+        [
+          {
+            "node": "HighLevel1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HighLevel1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "781eb8ec-8e1b-4b36-88b5-c3e4423c67d1",
+  "triggerCount": 1,
+  "tags": []
+}
