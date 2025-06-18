@@ -1,10 +1,10 @@
 {
   "createdAt": "2025-05-29T18:29:23.905Z",
-  "updatedAt": "2025-05-29T18:29:23.905Z",
+  "updatedAt": "2025-06-11T16:38:36.093Z",
   "id": "3WDrhXbVIgBVmIqf",
   "name": "test bobgrow",
   "active": false,
-  "isArchived": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -3056,7 +3056,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "ed745967-a758-42e2-a590-526706c04d79",
+  "versionId": "3b735a42-b521-4567-9407-e9fa7aaf2696",
   "triggerCount": 0,
   "tags": []
 }
