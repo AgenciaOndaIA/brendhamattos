@@ -1,10 +1,10 @@
 {
   "createdAt": "2025-05-22T17:33:06.831Z",
-  "updatedAt": "2025-05-29T17:46:11.066Z",
+  "updatedAt": "2025-06-11T13:35:16.117Z",
   "id": "KmQFVLzk9PoaqCUa",
   "name": "[Maria] v2",
-  "active": true,
-  "isArchived": false,
+  "active": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -443,7 +443,7 @@
       "parameters": {
         "toolDescription": "Chama agente de calendário como ferramenta para gerenciar agendamentos e compromissos do calendário através do n8n. Processa solicitações relacionadas a criação, atualização, consulta e cancelamento de eventos agendados. Sem parâmetros necessários.",
         "method": "POST",
-        "url": "={{ $env.WEBHOOK_URL }}/webhook/calendar/agent",
+        "url": "=https://webhook.brendhamattos.ondaia.online/webhook/calendar/agent",
         "sendHeaders": true,
         "specifyHeaders": "json",
         "jsonHeaders": "={\n  \"api-address\": \"http://{{ $('Main Agent3').first().json.body.mapping.parseJson().system.directus_service }}:8055\",\n  \"api-token\": \"{{ $('Main Agent3').first().json.body.mapping.parseJson().system.directus_token }}\",\n  \"last-workflow\": \"{{ $workflow.name }}\"\n}",
@@ -455,7 +455,7 @@
       "type": "n8n-nodes-base.httpRequestTool",
       "typeVersion": 4.2,
       "position": [
-        1560,
+        1580,
         960
       ],
       "id": "a16e1a9a-b08b-4de2-9c4e-08a019ee2376",
@@ -2131,6 +2131,28 @@
       ],
       "id": "8e29fbfe-d4d2-45cb-b233-ec72b0832a34",
       "name": "MCP Conhecimento"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Chama agente de calendário como ferramenta para gerenciar agendamentos e compromissos do calendário através do n8n. Processa solicitações relacionadas a criação, atualização, consulta e cancelamento de eventos agendados. Sem parâmetros necessários.",
+        "method": "POST",
+        "url": "={{ $env.WEBHOOK_URL }}/webhook/calendar/agent",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={\n  \"api-address\": \"http://{{ $('Main Agent3').first().json.body.mapping.parseJson().system.directus_service }}:8055\",\n  \"api-token\": \"{{ $('Main Agent3').first().json.body.mapping.parseJson().system.directus_token }}\",\n  \"last-workflow\": \"{{ $workflow.name }}\"\n}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"solicitacao\": \"{{ $fromAI(\n    \"solicitacao\",\n    \"Descreva a solicitação do usuario relativa a operacao do calendario com maximo de detalhes para o agente de calendário\",\n    \"string\"\n  )}}\",\n  \"contact\": \"{{ $('Main Agent3').first().json.body.mapping.parseJson().chatwoot.contact_id }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        340,
+        980
+      ],
+      "id": "13ca56c2-4c25-4cb3-8a6c-8c55e0c5fe3e",
+      "name": "Agent Calendar"
     }
   ],
   "connections": {
@@ -3061,7 +3083,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "5f768f7e-e9df-4473-b3a3-733ddd97697f",
+  "versionId": "78b7bc8b-c73b-4094-9270-05b0fe0bc9c7",
   "triggerCount": 6,
   "tags": []
 }
