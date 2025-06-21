@@ -1,7 +1,7 @@
 {
-  "createdAt": "2025-05-22T11:45:46.493Z",
-  "updatedAt": "2025-05-22T14:55:29.914Z",
-  "id": "PKZZRLitYk4Ciy6V",
+  "createdAt": "2025-05-23T21:23:50.761Z",
+  "updatedAt": "2025-05-23T21:27:23.357Z",
+  "id": "TYKwQLuASH5tZPN1",
   "name": "[Anna] Calendar | Agent",
   "active": false,
   "isArchived": true,
@@ -414,8 +414,8 @@
       "name": "OpenAI Chat Model",
       "credentials": {
         "openAiApi": {
-          "id": "AhNlapeTC4e4mLvK",
-          "name": "brendha_mattos"
+          "id": "kM2vxyaM9jSLq2tk",
+          "name": "OpenAi Sy"
         }
       }
     }
@@ -608,8 +608,8 @@
   "settings": {},
   "staticData": null,
   "meta": null,
-  "pinData": {},
-  "versionId": "bca06438-6706-48fd-a85a-4b163dd964d4",
+  "pinData": null,
+  "versionId": "4209fcdf-57d2-45ce-a216-a2c5e9cdecc5",
   "triggerCount": 0,
   "tags": []
 }
