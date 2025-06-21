@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-06-11T13:53:08.667Z",
-  "updatedAt": "2025-06-19T13:14:25.677Z",
+  "updatedAt": "2025-06-21T22:28:41.653Z",
   "id": "yjWf4aWsY7Po2ckx",
   "name": "02 - [Maria] v2",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -35,7 +35,7 @@
       "typeVersion": 1,
       "position": [
         -1260,
-        700
+        720
       ],
       "id": "081d17d0-d0cc-4e1a-892b-f60051893bf6",
       "name": "Consumer",
@@ -45,39 +45,6 @@
           "name": "brendha"
         }
       }
-    },
-    {
-      "parameters": {
-        "url": "=https://services.leadconnectorhq.com/conversations/search?locationId={{ $json.body.locationId }}&contactId={{ $json.body.contactId }}",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "highLevelOAuth2Api",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Version",
-              "value": "2021-04-15"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        -1060,
-        700
-      ],
-      "id": "b489ba80-9232-4c35-9b4a-e3d525613e76",
-      "name": "buscaContato",
-      "alwaysOutputData": true,
-      "credentials": {
-        "highLevelOAuth2Api": {
-          "id": "k3RZ1pJzMNgKyUis",
-          "name": "BrendhaMattos"
-        }
-      },
-      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -148,60 +115,6 @@
           "name": "BrendhaMattos"
         }
       }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "33404d4d-a534-4dd5-be8c-ef75c336d611",
-              "name": "headers",
-              "value": "={{ $('Consumer1').item.json.headers }}",
-              "type": "object"
-            },
-            {
-              "id": "3806f7a0-0253-4643-a7c9-d71e63da373b",
-              "name": "params",
-              "value": "={{ $('Consumer1').item.json.params }}",
-              "type": "object"
-            },
-            {
-              "id": "9a6c7d3b-ad7b-48a3-8d64-7c78c2d8c149",
-              "name": "query",
-              "value": "={{ $('Consumer1').item.json.query }}",
-              "type": "object"
-            },
-            {
-              "id": "415134cf-5edf-4f82-ace2-d2190e9f869d",
-              "name": "body",
-              "value": "={{ $('Consumer1').item.json.body }}",
-              "type": "object"
-            },
-            {
-              "id": "4ac920dc-4a97-4766-946a-09abd5d8303b",
-              "name": "webhookUrl",
-              "value": "={{ $('Consumer1').item.json.webhookUrl }}",
-              "type": "string"
-            },
-            {
-              "id": "73a904a9-c640-4586-922f-90438f8ed201",
-              "name": "conversations",
-              "value": "={{ $json.conversations }}",
-              "type": "array"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -860,
-        700
-      ],
-      "id": "e6d93bd0-e847-400d-8936-482eab678304",
-      "name": "Normalizar",
-      "disabled": true
     },
     {
       "parameters": {
@@ -2585,6 +2498,78 @@
           "name": "Postgres BrendhaMattos"
         }
       }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "94deccfa-9b77-47b1-8d46-6ed215d826a4",
+              "leftValue": "={{ $json.body.locationId }}",
+              "rightValue": "TV80tAQfj1gPlnSxh2J1",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1060,
+        720
+      ],
+      "id": "10e95f29-73c9-43dd-927f-539088f03c62",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -840,
+        880
+      ],
+      "id": "2bf34c18-cc21-40c6-bd06-ed33a571999a",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "url": "=https://services.leadconnectorhq.com/conversations/search?locationId={{ $('Consumer').item.json.body.locationId }}&contactId={{ $('Consumer').item.json.body.contactId }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "highLevelOAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Version",
+              "value": "2021-04-15"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -840,
+        700
+      ],
+      "id": "277ad5c6-dbd9-4d0d-9dea-9424acf3e40b",
+      "name": "buscaContato1",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
     }
   ],
   "connections": {
@@ -2592,29 +2577,7 @@
       "main": [
         [
           {
-            "node": "buscaContato",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "buscaContato": {
-      "main": [
-        [
-          {
-            "node": "Normalizar",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Normalizar": {
-      "main": [
-        [
-          {
-            "node": "Add Info Master",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -3495,6 +3458,35 @@
           }
         ]
       ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "buscaContato1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "buscaContato1": {
+      "main": [
+        [
+          {
+            "node": "Add Info Master",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {},
@@ -3506,7 +3498,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "456fcda2-ec61-41a6-b394-fe4e05953b83",
+  "versionId": "60c259d6-7175-4488-9ab7-86facbd9ff15",
   "triggerCount": 2,
   "tags": [
     {
