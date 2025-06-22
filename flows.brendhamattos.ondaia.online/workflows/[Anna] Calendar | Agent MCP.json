@@ -1,7 +1,7 @@
 {
-  "createdAt": "2025-05-23T21:23:49.730Z",
+  "createdAt": "2025-05-23T21:15:32.216Z",
   "updatedAt": "2025-05-23T21:27:23.357Z",
-  "id": "cHs5tK4eq2rWBf5j",
+  "id": "pCUUyFf7C4V0P4JT",
   "name": "[Anna] Calendar | Agent MCP",
   "active": false,
   "isArchived": true,
@@ -338,7 +338,7 @@
   "staticData": null,
   "meta": null,
   "pinData": null,
-  "versionId": "08f294ad-2b19-42ce-b7f8-a02cb46871fe",
+  "versionId": "377368a6-f710-497e-bf4f-aef32af3204f",
   "triggerCount": 0,
   "tags": []
 }
