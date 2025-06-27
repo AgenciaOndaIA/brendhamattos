@@ -1528,24 +1528,24 @@
               "value": "gpt-3.5-turbo"
             },
             {
+              "text": "o4-mini-deep-research-2025-06-26",
+              "value": "o4-mini-deep-research-2025-06-26"
+            },
+            {
               "text": "o3-pro-2025-06-10",
               "value": "o3-pro-2025-06-10"
             },
             {
-              "text": "codex-mini-latest",
-              "value": "codex-mini-latest"
+              "text": "o4-mini-deep-research",
+              "value": "o4-mini-deep-research"
             },
             {
-              "text": "o3-pro",
-              "value": "o3-pro"
+              "text": "o3-deep-research",
+              "value": "o3-deep-research"
             },
             {
-              "text": "gpt-4o-realtime-preview-2025-06-03",
-              "value": "gpt-4o-realtime-preview-2025-06-03"
-            },
-            {
-              "text": "gpt-4o-audio-preview-2025-06-03",
-              "value": "gpt-4o-audio-preview-2025-06-03"
+              "text": "o3-deep-research-2025-06-26",
+              "value": "o3-deep-research-2025-06-26"
             },
             {
               "text": "davinci-002",
@@ -1816,6 +1816,22 @@
               "value": "gpt-image-1"
             },
             {
+              "text": "codex-mini-latest",
+              "value": "codex-mini-latest"
+            },
+            {
+              "text": "o3-pro",
+              "value": "o3-pro"
+            },
+            {
+              "text": "gpt-4o-realtime-preview-2025-06-03",
+              "value": "gpt-4o-realtime-preview-2025-06-03"
+            },
+            {
+              "text": "gpt-4o-audio-preview-2025-06-03",
+              "value": "gpt-4o-audio-preview-2025-06-03"
+            },
+            {
               "text": "gpt-3.5-turbo-16k",
               "value": "gpt-3.5-turbo-16k"
             },
@@ -2058,12 +2074,12 @@
               "value": "eleven_flash_v2"
             },
             {
-              "text": "Eleven English v2",
-              "value": "eleven_english_sts_v2"
-            },
-            {
               "text": "Eleven Multilingual v1",
               "value": "eleven_multilingual_v1"
+            },
+            {
+              "text": "Eleven English v2",
+              "value": "eleven_english_sts_v2"
             },
             {
               "text": "Eleven Multilingual v2",
